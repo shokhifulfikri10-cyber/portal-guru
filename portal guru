@@ -321,10 +321,19 @@
 
         // Konfigurasi Environment Canvas
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'portal-guru-app';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            // Fallback config jika dijalankan di luar canvas (membutuhkan config asli Anda)
-            projectId: "demo-project"
+        
+        // --- KONFIGURASI FIREBASE ANDA ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyDL-642-ophyMNaBHdDojgBBF9GYDhvTJY",
+          authDomain: "tes-apk-jurnal.firebaseapp.com",
+          projectId: "tes-apk-jurnal",
+          storageBucket: "tes-apk-jurnal.firebasestorage.app",
+          messagingSenderId: "301435621139",
+          appId: "1:301435621139:web:5ea3a04d69488c314dd4e6",
+          measurementId: "G-QZPP7BWKN8"
         };
+        // ---------------------------------
+
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         let app, db, auth;
