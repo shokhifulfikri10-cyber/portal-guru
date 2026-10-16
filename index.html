@@ -175,9 +175,9 @@
         </div>
     </div>
 
-    <aside class="hidden md:flex w-72 bg-gradient-to-b from-emerald-100 via-teal-50 to-emerald-50 dark:bg-gray-800 shadow-xl border-r border-emerald-200 dark:border-gray-700 flex-col h-full z-40 transition-colors duration-300 shrink-0 text-gray-800 dark:text-gray-100">
+    <aside class="hidden md:flex w-72 bg-emerald-50 dark:bg-gray-800 shadow-xl border-r border-emerald-200 dark:border-gray-700 flex-col h-full z-40 transition-colors duration-300 shrink-0 text-gray-800 dark:text-gray-100">
         <!-- PROFIL GURU DI ATAS SIDEBAR -->
-        <div class="p-4 border-b border-emerald-200/80 dark:border-gray-700 bg-white/60 dark:bg-gray-800 shadow-sm">
+        <div class="p-4 border-b border-emerald-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800 shadow-sm">
             <div class="flex items-start justify-between mb-2">
                 <div class="flex items-center space-x-3 overflow-hidden">
                     <div id="user-avatar" class="w-12 h-12 rounded-2xl bg-leaf dark:bg-primary flex items-center justify-center text-white font-bold text-lg shadow-md shrink-0 overflow-hidden border-2 border-emerald-300 dark:border-indigo-900">?</div>
@@ -246,7 +246,7 @@
         </nav>
         
         <!-- Toggle Dark Mode & Logout di Bawah (Desktop) -->
-        <div class="p-3 border-t border-emerald-200/80 dark:border-gray-700 space-y-2 bg-white/60 dark:bg-gray-800">
+        <div class="p-3 border-t border-emerald-200 dark:border-gray-700 space-y-2 bg-white/80 dark:bg-gray-800">
             <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-2.5 bg-white dark:bg-gray-900 rounded-2xl border border-emerald-200 dark:border-gray-700 text-xs font-bold hover:border-leaf transition-colors text-gray-800 dark:text-gray-200">
                 <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-leaf dark:text-indigo-500"></i> Mode Tampilan</span>
                 <span id="dark-mode-text" class="text-[11px] text-gray-600 dark:text-gray-400">Terang</span>
@@ -264,7 +264,7 @@
                 <button onclick="bukaModalProfil()" class="md:hidden w-10 h-10 rounded-xl bg-leaf text-white flex items-center justify-center font-bold text-xs shadow-md overflow-hidden border-2 border-emerald-300 shrink-0" title="Profil Guru">
                     <span id="mobile-header-avatar">G</span>
                 </button>
-                <h2 id="judul-halaman" class="text-lg md:text-2xl font-extrabold tracking-tight truncate">Dashboard Kelas</h2>
+                <h2 id="judul-halaman" class="text-base sm:text-lg md:text-2xl font-extrabold tracking-tight truncate">Dashboard Kelas</h2>
             </div>
             <div class="flex items-center space-x-2 bg-emerald-50 dark:bg-gray-900 px-4 py-2 rounded-xl border border-emerald-200 dark:border-gray-700 shrink-0">
                 <i class="fa-regular fa-calendar text-leaf dark:text-primary"></i>
@@ -479,14 +479,11 @@
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-4">
                         <div>
                             <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-chart-pie"></i> Rekap & Penghitungan Nilai Siswa</h3>
-                            <p class="text-xs text-gray-500 mt-1">Kelola nilai tugas, ulangan harian, UTS, dan UAS dalam satu tabel terpadu dengan bobot kustom.</p>
+                            <p class="text-xs text-gray-500 mt-1">Unggah file Excel/PDF berisi nilai siswa atau impor otomatis tanpa input nama manual.</p>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <button onclick="bukaModalPengaturanBobot()" class="px-4 py-2.5 bg-emerald-100 dark:bg-emerald-950/50 text-leaf dark:text-primary rounded-xl font-bold text-xs transition-colors shadow-sm">
                                 <i class="fa-solid fa-sliders mr-1"></i> Pengaturan Bobot & KKM
-                            </button>
-                            <button onclick="bukaModalInputNilai()" class="bg-leaf dark:bg-primary text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-700 transition-colors">
-                                <i class="fa-solid fa-plus mr-1"></i> Input Nilai
                             </button>
                             <button onclick="exportExcelNilai()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow transition-colors">
                                 <i class="fa-solid fa-file-excel mr-1"></i> Ekspor Excel
@@ -497,8 +494,8 @@
                         </div>
                     </div>
 
-                    <!-- Toolbar Filter & Pencarian -->
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-emerald-50/60 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-200/50 dark:border-gray-700">
+                    <!-- Toolbar Filter & Upload Nilai -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-emerald-50/60 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-200/50 dark:border-gray-700">
                         <div>
                             <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Pilih Kelas</label>
                             <select id="rekap-pilih-kelas" onchange="renderTabelRekapNilai()" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none">
@@ -512,21 +509,17 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Cari Nama Siswa</label>
-                            <input type="text" id="rekap-cari-siswa" oninput="renderTabelRekapNilai()" placeholder="Ketik nama siswa..." class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-xs focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Impor Nilai (Excel)</label>
-                            <button onclick="document.getElementById('input-file-excel').click()" class="w-full bg-white dark:bg-gray-800 border border-emerald-300 dark:border-emerald-700 text-leaf dark:text-primary hover:bg-emerald-50 py-2 px-3 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-file-arrow-up"></i> Unggah File Excel (.xlsx)
+                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Unggah File Nilai (Excel / PDF)</label>
+                            <button onclick="document.getElementById('input-file-excel').click()" class="w-full bg-leaf dark:bg-primary hover:bg-emerald-700 text-white py-2 px-3 rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-file-arrow-up"></i> Unggah File Nilai Siswa (.xlsx/.pdf)
                             </button>
-                            <input type="file" id="input-file-excel" accept=".xlsx, .xls" class="hidden" onchange="imporNilaiDariExcel(event)">
+                            <input type="file" id="input-file-excel" accept=".xlsx, .xls, .pdf" class="hidden" onchange="imporNilaiDariFile(event)">
                         </div>
                     </div>
 
                     <!-- Area Tabel Rekap Nilai -->
                     <div id="container-tabel-rekap" class="overflow-x-auto">
-                        <p class="text-xs text-gray-400 text-center py-12">Pilih kelas dan mata pelajaran terlebih dahulu untuk melihat rekap nilai.</p>
+                        <p class="text-xs text-gray-400 text-center py-12">Pilih kelas dan mata pelajaran, lalu unggah file nilai untuk melihat rekap otomatis.</p>
                     </div>
                 </div>
             </section>
@@ -701,6 +694,7 @@
         </button>
     </div>
 
+    <!-- Modals -->
     <div id="modal-prestasi" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
             <h3 class="text-xl font-bold mb-4 text-amber-500">Catat Siswa Berprestasi</h3>
@@ -748,27 +742,6 @@
             <div class="flex gap-3 justify-end">
                 <button onclick="document.getElementById('modal-item-kustom').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
                 <button onclick="simpanItemKustom()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Input Nilai Manual -->
-    <div id="modal-input-nilai" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
-            <h3 class="text-xl font-bold mb-4 text-leaf">Input Nilai Siswa</h3>
-            <div class="space-y-3">
-                <input type="text" id="nilai-nama-siswa" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
-                <select id="nilai-kategori" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
-                    <option value="Tugas">Tugas</option>
-                    <option value="Ulangan Harian">Ulangan Harian</option>
-                    <option value="UTS">UTS</option>
-                    <option value="UAS">UAS</option>
-                </select>
-                <input type="number" id="nilai-angka" placeholder="Nilai (0-100)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
-            </div>
-            <div class="flex gap-3 justify-end mt-4">
-                <button onclick="document.getElementById('modal-input-nilai').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
-                <button onclick="simpanNilaiSiswa()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Nilai</button>
             </div>
         </div>
     </div>
@@ -1968,12 +1941,6 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
         // --- REKAP & PENGHITUNGAN NILAI WORKFLOW LENGKAP ---
         let bobotNilaiGlobal = { tugas: 20, uh: 30, uts: 20, uas: 30, kkm: 75 };
 
-        window.bukaModalInputNilai = function() {
-            const classId = document.getElementById('rekap-pilih-kelas').value;
-            if(!classId) return tampilkanToast('error', 'Pilih kelas terlebih dahulu pada filter rekap nilai!');
-            document.getElementById('modal-input-nilai').classList.remove('hidden');
-        };
-
         window.bukaModalPengaturanBobot = function() {
             document.getElementById('bobot-tugas').value = bobotNilaiGlobal.tugas;
             document.getElementById('bobot-uh').value = bobotNilaiGlobal.uh;
@@ -2000,38 +1967,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             renderTabelRekapNilai();
         };
 
-        window.simpanNilaiSiswa = async function() {
-            const classId = document.getElementById('rekap-pilih-kelas').value;
-            const mapel = document.getElementById('rekap-pilih-mapel').value;
-            const nama = document.getElementById('nilai-nama-siswa').value.trim();
-            const kategori = document.getElementById('nilai-kategori').value;
-            const angka = parseFloat(document.getElementById('nilai-angka').value);
-
-            if(!classId || !mapel || !nama || isNaN(angka)) {
-                return tampilkanToast('error', 'Pastikan kelas, mapel, nama, dan nilai terisi dengan benar!');
-            }
-
-            try {
-                await addDoc(collection(db, 'nilaiSiswa'), {
-                    classId: classId,
-                    mapel: mapel,
-                    namaSiswa: nama,
-                    kategori: kategori, // 'Tugas', 'Ulangan Harian', 'UTS', 'UAS'
-                    nilai: angka,
-                    createdAt: serverTimestamp()
-                });
-                document.getElementById('nilai-nama-siswa').value = '';
-                document.getElementById('nilai-angka').value = '';
-                document.getElementById('modal-input-nilai').classList.add('hidden');
-                tampilkanToast('success', `Nilai ${kategori} untuk ${nama} berhasil disimpan!`);
-                renderTabelRekapNilai();
-            } catch(e) {
-                console.error(e);
-                tampilkanToast('error', 'Gagal menyimpan nilai ke database.');
-            }
-        };
-
-        window.imporNilaiDariExcel = function(event) {
+        window.imporNilaiDariFile = async function(event) {
             const file = event.target.files[0];
             if(!file) return;
 
@@ -2043,64 +1979,74 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 return;
             }
 
-            tampilkanToast('success', 'Membaca file Excel...');
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    const json = XLSX.utils.sheet_to_json(worksheet);
+            tampilkanToast('success', `Membaca file nilai ${file.name}...`);
+            const fileName = file.name.toLowerCase();
 
-                    if(json.length === 0) {
-                        tampilkanToast('error', 'File Excel kosong atau format tidak sesuai.');
-                        return;
+            try {
+                let jsonRows = [];
+                if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    jsonRows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+                } else if (fileName.endsWith('.pdf')) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    let fullText = '';
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        fullText += textContent.items.map(item => item.str).join(' ') + '\n';
                     }
-
-                    let countAdded = 0;
-                    for(const row of json) {
-                        const nama = row['Nama Siswa'] || row['nama'] || row['Nama'] || Object.values(row)[0];
-                        if(!nama) continue;
-
-                        const tugas = parseFloat(row['Tugas'] || row['tugas'] || 0);
-                        const uh = parseFloat(row['Ulangan Harian'] || row['UH'] || row['uh'] || 0);
-                        const uts = parseFloat(row['UTS'] || row['uts'] || 0);
-                        const uas = parseFloat(row['UAS'] || row['uas'] || 0);
-
-                        if(!isNaN(tugas) && tugas > 0) {
-                            await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: String(nama).trim(), kategori: 'Tugas', nilai: tugas, createdAt: serverTimestamp() });
-                            countAdded++;
-                        }
-                        if(!isNaN(uh) && uh > 0) {
-                            await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: String(nama).trim(), kategori: 'Ulangan Harian', nilai: uh, createdAt: serverTimestamp() });
-                            countAdded++;
-                        }
-                        if(!isNaN(uts) && uts > 0) {
-                            await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: String(nama).trim(), kategori: 'UTS', nilai: uts, createdAt: serverTimestamp() });
-                            countAdded++;
-                        }
-                        if(!isNaN(uas) && uas > 0) {
-                            await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: String(nama).trim(), kategori: 'UAS', nilai: uas, createdAt: serverTimestamp() });
-                            countAdded++;
-                        }
-                    }
-
-                    tampilkanToast('success', `Berhasil mengimpor ${countAdded} data nilai dari Excel!`);
-                    renderTabelRekapNilai();
-                } catch(err) {
-                    console.error(err);
-                    tampilkanToast('error', 'Gagal memproses file Excel.');
+                    // Simple line parser for PDF table rows
+                    jsonRows = fullText.split('\n').map(line => ({ text: line }));
                 }
-                event.target.value = '';
-            };
-            reader.readAsArrayBuffer(file);
+
+                if(jsonRows.length === 0) {
+                    return tampilkanToast('error', 'Tidak ada data valid ditemukan dalam file.');
+                }
+
+                let countAdded = 0;
+                for(const row of jsonRows) {
+                    const nama = row['Nama Siswa'] || row['nama'] || row['Nama'] || Object.values(row)[0];
+                    if(!nama || typeof nama !== 'string' || nama.length < 2) continue;
+
+                    const cleanName = nama.trim();
+                    const tugas = parseFloat(row['Tugas'] || row['tugas'] || 0);
+                    const uh = parseFloat(row['Ulangan Harian'] || row['UH'] || row['uh'] || 0);
+                    const uts = parseFloat(row['UTS'] || row['uts'] || 0);
+                    const uas = parseFloat(row['UAS'] || row['uas'] || 0);
+
+                    if(!isNaN(tugas) && tugas > 0) {
+                        await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: cleanName, kategori: 'Tugas', nilai: tugas, createdAt: serverTimestamp() });
+                        countAdded++;
+                    }
+                    if(!isNaN(uh) && uh > 0) {
+                        await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: cleanName, kategori: 'Ulangan Harian', nilai: uh, createdAt: serverTimestamp() });
+                        countAdded++;
+                    }
+                    if(!isNaN(uts) && uts > 0) {
+                        await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: cleanName, kategori: 'UTS', nilai: uts, createdAt: serverTimestamp() });
+                        countAdded++;
+                    }
+                    if(!isNaN(uas) && uas > 0) {
+                        await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: cleanName, kategori: 'UAS', nilai: uas, createdAt: serverTimestamp() });
+                        countAdded++;
+                    }
+                }
+
+                tampilkanToast('success', `Berhasil mengimpor ${countAdded} data nilai siswa secara otomatis!`);
+                renderTabelRekapNilai();
+            } catch(err) {
+                console.error(err);
+                tampilkanToast('error', 'Gagal memproses file nilai.');
+            }
+            event.target.value = '';
         };
 
         window.renderTabelRekapNilai = function() {
             const classId = document.getElementById('rekap-pilih-kelas').value;
             const mapel = document.getElementById('rekap-pilih-mapel').value;
-            const searchQuery = document.getElementById('rekap-cari-siswa').value.toLowerCase().trim();
             const container = document.getElementById('container-tabel-rekap');
 
             if(!classId || !mapel) {
@@ -2119,11 +2065,10 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 });
 
                 if(dataNilai.length === 0) {
-                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-12">Belum ada data nilai untuk ${mapel} di kelas ini. Klik "Input Nilai" atau unggah Excel.</p>`;
+                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-12">Belum ada data nilai untuk ${mapel} di kelas ini. Unggah file Excel atau PDF di atas.</p>`;
                     return;
                 }
 
-                // Agregasi per siswa
                 const rekapMap = {};
                 dataNilai.forEach(n => {
                     if(!rekapMap[n.namaSiswa]) {
@@ -2132,17 +2077,13 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                     rekapMap[n.namaSiswa][n.kategori] = n.nilai;
                 });
 
-                // Hitung Nilai Akhir & Ranking
                 let computedList = [];
                 for(const [siswa, nilai] of Object.entries(rekapMap)) {
-                    if(searchQuery && !siswa.toLowerCase().includes(searchQuery)) continue;
-
                     let t = nilai['Tugas'] !== null ? nilai['Tugas'] : 0;
                     let uh = nilai['Ulangan Harian'] !== null ? nilai['Ulangan Harian'] : 0;
                     let uts = nilai['UTS'] !== null ? nilai['UTS'] : 0;
                     let uas = nilai['UAS'] !== null ? nilai['UAS'] : 0;
 
-                    // Hitung dengan Bobot Kustom (%)
                     let finalScore = (t * (bobotNilaiGlobal.tugas / 100)) + 
                                      (uh * (bobotNilaiGlobal.uh / 100)) + 
                                      (uts * (bobotNilaiGlobal.uts / 100)) + 
@@ -2163,14 +2104,8 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                     });
                 }
 
-                // Urutkan untuk Ranking
                 computedList.sort((a,b) => b.finalScore - a.finalScore);
                 computedList.forEach((item, idx) => { item.peringkat = item.hasAnyScore ? idx + 1 : '-'; });
-
-                if(computedList.length === 0) {
-                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-12">Tidak ditemukan siswa dengan nama tersebut.</p>`;
-                    return;
-                }
 
                 let html = `<table id="tabel-rekap-export" class="w-full text-left border-collapse text-xs">
                     <thead>
