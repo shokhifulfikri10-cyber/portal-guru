@@ -177,7 +177,7 @@
     </div>
 
     <!-- SIDEBAR (Leaf Green on Light Mode, Dark on Dark Mode) -->
-    <aside class="w-full md:w-72 bg-emerald-50 dark:bg-gray-800 shadow-xl border-r border-emerald-200 dark:border-gray-700 flex flex-col h-auto md:h-full z-40 transition-colors duration-300 shrink-0 text-gray-800 dark:text-gray-100">
+    <aside class="hidden md:flex w-72 bg-emerald-50 dark:bg-gray-800 shadow-xl border-r border-emerald-200 dark:border-gray-700 flex-col h-full z-40 transition-colors duration-300 shrink-0 text-gray-800 dark:text-gray-100">
         <!-- PROFIL GURU DI ATAS TOOL -->
         <div class="p-4 border-b border-emerald-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
             <div class="flex items-start justify-between mb-3">
@@ -199,7 +199,7 @@
         </div>
 
         <!-- NAVIGASI TOOLS -->
-        <nav class="hidden md:flex p-4 space-y-1.5 flex-1 overflow-y-auto flex-col">
+        <nav class="p-4 space-y-1.5 flex-1 overflow-y-auto flex-col">
             <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs">
                 <i class="fa-solid fa-house w-5 text-center"></i>
                 <span>Dashboard Kelas</span>
@@ -248,7 +248,7 @@
         </nav>
         
         <!-- Toggle Dark Mode & Logout di Bawah (Desktop) -->
-        <div class="hidden md:block p-4 border-t border-emerald-200 dark:border-gray-700 space-y-2 bg-white dark:bg-gray-800">
+        <div class="p-4 border-t border-emerald-200 dark:border-gray-700 space-y-2 bg-white dark:bg-gray-800">
             <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-3 bg-emerald-100/50 dark:bg-gray-900 rounded-2xl border border-emerald-200 dark:border-gray-700 text-xs font-bold hover:border-leaf transition-colors text-gray-800 dark:text-gray-200">
                 <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-leaf dark:text-indigo-500"></i> Mode Tampilan</span>
                 <span id="dark-mode-text" class="text-[11px] text-gray-600 dark:text-gray-400">Terang</span>
@@ -261,7 +261,13 @@
 
     <main class="flex-1 flex flex-col h-full overflow-hidden bg-gray-50 dark:bg-gray-900/50 transition-colors duration-300 pb-20 md:pb-0">
         <header class="h-20 bg-white dark:bg-gray-800 shadow-sm flex items-center justify-between px-6 md:px-8 z-10 border-b border-gray-200 dark:border-gray-700 shrink-0">
-            <h2 id="judul-halaman" class="text-xl md:text-2xl font-extrabold tracking-tight">Dashboard Kelas</h2>
+            <div class="flex items-center gap-3">
+                <h2 id="judul-halaman" class="text-xl md:text-2xl font-extrabold tracking-tight">Dashboard Kelas</h2>
+                <!-- Tombol Avatar Profil Kecil Khusus Mobile di Sebelah Judul -->
+                <button onclick="bukaModalProfil()" class="md:hidden w-9 h-9 rounded-xl bg-leaf text-white flex items-center justify-center font-bold text-sm shadow-md overflow-hidden border border-emerald-300" title="Profil Guru">
+                    <span id="mobile-header-avatar">G</span>
+                </button>
+            </div>
             <div class="flex items-center space-x-2 bg-gray-50 dark:bg-gray-900 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700">
                 <i class="fa-regular fa-calendar text-leaf dark:text-primary"></i>
                 <span class="text-xs md:text-sm font-bold">T.A 2026/2027</span>
@@ -843,9 +849,9 @@
                 'scan-soal': 'Scan & Koreksi Soal',
                 'rekap-nilai': 'Rekap & Penghitungan Nilai',
                 'kelompok': 'Generator Kelompok Otomatis',
-                'perkembangan': 'Pemantau Perkembangan Siswa',
-                'aktivitas': 'Generator Aktivitas Pembelajaran',
-                'agenda': 'Pengingat & Agenda Kelas'
+                'perkembangan': 'Pemantau Siswa',
+                'aktivitas': 'Generator Aktivitas',
+                'agenda': 'Pengingat & Agenda'
             };
             document.getElementById('judul-halaman').innerText = titles[idTarget] || 'Portal Guru';
 
@@ -972,10 +978,14 @@
             document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-leaf"></i> ${window.currentUser.telp || 'Belum diisi'}`;
             
             const avatar = document.getElementById('user-avatar');
+            const mobileHeaderAvatar = document.getElementById('mobile-header-avatar');
             if(window.currentUser.photo) {
                 avatar.innerHTML = `<img src="${window.currentUser.photo}" class="w-full h-full object-cover">`;
+                mobileHeaderAvatar.innerHTML = `<img src="${window.currentUser.photo}" class="w-full h-full object-cover">`;
             } else {
-                avatar.innerText = window.currentUser.nama.charAt(0).toUpperCase();
+                const initial = window.currentUser.nama.charAt(0).toUpperCase();
+                avatar.innerText = initial;
+                mobileHeaderAvatar.innerText = initial;
             }
         }
 
