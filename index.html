@@ -27,6 +27,8 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
+    <!-- Mammoth.js for parsing Word (.docx) files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
     <style>
         ::-webkit-scrollbar { width: 8px; }
@@ -39,17 +41,68 @@
 
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
-    <!-- Modal Login Google -->
+    <!-- Modal Login Google & Profil Awal -->
     <div id="login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100]" style="display: none;">
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-gray-100 dark:border-gray-700 text-center">
-            <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl text-primary shadow-inner">
-                <i class="fa-solid fa-graduation-cap"></i>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-100 dark:border-gray-700 text-center">
+            <div id="login-step-1">
+                <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl text-primary shadow-inner">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h2 class="text-2xl font-extrabold mb-2">Masuk ke Portal Guru</h2>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Gunakan akun Google resmi sekolah Anda untuk akses terverifikasi</p>
+                <button onclick="loginWithGoogle()" class="w-full bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-800 dark:text-white border-2 border-gray-200 dark:border-gray-600 font-bold py-3.5 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3">
+                    <i class="fa-brands fa-google text-red-500 text-lg"></i> Masuk dengan Google
+                </button>
             </div>
-            <h2 class="text-2xl font-extrabold mb-2">Masuk ke Portal</h2>
-            <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Gunakan akun Google resmi sekolah Anda untuk akses terverifikasi</p>
-            <button onclick="loginWithGoogle()" class="w-full bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-800 dark:text-white border-2 border-gray-200 dark:border-gray-600 font-bold py-3.5 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3">
-                <i class="fa-brands fa-google text-red-500 text-lg"></i> Masuk dengan Google
-            </button>
+
+            <div id="login-step-2" class="hidden text-left space-y-4">
+                <div class="text-center mb-6">
+                    <div id="auth-preview-avatar" class="w-20 h-20 bg-primary text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold shadow-md mb-2">?</div>
+                    <h3 id="auth-preview-name" class="text-xl font-bold">Nama Guru</h3>
+                    <p id="auth-preview-email" class="text-xs text-gray-400">email@school.id</p>
+                </div>
+                <h4 class="font-bold text-sm text-indigo-600 dark:text-indigo-400 border-b pb-2"><i class="fa-solid fa-id-card mr-1"></i> Lengkapi Profil Pengajar Anda</h4>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Nama Lengkap & Gelar</label>
+                    <input type="text" id="input-prof-nama" placeholder="Contoh: Dra. Hj. Siti Aminah, M.Pd" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran yang Diampu (Bisa > 1, pisahkan koma)</label>
+                    <input type="text" id="input-prof-mapel" placeholder="Contoh: Matematika, Fisika, TIK" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Nomor Telepon / WhatsApp (Opsional)</label>
+                    <input type="text" id="input-prof-telp" placeholder="Contoh: 081234567890" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
+                </div>
+                <button onclick="simpanProfilDanMasuk()" class="w-full bg-primary hover:bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all mt-2">
+                    Simpan Profil & Masuk Portal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Profil Guru (Edit Profil) -->
+    <div id="modal-edit-profil" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-md border border-gray-100 dark:border-gray-700">
+            <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-user-gear text-primary"></i> Edit Profil Guru</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Nama Lengkap & Gelar</label>
+                    <input type="text" id="edit-prof-nama" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran Diampu</label>
+                    <input type="text" id="edit-prof-mapel" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Nomor Telepon / WhatsApp</label>
+                    <input type="text" id="edit-prof-telp" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
+                </div>
+            </div>
+            <div class="flex gap-3 justify-end mt-6">
+                <button onclick="tutupModalProfil()" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-200 rounded-xl font-bold transition-colors">Batal</button>
+                <button onclick="updateProfilGuru()" class="px-5 py-2.5 bg-primary hover:bg-indigo-600 text-white rounded-xl font-bold shadow-md transition-colors">Simpan Perubahan</button>
+            </div>
         </div>
     </div>
 
@@ -74,7 +127,7 @@
             <input type="hidden" id="edit-soal-id">
             <div class="space-y-3">
                 <div class="flex justify-between items-center bg-indigo-50 dark:bg-indigo-950/40 p-3 rounded-2xl border border-indigo-100 dark:border-indigo-900">
-                    <span class="text-xs font-bold text-indigo-700 dark:text-indigo-300"><i class="fa-solid fa-file-arrow-up mr-1"></i> Impor dari File PDF / Word</span>
+                    <span class="text-xs font-bold text-indigo-700 dark:text-indigo-300"><i class="fa-solid fa-file-arrow-up mr-1"></i> Impor dari File PDF / Word (.docx)</span>
                     <input type="file" id="input-file-soal" accept=".pdf,.docx,.doc,.txt" class="hidden" onchange="imporSoalDariFile(event)">
                     <button type="button" onclick="document.getElementById('input-file-soal').click()" class="bg-primary text-white text-xs px-3 py-1.5 rounded-xl font-bold shadow hover:bg-indigo-600 transition-colors">
                         Pilih File Dokumen
@@ -96,7 +149,7 @@
                     </select>
                     <input type="text" id="input-mapel-soal-lain" placeholder="Ketik nama mata pelajaran baru..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none hidden">
                 </div>
-                <textarea id="input-isi-soal" rows="6" placeholder="Tuliskan butir soal atau lampirkan teks lengkap di sini..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none resize-none"></textarea>
+                <textarea id="input-isi-soal" rows="6" placeholder="Tuliskan butir soal atau hasil impor teks dari dokumen..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none resize-none"></textarea>
             </div>
             <div class="flex gap-3 justify-end mt-4">
                 <button onclick="tutupModalSoal()" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-200 rounded-xl font-bold transition-colors">Batal</button>
@@ -140,13 +193,15 @@
                 <span id="dark-mode-text" class="text-xs text-gray-500">Terang</span>
             </button>
 
-            <div class="flex items-center space-x-3 bg-gray-50 dark:bg-gray-900 p-3 rounded-2xl border border-gray-200 dark:border-gray-700">
-                <div id="user-avatar" class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold shadow-sm text-sm shrink-0">?</div>
+            <!-- Kartu Profil Guru -->
+            <div onclick="bukaModalProfil()" class="group cursor-pointer flex items-center space-x-3 bg-gray-50 dark:bg-gray-900 p-3 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-primary transition-all relative" title="Klik untuk edit profil guru">
+                <div id="user-avatar" class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold shadow-sm text-sm shrink-0 overflow-hidden">?</div>
                 <div class="overflow-hidden flex-1">
-                    <p id="user-name-display" class="text-sm font-bold truncate">Belum Login</p>
-                    <p id="user-email-display" class="text-[10px] text-gray-500 dark:text-gray-400 font-bold truncate">-</p>
+                    <p id="user-name-display" class="text-xs font-extrabold truncate">Belum Login</p>
+                    <p id="user-mapel-display" class="text-[10px] text-primary font-bold truncate">-</p>
+                    <p id="user-email-display" class="text-[9px] text-gray-400 truncate">-</p>
                 </div>
-                <button onclick="logout()" class="text-gray-400 hover:text-red-500 transition-colors p-1" title="Keluar">
+                <button onclick="event.stopPropagation(); logout()" class="text-gray-400 hover:text-red-500 transition-colors p-1" title="Keluar">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </button>
             </div>
@@ -212,16 +267,7 @@
                                 <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran</label>
                                 <div class="flex gap-2">
                                     <select id="jurnal-mapel-select" onchange="cekMapelLain(this)" class="flex-1 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
-                                        <option value="Matematika">Matematika</option>
-                                        <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                                        <option value="Bahasa Inggris">Bahasa Inggris</option>
-                                        <option value="IPA">IPA</option>
-                                        <option value="IPS">IPS</option>
-                                        <option value="PPKn">PPKn</option>
-                                        <option value="PAI">PAI</option>
-                                        <option value="PJOK">PJOK</option>
-                                        <option value="Seni Budaya">Seni Budaya</option>
-                                        <option value="Lainnya">Lainnya (Tulis Sendiri)</option>
+                                        <!-- Opsi mapel terisi otomatis dari profil guru -->
                                     </select>
                                 </div>
                                 <input type="text" id="jurnal-mapel-lain" placeholder="Ketik nama mata pelajaran..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none hidden">
@@ -302,7 +348,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDL-642-ophyMNaBHdDojgBBF9GYDhvTJY",
@@ -318,7 +364,8 @@
         window.currentUser = null;
         window.activeClassId = null;
         let unsubscribeKelas = null, unsubscribeJurnal = null, unsubscribeSoal = null;
-        let semuaDataJurnalGlobal = []; // Menyimpan data cache jurnal untuk filter tanggal
+        let semuaDataJurnalGlobal = []; 
+        let googleUserTemp = null;
 
         window.toggleDarkMode = function() {
             const html = document.documentElement;
@@ -383,18 +430,37 @@
 
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
-                        window.currentUser = {
-                            nama: user.displayName || 'Guru',
-                            email: user.email || '',
-                            uid: user.uid,
-                            photo: user.photoURL || ''
-                        };
-                        updateProfileUI();
-                        document.getElementById('login-modal').style.display = 'none';
-                        memuatDaftarKelas();
-                        memuatBankSoal();
+                        // Cek apakah profil sudah tersimpan di Firestore
+                        const docRef = doc(db, 'teachers', user.uid);
+                        const docSnap = await getDoc(docRef);
+
+                        if (docSnap.exists()) {
+                            window.currentUser = docSnap.data();
+                            updateProfileUI();
+                            populateJurnalMapelDropdown();
+                            document.getElementById('login-modal').style.display = 'none';
+                            memuatDaftarKelas();
+                            memuatBankSoal();
+                        } else {
+                            // Belum ada profil, tampilkan step pengisian profil awal
+                            googleUserTemp = user;
+                            document.getElementById('login-step-1').classList.add('hidden');
+                            document.getElementById('login-step-2').classList.remove('hidden');
+                            document.getElementById('auth-preview-name').innerText = user.displayName || 'Guru';
+                            document.getElementById('auth-preview-email').innerText = user.email || '';
+                            const av = document.getElementById('auth-preview-avatar');
+                            if(user.photoURL) {
+                                av.innerHTML = `<img src="${user.photoURL}" class="w-full h-full rounded-2xl object-cover">`;
+                            } else {
+                                av.innerText = (user.displayName || 'G').charAt(0).toUpperCase();
+                            }
+                            document.getElementById('input-prof-nama').value = user.displayName || '';
+                            document.getElementById('login-modal').style.display = 'flex';
+                        }
                     } else {
                         window.currentUser = null;
+                        document.getElementById('login-step-1').classList.remove('hidden');
+                        document.getElementById('login-step-2').classList.add('hidden');
                         document.getElementById('login-modal').style.display = 'flex';
                     }
                 });
@@ -406,16 +472,49 @@
         window.loginWithGoogle = async function() {
             try {
                 await signInWithPopup(auth, googleProvider);
-                tampilkanToast('success', 'Berhasil masuk dengan akun Google!');
             } catch (error) {
                 console.error(error);
                 tampilkanToast('error', 'Gagal masuk menggunakan Google.');
             }
         };
 
+        window.simpanProfilDanMasuk = async function() {
+            if(!googleUserTemp) return;
+            const nama = document.getElementById('input-prof-nama').value.trim();
+            const mapel = document.getElementById('input-prof-mapel').value.trim();
+            const telp = document.getElementById('input-prof-telp').value.trim();
+
+            if(!nama || !mapel) return tampilkanToast('error', 'Nama dan mata pelajaran wajib diisi!');
+
+            const profileData = {
+                uid: googleUserTemp.uid,
+                nama: nama,
+                email: googleUserTemp.email || '',
+                mapel: mapel,
+                telp: telp,
+                photo: googleUserTemp.photoURL || '',
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await setDoc(doc(db, 'teachers', googleUserTemp.uid), profileData);
+                window.currentUser = profileData;
+                updateProfileUI();
+                populateJurnalMapelDropdown();
+                document.getElementById('login-modal').style.display = 'none';
+                tampilkanToast('success', 'Profil berhasil disimpan! Selamat datang.');
+                memuatDaftarKelas();
+                memuatBankSoal();
+            } catch(e) {
+                console.error(e);
+                tampilkanToast('error', 'Gagal menyimpan profil.');
+            }
+        };
+
         function updateProfileUI() {
             if(!window.currentUser) return;
             document.getElementById('user-name-display').innerText = window.currentUser.nama;
+            document.getElementById('user-mapel-display').innerText = `Mapel: ${window.currentUser.mapel}`;
             document.getElementById('user-email-display').innerText = window.currentUser.email;
             
             const avatar = document.getElementById('user-avatar');
@@ -426,12 +525,63 @@
             }
         }
 
+        window.bukaModalProfil = function() {
+            if(!window.currentUser) return;
+            document.getElementById('edit-prof-nama').value = window.currentUser.nama || '';
+            document.getElementById('edit-prof-mapel').value = window.currentUser.mapel || '';
+            document.getElementById('edit-prof-telp').value = window.currentUser.telp || '';
+            document.getElementById('modal-edit-profil').classList.remove('hidden');
+        };
+
+        window.tutupModalProfil = () => document.getElementById('modal-edit-profil').classList.add('hidden');
+
+        window.updateProfilGuru = async function() {
+            if(!window.currentUser) return;
+            const nama = document.getElementById('edit-prof-nama').value.trim();
+            const mapel = document.getElementById('edit-prof-mapel').value.trim();
+            const telp = document.getElementById('edit-prof-telp').value.trim();
+
+            if(!nama || !mapel) return tampilkanToast('error', 'Nama dan mata pelajaran wajib diisi!');
+
+            try {
+                const docRef = doc(db, 'teachers', window.currentUser.uid);
+                await updateDoc(docRef, { nama, mapel, telp });
+                window.currentUser.nama = nama;
+                window.currentUser.mapel = mapel;
+                window.currentUser.telp = telp;
+                updateProfileUI();
+                populateJurnalMapelDropdown();
+                tutupModalProfil();
+                tampilkanToast('success', 'Profil berhasil diperbarui!');
+            } catch(e) {
+                tampilkanToast('error', 'Gagal memperbarui profil.');
+            }
+        };
+
         window.logout = async function() {
             if(confirm('Keluar dari akun Google?')) {
                 await signOut(auth);
                 window.location.reload();
             }
         };
+
+        function populateJurnalMapelDropdown() {
+            const select = document.getElementById('jurnal-mapel-select');
+            if(!select || !window.currentUser || !window.currentUser.mapel) return;
+            
+            const listMapel = window.currentUser.mapel.split(',').map(m => m.trim()).filter(Boolean);
+            select.innerHTML = '';
+            listMapel.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.innerText = m;
+                select.appendChild(opt);
+            });
+            const optLain = document.createElement('option');
+            optLain.value = 'Lainnya';
+            optLain.innerText = 'Lainnya (Tulis Sendiri)';
+            select.appendChild(optLain);
+        }
 
         window.bukaModalKelas = () => document.getElementById('modal-tambah-kelas').classList.remove('hidden');
         window.tutupModalKelas = () => document.getElementById('modal-tambah-kelas').classList.add('hidden');
@@ -444,6 +594,9 @@
 
             try {
                 await addDoc(collection(db, 'classes'), { namaKelas, waliKelas, jumlahSiswa, createdAt: serverTimestamp(), creatorUid: window.currentUser.uid });
+                document.getElementById('input-nama-kelas').value = '';
+                document.getElementById('input-wali-kelas').value = '';
+                document.getElementById('input-jumlah-siswa').value = '';
                 tutupModalKelas();
                 tampilkanToast('success', `Kelas ${namaKelas} berhasil ditambahkan!`);
             } catch (e) {
@@ -453,7 +606,7 @@
 
         window.hapusKelas = async function(event, id, namaKelas) {
             event.stopPropagation(); // Mencegah card tertrigger buka jurnal
-            if(confirm(`Yakin ingin menghapus kelas ${namaKelas}? Semua riwayat jurnal dan data terkait kelas ini mungkin terpengaruh.`)) {
+            if(confirm(`Yakin ingin menghapus kelas ${namaKelas}? Semua riwayat jurnal terkait kelas ini juga akan terhapus.`)) {
                 try {
                     await deleteDoc(doc(db, 'classes', id));
                     tampilkanToast('success', `Kelas ${namaKelas} berhasil dihapus.`);
@@ -503,7 +656,7 @@
             });
         }
 
-        // --- STREAMING_CHUNK:Managing Journal and unified daily attendance logic ---
+        // --- MANAJEMEN MAPEL & ABSENSI & JURNAL TERPADU ---
         window.cekMapelLain = function(selectEl) {
             const inputLain = document.getElementById('jurnal-mapel-lain');
             if (selectEl.value === 'Lainnya') {
@@ -596,17 +749,16 @@
             container.innerHTML = '';
             dataJurnal.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-            // Gabungkan/konsolidasikan data absen berdasarkan tanggalISO agar catatan absensi dari guru mapel manapun hari itu terlihat terpusat
+            // Kelompokkan berdasarkan tanggalISO agar keterangan absen terpadu per hari
             const groupedByDate = {};
             dataJurnal.forEach(j => {
                 const key = j.tanggalISO || j.tanggal;
                 if(!groupedByDate[key]) {
-                    groupedByDate[key] = { tanggalLabel: j.tanggal, items: [] };
+                    groupedByDate[key] = { items: [] };
                 }
                 groupedByDate[key].items.push(j);
             });
 
-            // Urutkan tanggal terbaru di atas
             const sortedKeys = Object.keys(groupedByDate).sort().reverse();
 
             sortedKeys.forEach(dateKey => {
@@ -628,21 +780,21 @@
                 let unifiedAbsenHtml = '';
                 if(mapAbsenHariIni.size > 0) {
                     const listAbsenArr = Array.from(mapAbsenHariIni.values());
-                    unifiedAbsenHtml = `<div class="mt-4 pt-3 border-t border-rose-100 dark:border-rose-900/40 bg-rose-50/50 dark:bg-rose-950/20 p-3 rounded-2xl text-xs">
-                        <div class="flex items-center gap-2 mb-1.5 font-bold text-rose-600 dark:text-rose-400">
-                            <i class="fa-solid fa-users-slash"></i>
-                            <span>Rekap Absensi Harian (Terpadu dari Semua Mapel):</span>
+                    unifiedAbsenHtml = `<div class="bg-rose-50 dark:bg-rose-950/40 p-4 rounded-2xl border border-rose-200 dark:border-rose-900 mb-4 shadow-sm text-xs">
+                        <div class="flex items-center gap-2 mb-2 font-bold text-rose-600 dark:text-rose-400">
+                            <i class="fa-solid fa-users-slash text-sm"></i>
+                            <span>Rekap Absensi Harian (Terpadu dari Semua Guru Mapel):</span>
                         </div>
-                        <div class="flex flex-wrap gap-1.5">
-                            ${listAbsenArr.map(s => `<span class="bg-rose-100 dark:bg-rose-900/60 text-rose-800 dark:text-rose-200 px-2.5 py-1 rounded-xl font-medium">${s.nama} (${s.status})</span>`).join('')}
+                        <div class="flex flex-wrap gap-2">
+                            ${listAbsenArr.map(s => `<span class="bg-rose-100 dark:bg-rose-900/60 text-rose-800 dark:text-rose-200 px-3 py-1 rounded-xl font-medium">${s.nama} (${s.status})</span>`).join('')}
                         </div>
                     </div>`;
                 }
 
-                // Render setiap entri jurnal pelajaran pada tanggal tersebut
+                // Render kartu jurnal setiap pelajaran
                 group.items.forEach(j => {
                     const card = document.createElement('div');
-                    card.className = "bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-2";
+                    card.className = "bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-2 mb-3";
                     card.innerHTML = `
                         <div class="flex justify-between items-start">
                             <div>
@@ -656,12 +808,11 @@
                     container.appendChild(card);
                 });
 
-                // Jika ada rekap absen terpadu di tanggal ini, tampilkan ringkasan box
+                // Jika ada rekap absen terpadu di tanggal ini, tampilkan di akhir group tanggal tersebut
                 if(mapAbsenHariIni.size > 0) {
-                    const absenBox = document.createElement('div');
-                    absenBox.className = "mb-4 bg-white dark:bg-gray-800 p-4 rounded-2xl border border-rose-200 dark:border-rose-900 shadow-sm";
-                    absenBox.innerHTML = unifiedAbsenHtml;
-                    container.appendChild(absenBox);
+                    const absenWrapper = document.createElement('div');
+                    absenWrapper.innerHTML = unifiedAbsenHtml;
+                    container.appendChild(absenWrapper);
                 }
             });
         }
@@ -682,7 +833,7 @@
             renderLinimasa(semuaDataJurnalGlobal);
         };
 
-        // --- STREAMING_CHUNK:Handling Question Bank and PDF/Word file parsers... ---
+        // --- BANK SOAL & PARSER DOKUMEN (PDF & Word) ---
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
@@ -721,6 +872,58 @@
         };
 
         window.tutupModalSoal = () => document.getElementById('modal-bank-soal').classList.add('hidden');
+
+        // Fungsi Parser File PDF & Word (.docx)
+        window.imporSoalDariFile = async function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const fileName = file.name.toLowerCase();
+            tampilkanToast('success', `Membaca file ${file.name}...`);
+
+            try {
+                if (fileName.endsWith('.pdf')) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    let fullText = '';
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        const pageText = textContent.items.map(item => item.str).join(' ');
+                        fullText += pageText + '\n\n';
+                    }
+                    document.getElementById('input-isi-soal').value = fullText.trim();
+                    if(!document.getElementById('input-judul-soal').value) {
+                        document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
+                    }
+                    tampilkanToast('success', 'Berhasil mengimpor teks dari PDF!');
+                } else if (fileName.endsWith('.docx')) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                    document.getElementById('input-isi-soal').value = result.value.trim();
+                    if(!document.getElementById('input-judul-soal').value) {
+                        document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
+                    }
+                    tampilkanToast('success', 'Berhasil mengimpor teks dari Word (.docx)!');
+                } else if (fileName.endsWith('.txt') || fileName.endsWith('.doc')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('input-isi-soal').value = e.target.result;
+                        if(!document.getElementById('input-judul-soal').value) {
+                            document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
+                        }
+                        tampilkanToast('success', 'Berhasil mengimpor teks dari dokumen!');
+                    };
+                    reader.readAsText(file);
+                } else {
+                    tampilkanToast('error', 'Format file tidak didukung. Gunakan PDF, Word (.docx), atau TXT.');
+                }
+            } catch (err) {
+                console.error(err);
+                tampilkanToast('error', 'Gagal memparsing isi dokumen.');
+            }
+            event.target.value = '';
+        };
 
         window.simpanSoalKeDB = async function() {
             const id = document.getElementById('edit-soal-id').value;
