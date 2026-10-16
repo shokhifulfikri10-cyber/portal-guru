@@ -13,7 +13,7 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4f46e5',
+                        primary: '#059669', // Leaf Green
                         secondary: '#10b981',
                         leaf: '#059669',
                     }
@@ -23,7 +23,7 @@
     </script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- PDF.js for parsing PDF bank soal files -->
+    <!-- PDF.js for parsing PDF bank soal & nilai files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -49,7 +49,7 @@
     <div id="login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100]" style="display: none;">
         <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-100 dark:border-gray-700 text-center m-4">
             <div id="login-step-1">
-                <div class="w-16 h-16 bg-emerald-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl text-leaf dark:text-primary shadow-inner">
+                <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl text-leaf shadow-inner">
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <h2 class="text-2xl font-extrabold mb-2">Masuk ke Portal Guru</h2>
@@ -65,14 +65,14 @@
                     <h3 id="auth-preview-name" class="text-xl font-bold">Nama Guru</h3>
                     <p id="auth-preview-email" class="text-xs text-gray-400">email@school.id</p>
                 </div>
-                <h4 class="font-bold text-sm text-leaf dark:text-indigo-400 border-b pb-2"><i class="fa-solid fa-id-card mr-1"></i> Lengkapi Profil Pengajar Anda</h4>
+                <h4 class="font-bold text-sm text-leaf border-b pb-2"><i class="fa-solid fa-id-card mr-1"></i> Lengkapi Profil Pengajar Anda</h4>
                 <div>
                     <label class="block text-xs font-bold uppercase mb-1">Nama Lengkap & Gelar</label>
                     <input type="text" id="input-prof-nama" placeholder="Contoh: Dra. Hj. Siti Aminah, M.Pd" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-leaf focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran yang Diampu (Bisa > 1, pisahkan koma)</label>
-                    <input type="text" id="input-prof-mapel" placeholder="Contoh: Matematika, Fisika, TIK" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-leaf focus:outline-none">
+                    <input type="text" id="input-prof-mapel" placeholder="Contoh: Matematika, Fisika, PAI" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-leaf focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase mb-1">Nomor Telepon / WhatsApp (Opsional)</label>
@@ -87,7 +87,7 @@
 
     <div id="modal-edit-profil" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-md border border-gray-100 dark:border-gray-700 m-4">
-            <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-user-gear text-leaf dark:text-primary"></i> Edit Profil Guru</h3>
+            <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-user-gear text-leaf"></i> Edit Profil Guru</h3>
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold uppercase mb-1">Nama Lengkap & Gelar</label>
@@ -128,9 +128,9 @@
             <input type="hidden" id="edit-soal-id">
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase mb-1 text-gray-500">Impor Soal Cepat (PDF / Word / TXT)</label>
-                    <div id="drop-zone" class="border-2 border-dashed border-emerald-400 dark:border-indigo-700 bg-emerald-50/50 dark:bg-indigo-950/30 rounded-2xl p-6 text-center cursor-pointer hover:bg-emerald-100/50 transition-all">
-                        <div class="w-12 h-12 bg-emerald-100 dark:bg-indigo-900 text-leaf dark:text-primary rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">
+                    <label class="block text-xs font-bold uppercase mb-1 text-gray-500">Impor Soal Cepat (Drag & Drop PDF / Word / TXT)</label>
+                    <div id="drop-zone" class="border-2 border-dashed border-emerald-400 bg-emerald-50/50 dark:bg-emerald-950/30 rounded-2xl p-6 text-center cursor-pointer hover:bg-emerald-100/50 transition-all">
+                        <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 text-leaf rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">
                             <i class="fa-solid fa-cloud-arrow-up"></i>
                         </div>
                         <p class="text-xs font-bold text-gray-700 dark:text-gray-200">Seret & letakkan file PDF / Word di sini, atau</p>
@@ -164,7 +164,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold uppercase mb-1">Isi Butir Soal</label>
+                    <label class="block text-xs font-bold uppercase mb-1">Isi Butir Soal (Rapi & Terstruktur)</label>
                     <textarea id="input-isi-soal" rows="8" placeholder="Tuliskan butir soal atau hasil impor dokumen di sini..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-leaf focus:outline-none text-sm font-mono whitespace-pre-wrap leading-relaxed"></textarea>
                 </div>
             </div>
@@ -180,41 +180,41 @@
         <div class="p-4 border-b border-emerald-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800 shadow-sm">
             <div class="flex items-start justify-between mb-2">
                 <div class="flex items-center space-x-3 overflow-hidden">
-                    <div id="user-avatar" class="w-12 h-12 rounded-2xl bg-leaf dark:bg-primary flex items-center justify-center text-white font-bold text-lg shadow-md shrink-0 overflow-hidden border-2 border-emerald-300 dark:border-indigo-900">?</div>
+                    <div id="user-avatar" class="w-12 h-12 rounded-2xl bg-leaf flex items-center justify-center text-white font-bold text-lg shadow-md shrink-0 overflow-hidden border-2 border-emerald-300">?</div>
                     <div class="overflow-hidden">
                         <h3 id="user-name-display" class="text-sm font-extrabold truncate text-gray-900 dark:text-white">Belum Login</h3>
-                        <p id="user-mapel-display" class="text-xs text-leaf dark:text-primary font-bold truncate">-</p>
+                        <p id="user-mapel-display" class="text-xs text-leaf font-bold truncate">-</p>
                     </div>
                 </div>
-                <button onclick="bukaModalProfil()" class="text-gray-500 hover:text-leaf dark:hover:text-primary transition-all p-1.5 rounded-xl hover:bg-white dark:hover:bg-gray-700 shadow-sm border border-emerald-200 dark:border-gray-700 shrink-0" title="Edit Profil">
+                <button onclick="bukaModalProfil()" class="text-gray-500 hover:text-leaf transition-all p-1.5 rounded-xl hover:bg-white dark:hover:bg-gray-700 shadow-sm border border-emerald-200 dark:border-gray-700 shrink-0" title="Edit Profil">
                     <i class="fa-solid fa-pen text-xs"></i>
                 </button>
             </div>
             <div class="space-y-1 text-[11px] text-gray-600 dark:text-gray-400 bg-white/70 dark:bg-gray-900/40 p-2.5 rounded-xl border border-emerald-200/50 dark:border-gray-700/50">
-                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-leaf dark:text-indigo-500"></i> -</p>
+                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-leaf"></i> -</p>
                 <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-leaf"></i> -</p>
             </div>
         </div>
 
         <!-- NAVIGASI TOOLS DENGAN BALOK/BLOCK STYLE & REDUCED SPACING -->
         <nav class="p-3 space-y-1.5 flex-1 overflow-y-auto flex-col">
-            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs border border-emerald-600/30">
+            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-leaf text-white font-bold shadow-md shadow-emerald-900/20 transition-all text-xs border border-emerald-600/30">
                 <i class="fa-solid fa-house w-5 text-center text-sm"></i>
                 <span>Dashboard Kelas</span>
             </button>
-            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-book w-5 text-center text-sm"></i>
                 <span>Jurnal Bersama</span>
             </button>
-            <button id="nav-info-kelas" onclick="pindahHalaman('info-kelas')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-info-kelas" onclick="pindahHalaman('info-kelas')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-circle-info w-5 text-center text-sm"></i>
                 <span>Info Kelas</span>
             </button>
-            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-database w-5 text-center text-sm"></i>
                 <span>Bank Soal</span>
             </button>
-            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-camera-retro w-5 text-center text-sm"></i>
                 <span>Scan & Koreksi Soal</span>
             </button>
@@ -223,23 +223,23 @@
             <div class="pt-1.5 border-t border-emerald-200 dark:border-gray-700 my-1">
                 <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-2 mb-1">Asisten Guru</p>
             </div>
-            <button id="nav-rekap-nilai" onclick="pindahHalaman('rekap-nilai')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-rekap-nilai" onclick="pindahHalaman('rekap-nilai')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-chart-pie w-5 text-center text-sm"></i>
                 <span>Rekap & Hitung Nilai</span>
             </button>
-            <button id="nav-kelompok" onclick="pindahHalaman('kelompok')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-kelompok" onclick="pindahHalaman('kelompok')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-people-group w-5 text-center text-sm"></i>
                 <span>Kelompok Otomatis</span>
             </button>
-            <button id="nav-perkembangan" onclick="pindahHalaman('perkembangan')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-perkembangan" onclick="pindahHalaman('perkembangan')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-chart-line w-5 text-center text-sm"></i>
                 <span>Pemantau Siswa</span>
             </button>
-            <button id="nav-aktivitas" onclick="pindahHalaman('aktivitas')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-aktivitas" onclick="pindahHalaman('aktivitas')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-lightbulb w-5 text-center text-sm"></i>
                 <span>Generator Aktivitas</span>
             </button>
-            <button id="nav-agenda" onclick="pindahHalaman('agenda')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
+            <button id="nav-agenda" onclick="pindahHalaman('agenda')" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs">
                 <i class="fa-solid fa-calendar-check w-5 text-center text-sm"></i>
                 <span>Pengingat & Agenda</span>
             </button>
@@ -248,7 +248,7 @@
         <!-- Toggle Dark Mode & Logout di Bawah (Desktop) -->
         <div class="p-3 border-t border-emerald-200 dark:border-gray-700 space-y-2 bg-white/80 dark:bg-gray-800">
             <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-2.5 bg-white dark:bg-gray-900 rounded-2xl border border-emerald-200 dark:border-gray-700 text-xs font-bold hover:border-leaf transition-colors text-gray-800 dark:text-gray-200">
-                <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-leaf dark:text-indigo-500"></i> Mode Tampilan</span>
+                <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-leaf"></i> Mode Tampilan</span>
                 <span id="dark-mode-text" class="text-[11px] text-gray-600 dark:text-gray-400">Terang</span>
             </button>
             <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-2.5 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 rounded-2xl border border-rose-200 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-100 transition-colors">
@@ -267,7 +267,7 @@
                 <h2 id="judul-halaman" class="text-base sm:text-lg md:text-2xl font-extrabold tracking-tight truncate">Dashboard Kelas</h2>
             </div>
             <div class="flex items-center space-x-2 bg-emerald-50 dark:bg-gray-900 px-4 py-2 rounded-xl border border-emerald-200 dark:border-gray-700 shrink-0">
-                <i class="fa-regular fa-calendar text-leaf dark:text-primary"></i>
+                <i class="fa-regular fa-calendar text-leaf"></i>
                 <span class="text-xs md:text-sm font-bold">T.A 2026/2027</span>
             </div>
         </header>
@@ -287,7 +287,7 @@
                 
                 <div id="grid-kelas" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-400">
-                        <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4 text-leaf dark:text-primary"></i>
+                        <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4 text-leaf"></i>
                         <p class="font-medium">Memuat data kelas...</p>
                     </div>
                 </div>
@@ -301,7 +301,7 @@
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
                         <div>
-                            <h3 class="text-2xl font-extrabold">Jurnal <span id="judul-kelas-aktif" class="text-leaf dark:text-primary">Kelas</span></h3>
+                            <h3 class="text-2xl font-extrabold">Jurnal <span id="judul-kelas-aktif" class="text-leaf">Kelas</span></h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Catatan kegiatan mengajar & absensi terpadu harian</p>
                         </div>
                     </div>
@@ -309,14 +309,14 @@
                     <div class="flex items-center gap-2 bg-white/80 dark:bg-gray-800 backdrop-blur px-4 py-2 rounded-xl border border-emerald-200 dark:border-gray-700 shadow-sm">
                         <label for="filter-tanggal" class="text-xs font-bold text-gray-500"><i class="fa-regular fa-calendar-days mr-1"></i> Pilih Tanggal:</label>
                         <input type="date" id="filter-tanggal" onchange="filterJurnalByTanggal()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-leaf">
-                        <button onclick="resetFilterTanggal()" class="text-xs text-leaf dark:text-primary font-bold hover:underline ml-1">Semua</button>
+                        <button onclick="resetFilterTanggal()" class="text-xs text-leaf font-bold hover:underline ml-1">Semua</button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Form Tambah Jurnal & Siswa Tidak Masuk -->
                     <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 h-fit space-y-4">
-                        <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-pen-nib mr-2 text-leaf dark:text-primary"></i> Tulis Jurnal Hari Ini</h4>
+                        <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-pen-nib mr-2 text-leaf"></i> Tulis Jurnal Hari Ini</h4>
                         <form id="form-jurnal" onsubmit="simpanJurnal(event)" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran</label>
@@ -341,7 +341,7 @@
                                     <i class="fa-solid fa-plus mr-1"></i> Tambah Keterangan Siswa
                                 </button>
                             </div>
-                            <button type="submit" class="w-full bg-leaf dark:bg-primary hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
+                            <button type="submit" class="w-full bg-leaf hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
                                 Simpan Jurnal & Absensi
                             </button>
                         </form>
@@ -350,8 +350,8 @@
                     <!-- Linimasa Jurnal -->
                     <div class="lg:col-span-2 bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700">
                         <div class="flex justify-between items-center mb-4">
-                            <h4 class="font-bold text-lg"><i class="fa-solid fa-clock-rotate-left mr-2 text-leaf dark:text-primary"></i> Riwayat Jurnal Kelas</h4>
-                            <span id="info-filter-status" class="text-xs bg-emerald-50 dark:bg-indigo-950 text-leaf dark:text-primary px-3 py-1 rounded-full font-bold">Menampilkan Semua Tanggal</span>
+                            <h4 class="font-bold text-lg"><i class="fa-solid fa-clock-rotate-left mr-2 text-leaf"></i> Riwayat Jurnal Kelas</h4>
+                            <span id="info-filter-status" class="text-xs bg-emerald-50 dark:bg-emerald-950 text-leaf px-3 py-1 rounded-full font-bold">Menampilkan Semua Tanggal</span>
                         </div>
                         <div id="container-linimasa" class="space-y-4">
                             <p class="text-sm text-gray-400 text-center py-10">Memuat data jurnal...</p>
@@ -364,11 +364,11 @@
             <section id="halaman-info-kelas" class="hidden space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700">
                     <div>
-                        <h3 class="text-2xl font-extrabold flex items-center gap-2"><i class="fa-solid fa-circle-info text-leaf dark:text-primary"></i> Informasi Kelas: <span id="judul-info-kelas" class="text-leaf dark:text-primary">Belum Dipilih</span></h3>
+                        <h3 class="text-2xl font-extrabold flex items-center gap-2"><i class="fa-solid fa-circle-info text-leaf"></i> Informasi Kelas: <span id="judul-info-kelas" class="text-leaf">Belum Dipilih</span></h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola catatan penting kelas, siswa berprestasi, tugas tertunda, serta buat kategori catatan tambahan sesuai kebutuhan.</p>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="bukaModalKategoriBaru()" class="px-4 py-2.5 bg-leaf/10 hover:bg-leaf/20 text-leaf dark:text-primary rounded-xl font-bold text-xs transition-colors">
+                        <button onclick="bukaModalKategoriBaru()" class="px-4 py-2.5 bg-leaf/10 hover:bg-leaf/20 text-leaf rounded-xl font-bold text-xs transition-colors">
                             <i class="fa-solid fa-folder-plus mr-1"></i> Tambah Kategori Catatan
                         </button>
                         <button onclick="pindahHalaman('dashboard')" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-xl font-bold text-xs transition-colors">
@@ -383,7 +383,7 @@
                     <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 space-y-4">
                         <div class="flex justify-between items-center border-b pb-3 border-gray-100 dark:border-gray-700">
                             <h4 class="font-bold text-lg flex items-center gap-2 text-amber-500"><i class="fa-solid fa-award"></i> Siswa Berprestasi</h4>
-                            <button onclick="bukaModalPrestasi()" class="text-xs bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-300 font-bold px-3 py-1.5 rounded-xl hover:bg-amber-100 transition-colors">
+                            <button onclick="bukaModalPrestasi()" class="text-xs bg-amber-50 dark:bg-amber-950/50 text-amber-600 font-bold px-3 py-1.5 rounded-xl hover:bg-amber-100 transition-colors">
                                 <i class="fa-solid fa-plus mr-1"></i> Tambah Prestasi
                             </button>
                         </div>
@@ -396,7 +396,7 @@
                     <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 space-y-4">
                         <div class="flex justify-between items-center border-b pb-3 border-gray-100 dark:border-gray-700">
                             <h4 class="font-bold text-lg flex items-center gap-2 text-rose-500"><i class="fa-solid fa-triangle-exclamation"></i> Belum Mengumpulkan Tugas</h4>
-                            <button onclick="bukaModalBelumTugas()" class="text-xs bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-300 font-bold px-3 py-1.5 rounded-xl hover:bg-rose-100 transition-colors">
+                            <button onclick="bukaModalBelumTugas()" class="text-xs bg-rose-50 dark:bg-rose-950/50 text-rose-600 font-bold px-3 py-1.5 rounded-xl hover:bg-rose-100 transition-colors">
                                 <i class="fa-solid fa-plus mr-1"></i> Catat Siswa
                             </button>
                         </div>
@@ -419,7 +419,7 @@
                         <h3 class="text-2xl font-extrabold">Bank Soal Bersama</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400">Semua guru dapat melihat dan mengunduh soal, namun **hanya guru pembuat** yang berhak mengedit atau menghapus soal miliknya.</p>
                     </div>
-                    <button onclick="bukaModalSoal()" class="bg-leaf dark:bg-primary hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all flex items-center gap-2 text-sm">
+                    <button onclick="bukaModalSoal()" class="bg-leaf hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all flex items-center gap-2 text-sm">
                         <i class="fa-solid fa-plus"></i> Buat Soal Baru
                     </button>
                 </div>
@@ -433,7 +433,7 @@
             <section id="halaman-scan-soal" class="hidden">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-8 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="text-center">
-                        <div class="w-16 h-16 bg-emerald-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-leaf dark:text-primary">
+                        <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-leaf">
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <h3 class="text-2xl font-extrabold mb-1">Koreksi Lembar Jawaban dengan AI</h3>
@@ -442,7 +442,7 @@
 
                     <!-- Input Kunci Jawaban -->
                     <div class="bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-4">
-                        <h4 class="font-bold text-sm text-leaf dark:text-primary uppercase"><i class="fa-solid fa-key mr-1.5"></i> 1. Tentukan Kunci Jawaban & Bobot</h4>
+                        <h4 class="font-bold text-sm text-leaf uppercase"><i class="fa-solid fa-key mr-1.5"></i> 1. Tentukan Kunci Jawaban & Bobot</h4>
                         <div>
                             <label class="block text-xs font-bold mb-1">Kunci Pilihan Ganda (Format: Nomor.Jawaban, misal: 1.A, 2.C, 3.B)</label>
                             <input type="text" id="kunci-pg" placeholder="1.A, 2.B, 3.C, 4.D, 5.A" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs focus:border-leaf focus:outline-none">
@@ -455,18 +455,18 @@
 
                     <!-- Upload Jawaban Siswa -->
                     <div class="bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 text-center space-y-4">
-                        <h4 class="font-bold text-sm text-leaf dark:text-primary uppercase text-left"><i class="fa-solid fa-file-image mr-1.5"></i> 2. Unggah Foto / Lembar Jawaban Siswa</h4>
+                        <h4 class="font-bold text-sm text-leaf uppercase text-left"><i class="fa-solid fa-file-image mr-1.5"></i> 2. Unggah Foto / Lembar Jawaban Siswa</h4>
                         <input type="file" id="input-scan-file" accept="image/*" class="hidden" onchange="prosesScanGambar(event)">
-                        <button onclick="document.getElementById('input-scan-file').click()" class="bg-leaf dark:bg-primary hover:bg-emerald-700 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg transition-all text-sm">
+                        <button onclick="document.getElementById('input-scan-file').click()" class="bg-leaf hover:bg-emerald-700 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg transition-all text-sm">
                             <i class="fa-solid fa-upload mr-2"></i> Pilih Foto Jawaban Siswa
                         </button>
                     </div>
                     
                     <!-- Hasil Analisis Koreksi AI -->
-                    <div id="hasil-scan-container" class="hidden bg-emerald-50/50 dark:bg-indigo-950/30 p-6 rounded-2xl border border-emerald-200 dark:border-indigo-900 space-y-3">
-                        <h4 class="font-bold text-lg text-leaf dark:text-primary flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil Analisis AI Gemini:</h4>
+                    <div id="hasil-scan-container" class="hidden bg-emerald-50/50 dark:bg-emerald-950/30 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-900 space-y-3">
+                        <h4 class="font-bold text-lg text-leaf flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil Analisis AI Gemini:</h4>
                         <div id="loading-scan" class="hidden py-6 text-center text-gray-500">
-                            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-leaf dark:text-primary mb-2"></i>
+                            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-leaf mb-2"></i>
                             <p class="text-xs font-bold">AI sedang memeriksa jawaban pilihan ganda dan menganalisis esai siswa...</p>
                         </div>
                         <div id="hasil-scan-teks" class="text-sm font-sans whitespace-pre-wrap leading-relaxed"></div>
@@ -474,15 +474,16 @@
                 </div>
             </section>
 
+            <!-- REKAP NILAI SECTION -->
             <section id="halaman-rekap-nilai" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 space-y-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-4">
                         <div>
-                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-chart-pie"></i> Rekap & Penghitungan Nilai Siswa</h3>
-                            <p class="text-xs text-gray-500 mt-1">Unggah file Excel/PDF berisi nilai siswa atau impor otomatis tanpa input nama manual.</p>
+                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf"><i class="fa-solid fa-chart-pie"></i> Rekap & Penghitungan Nilai Siswa</h3>
+                            <p class="text-xs text-gray-500 mt-1">Unggah file Excel/PDF nilai atau masukkan nilai secara manual melalui tabel cepat di bawah.</p>
                         </div>
                         <div class="flex flex-wrap gap-2">
-                            <button onclick="bukaModalPengaturanBobot()" class="px-4 py-2.5 bg-emerald-100 dark:bg-emerald-950/50 text-leaf dark:text-primary rounded-xl font-bold text-xs transition-colors shadow-sm">
+                            <button onclick="bukaModalPengaturanBobot()" class="px-4 py-2.5 bg-emerald-100 dark:bg-emerald-950/50 text-leaf rounded-xl font-bold text-xs transition-colors shadow-sm">
                                 <i class="fa-solid fa-sliders mr-1"></i> Pengaturan Bobot & KKM
                             </button>
                             <button onclick="exportExcelNilai()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow transition-colors">
@@ -494,7 +495,7 @@
                         </div>
                     </div>
 
-                    <!-- Toolbar Filter & Upload Nilai -->
+                    <!-- Toolbar Filter & Upload Nilai & Input Manual -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-emerald-50/60 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-200/50 dark:border-gray-700">
                         <div>
                             <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Pilih Kelas</label>
@@ -509,26 +510,31 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Unggah File Nilai (Excel / PDF)</label>
-                            <button onclick="document.getElementById('input-file-excel').click()" class="w-full bg-leaf dark:bg-primary hover:bg-emerald-700 text-white py-2 px-3 rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-file-arrow-up"></i> Unggah File Nilai Siswa (.xlsx/.pdf)
-                            </button>
+                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Metode Input Nilai</label>
+                            <div class="flex gap-2">
+                                <button onclick="document.getElementById('input-file-excel').click()" class="flex-1 bg-leaf hover:bg-emerald-700 text-white py-2 px-2 rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-file-arrow-up"></i> Unggah File (.xlsx/.pdf)
+                                </button>
+                                <button onclick="bukaModalInputManual()" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-2 rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-table"></i> Input Tabel Manual
+                                </button>
+                            </div>
                             <input type="file" id="input-file-excel" accept=".xlsx, .xls, .pdf" class="hidden" onchange="imporNilaiDariFile(event)">
                         </div>
                     </div>
 
                     <!-- Area Tabel Rekap Nilai -->
                     <div id="container-tabel-rekap" class="overflow-x-auto">
-                        <p class="text-xs text-gray-400 text-center py-12">Pilih kelas dan mata pelajaran, lalu unggah file nilai untuk melihat rekap otomatis.</p>
+                        <p class="text-xs text-gray-400 text-center py-12">Pilih kelas dan mata pelajaran, lalu unggah file nilai atau gunakan input manual.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- 2. Pembagian Kelompok Otomatis -->
+            <!-- KELOMPOK OTOMATIS SECTION -->
             <section id="halaman-kelompok" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="text-center">
-                        <div class="w-16 h-16 bg-emerald-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-leaf dark:text-primary">
+                        <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-leaf">
                             <i class="fa-solid fa-people-group"></i>
                         </div>
                         <h3 class="text-2xl font-extrabold mb-1">Generator Pembagian Kelompok Otomatis</h3>
@@ -542,7 +548,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase mb-1">Jumlah Anggota per Kelompok / Total Kelompok</label>
+                            <label class="block text-xs font-bold uppercase mb-1">Jumlah Anggota per Kelompok</label>
                             <input type="number" id="kelompok-jumlah" min="1" value="4" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
                         </div>
                     </div>
@@ -550,22 +556,22 @@
                         <label class="block text-xs font-bold uppercase mb-1">Daftar Nama Siswa (Pisahkan dengan koma atau baris baru)</label>
                         <textarea id="kelompok-daftar-siswa" rows="5" placeholder="Andi, Budi, Caca, Dedi, Eka, Fajar..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none font-mono"></textarea>
                     </div>
-                    <button onclick="buatKelompokOtomatis()" class="w-full bg-leaf dark:bg-primary hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
+                    <button onclick="buatKelompokOtomatis()" class="w-full bg-leaf hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
                         <i class="fa-solid fa-shuffle mr-2"></i> Acak & Buat Kelompok
                     </button>
                     <div id="hasil-kelompok-container" class="hidden space-y-4 pt-4 border-t">
-                        <h4 class="font-bold text-lg text-leaf dark:text-primary">Hasil Pembagian Kelompok:</h4>
+                        <h4 class="font-bold text-lg text-leaf">Hasil Pembagian Kelompok:</h4>
                         <div id="hasil-kelompok-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- 3. Pemantau Perkembangan Siswa -->
+            <!-- PEMANTAU SISWA SECTION -->
             <section id="halaman-perkembangan" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                         <div>
-                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-chart-line"></i> Pemantau Perkembangan Siswa</h3>
+                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf"><i class="fa-solid fa-chart-line"></i> Pemantau Perkembangan Siswa</h3>
                             <p class="text-xs text-gray-500 mt-1">Analisis nilai, kehadiran, tugas, dan catatan guru untuk mendeteksi siswa yang membutuhkan perhatian khusus.</p>
                         </div>
                         <select id="perkembangan-pilih-kelas" onchange="renderPemantauSiswa()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none">
@@ -578,11 +584,11 @@
                 </div>
             </section>
 
-            <!-- 4. Generator Aktivitas Pembelajaran -->
+            <!-- GENERATOR AKTIVITAS SECTION -->
             <section id="halaman-aktivitas" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="text-center">
-                        <div class="w-16 h-16 bg-emerald-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-leaf dark:text-primary">
+                        <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-leaf">
                             <i class="fa-solid fa-lightbulb"></i>
                         </div>
                         <h3 class="text-2xl font-extrabold mb-1">Generator Aktivitas Pembelajaran AI</h3>
@@ -591,7 +597,7 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran & Topik / Materi Pembelajaran</label>
-                            <input type="text" id="aktivitas-materi" placeholder="Contoh: Fisika - Hukum Newton / Bahasa Indonesia - Puisi" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                            <input type="text" id="aktivitas-materi" placeholder="Contoh: PAI - Kisah Keteladanan Nabi / Matematika - Aljabar" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -613,29 +619,29 @@
                             </div>
                         </div>
                     </div>
-                    <button onclick="generateAktivitasAI()" class="w-full bg-leaf dark:bg-primary hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
+                    <button onclick="generateAktivitasAI()" class="w-full bg-leaf hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
                         <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Buat Ide Aktivitas dengan AI
                     </button>
                     <div id="loading-aktivitas" class="hidden py-6 text-center text-gray-500">
-                        <i class="fa-solid fa-circle-notch fa-spin text-3xl text-leaf dark:text-primary mb-2"></i>
+                        <i class="fa-solid fa-circle-notch fa-spin text-3xl text-leaf mb-2"></i>
                         <p class="text-xs font-bold">AI sedang merancang aktivitas pembelajaran kreatif...</p>
                     </div>
-                    <div id="hasil-aktivitas-container" class="hidden bg-emerald-50/50 dark:bg-indigo-950/30 p-6 rounded-2xl border border-emerald-200 dark:border-indigo-900 space-y-3">
-                        <h4 class="font-bold text-lg text-leaf dark:text-primary flex items-center gap-2"><i class="fa-solid fa-star"></i> Ide Aktivitas Pembelajaran:</h4>
+                    <div id="hasil-aktivitas-container" class="hidden bg-emerald-50/50 dark:bg-emerald-950/30 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-900 space-y-3">
+                        <h4 class="font-bold text-lg text-leaf flex items-center gap-2"><i class="fa-solid fa-star"></i> Ide Aktivitas Pembelajaran:</h4>
                         <div id="hasil-aktivitas-teks" class="text-sm font-sans whitespace-pre-wrap leading-relaxed"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- 5. Pengingat Tugas & Agenda Kelas -->
+            <!-- AGENDA SECTION -->
             <section id="halaman-agenda" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="flex justify-between items-center border-b pb-4">
                         <div>
-                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-calendar-check"></i> Pengingat Tugas & Agenda Kelas</h3>
+                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf"><i class="fa-solid fa-calendar-check"></i> Pengingat Tugas & Agenda Kelas</h3>
                             <p class="text-xs text-gray-500 mt-1">Atur jadwal ujian, tenggat pengumpulan tugas, dan agenda mengajar penting.</p>
                         </div>
-                        <button onclick="bukaModalAgenda()" class="bg-leaf dark:bg-primary text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-700 transition-colors">
+                        <button onclick="bukaModalAgenda()" class="bg-leaf text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-700 transition-colors">
                             <i class="fa-solid fa-plus mr-1"></i> Tambah Agenda
                         </button>
                     </div>
@@ -648,7 +654,7 @@
     </main>
 
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-800 backdrop-blur-md border-t border-emerald-200 dark:border-gray-700 z-50 flex justify-around items-center h-16 px-2 shadow-2xl">
-        <button onclick="pindahHalaman('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold">
+        <button onclick="pindahHalaman('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center justify-center flex-1 py-1 text-leaf font-bold">
             <i class="fa-solid fa-house text-base"></i>
             <span class="text-[9px] mt-1">Kelas</span>
         </button>
@@ -678,28 +684,27 @@
     <div id="mobile-asisten-popup" class="fixed bottom-20 right-4 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 p-3 z-[60] hidden space-y-2 w-64">
         <p class="text-xs font-bold text-gray-400 uppercase px-3 py-1 border-b dark:border-gray-700">Fitur Asisten Guru</p>
         <button onclick="pindahHalaman('rekap-nilai'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
-            <i class="fa-solid fa-chart-pie text-leaf dark:text-primary"></i> Rekap & Hitung Nilai
+            <i class="fa-solid fa-chart-pie text-leaf"></i> Rekap & Hitung Nilai
         </button>
         <button onclick="pindahHalaman('kelompok'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
-            <i class="fa-solid fa-people-group text-leaf dark:text-primary"></i> Kelompok Otomatis
+            <i class="fa-solid fa-people-group text-leaf"></i> Kelompok Otomatis
         </button>
         <button onclick="pindahHalaman('perkembangan'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
-            <i class="fa-solid fa-chart-line text-leaf dark:text-primary"></i> Pemantau Siswa
+            <i class="fa-solid fa-chart-line text-leaf"></i> Pemantau Siswa
         </button>
         <button onclick="pindahHalaman('aktivitas'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
-            <i class="fa-solid fa-lightbulb text-leaf dark:text-primary"></i> Generator Aktivitas
+            <i class="fa-solid fa-lightbulb text-leaf"></i> Generator Aktivitas
         </button>
         <button onclick="pindahHalaman('agenda'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
-            <i class="fa-solid fa-calendar-check text-leaf dark:text-primary"></i> Pengingat & Agenda
+            <i class="fa-solid fa-calendar-check text-leaf"></i> Pengingat & Agenda
         </button>
     </div>
 
-    <!-- Modals -->
     <div id="modal-prestasi" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
             <h3 class="text-xl font-bold mb-4 text-amber-500">Catat Siswa Berprestasi</h3>
             <input type="text" id="prestasi-nama-siswa" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-3 focus:outline-none focus:border-amber-500">
-            <input type="text" id="prestasi-keterangan" placeholder="Prestasi (ex: Juara 1 Olimpiade Matematika)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-4 focus:outline-none focus:border-amber-500">
+            <input type="text" id="prestasi-keterangan" placeholder="Prestasi (ex: Juara 1 Olimpiade PAI)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-4 focus:outline-none focus:border-amber-500">
             <div class="flex gap-3 justify-end">
                 <button onclick="document.getElementById('modal-prestasi').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
                 <button onclick="simpanPrestasi()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold">Simpan</button>
@@ -712,8 +717,8 @@
             <h3 class="text-xl font-bold mb-4 text-rose-500">Catat Siswa Belum Mengumpulkan Tugas</h3>
             <div class="space-y-3">
                 <input type="text" id="tugas-nama-siswa" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
-                <input type="text" id="tugas-mapel" placeholder="Mata Pelajaran (ex: Matematika)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
-                <input type="text" id="tugas-keterangan" placeholder="Tugas Tentang Apa (ex: LKS Bahasa Indonesia Hal 45)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
+                <input type="text" id="tugas-mapel" placeholder="Mata Pelajaran (ex: PAI)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
+                <input type="text" id="tugas-keterangan" placeholder="Tugas Tentang Apa (ex: LKS Halaman 45)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
             </div>
             <div class="flex gap-3 justify-end mt-4">
                 <button onclick="document.getElementById('modal-belum-tugas').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
@@ -724,8 +729,8 @@
 
     <div id="modal-kategori-baru" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
-            <h3 class="text-xl font-bold mb-4 text-leaf dark:text-primary">Tambah Kategori Catatan Baru</h3>
-            <input type="text" id="input-nama-kategori" placeholder="Nama Kategori (ex: Catatan Piket / Pelanggaran)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-4 focus:outline-none focus:border-leaf">
+            <h3 class="text-xl font-bold mb-4 text-leaf">Tambah Kategori Catatan Baru</h3>
+            <input type="text" id="input-nama-kategori" placeholder="Nama Kategori (ex: Catatan Piket)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-4 focus:outline-none focus:border-leaf">
             <div class="flex gap-3 justify-end">
                 <button onclick="document.getElementById('modal-kategori-baru').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
                 <button onclick="simpanKategoriBaru()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Buat Kategori</button>
@@ -737,7 +742,7 @@
         <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
             <h3 id="modal-item-title" class="text-xl font-bold mb-4 text-leaf">Tambah Catatan Kustom</h3>
             <input type="hidden" id="item-kustom-kategori-id">
-            <input type="text" id="item-kustom-judul" placeholder="Judul / Nama (ex: Kelompok 1)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-3 focus:outline-none focus:border-leaf">
+            <input type="text" id="item-kustom-judul" placeholder="Judul / Nama" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-3 focus:outline-none focus:border-leaf">
             <textarea id="item-kustom-isi" rows="3" placeholder="Isi catatan atau keterangan..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-4 focus:outline-none focus:border-leaf resize-none"></textarea>
             <div class="flex gap-3 justify-end">
                 <button onclick="document.getElementById('modal-item-kustom').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
@@ -746,10 +751,9 @@
         </div>
     </div>
 
-    <!-- Modal Pengaturan Bobot & KKM -->
     <div id="modal-pengaturan-bobot" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-md border border-gray-100 dark:border-gray-700 m-4 space-y-4">
-            <h3 class="text-xl font-bold text-leaf dark:text-primary"><i class="fa-solid fa-sliders mr-2"></i> Pengaturan Bobot & KKM</h3>
+            <h3 class="text-xl font-bold text-leaf"><i class="fa-solid fa-sliders mr-2"></i> Pengaturan Bobot & KKM</h3>
             <p class="text-xs text-gray-500">Tentukan persentase bobot komponen penilaian dan Kriteria Ketuntasan Minimal (KKM).</p>
             <div class="space-y-3">
                 <div class="grid grid-cols-2 gap-3">
@@ -780,6 +784,38 @@
             <div class="flex gap-3 justify-end pt-2">
                 <button onclick="document.getElementById('modal-pengaturan-bobot').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
                 <button onclick="simpanPengaturanBobot()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Pengaturan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL INPUT NILAI MANUAL (TABEL BANYAK SISWA SEKALIGUS) -->
+    <div id="modal-input-manual" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-3xl border border-gray-100 dark:border-gray-700 m-4 max-h-[90vh] overflow-y-auto space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-leaf"><i class="fa-solid fa-table mr-2"></i> Input Tabel Nilai Manual</h3>
+                <button onclick="tambahBarisInputManual()" class="px-3 py-1.5 bg-leaf text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-plus mr-1"></i> Tambah Baris Siswa</button>
+            </div>
+            <p class="text-xs text-gray-500">Masukkan atau salin banyak nama siswa dan nilai langsung ke dalam tabel berikut.</p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
+                            <th class="p-2 border">Nama Siswa</th>
+                            <th class="p-2 border text-center">Tugas</th>
+                            <th class="p-2 border text-center">Ulangan Harian</th>
+                            <th class="p-2 border text-center">UTS</th>
+                            <th class="p-2 border text-center">UAS</th>
+                            <th class="p-2 border text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-input-manual">
+                        <!-- Baris Dinamis -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex gap-3 justify-end pt-3">
+                <button onclick="tutupModalInputManual()" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="simpanNilaiManualBulk()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Semua Nilai</button>
             </div>
         </div>
     </div>
@@ -896,17 +932,17 @@
             document.getElementById('judul-halaman').innerText = titles[idTarget] || 'Portal Guru';
 
             document.querySelectorAll('aside .nav-btn').forEach(btn => {
-                btn.className = "nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs";
+                btn.className = "nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 font-semibold border border-emerald-200/70 dark:border-gray-700 shadow-sm hover:bg-emerald-100/60 dark:hover:bg-gray-700 hover:text-leaf transition-all text-xs";
             });
             const activeBtn = document.getElementById('nav-' + idTarget);
-            if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs border border-emerald-600/30";
+            if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl bg-leaf text-white font-bold shadow-md shadow-emerald-900/20 transition-all text-xs border border-emerald-600/30";
 
             const allTabs = ['dashboard', 'jurnal', 'info-kelas', 'bank-soal', 'scan-soal'];
             allTabs.forEach(tab => {
                 const mobBtn = document.getElementById('mob-nav-' + tab);
                 if(mobBtn) {
                     if(tab === idTarget) {
-                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold";
+                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf font-bold";
                     } else {
                         mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf";
                     }
@@ -914,7 +950,7 @@
             });
             const mobAsisten = document.getElementById('mob-nav-asisten');
             if(['rekap-nilai', 'kelompok', 'perkembangan', 'aktivitas', 'agenda'].includes(idTarget)) {
-                mobAsisten.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold";
+                mobAsisten.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf font-bold";
             } else {
                 mobAsisten.className = "flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf";
             }
@@ -1020,7 +1056,7 @@
             if(!window.currentUser) return;
             document.getElementById('user-name-display').innerText = window.currentUser.nama;
             document.getElementById('user-mapel-display').innerText = window.currentUser.mapel;
-            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-leaf dark:text-indigo-500"></i> ${window.currentUser.email || '-'}`;
+            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-leaf"></i> ${window.currentUser.email || '-'}`;
             document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-leaf"></i> ${window.currentUser.telp || 'Belum diisi'}`;
             
             const avatar = document.getElementById('user-avatar');
@@ -1336,8 +1372,8 @@
                     card.innerHTML = `
                         <div class="flex justify-between items-start">
                             <div>
-                                <span class="text-[10px] bg-emerald-50 dark:bg-indigo-950 text-leaf dark:text-primary font-bold px-2.5 py-0.5 rounded-full mb-1 inline-block">${j.tanggal}</span>
-                                <h5 class="font-extrabold text-base text-leaf dark:text-primary mt-1">${j.mapel}</h5>
+                                <span class="text-[10px] bg-emerald-50 dark:bg-emerald-950 text-leaf font-bold px-2.5 py-0.5 rounded-full mb-1 inline-block">${j.tanggal}</span>
+                                <h5 class="font-extrabold text-base text-leaf mt-1">${j.mapel}</h5>
                                 <p class="text-xs text-gray-500">Guru Pengajar: ${j.namaGuru}</p>
                             </div>
                         </div>
@@ -1590,9 +1626,9 @@
                 card.className = "bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 space-y-4";
                 card.innerHTML = `
                     <div class="flex justify-between items-center border-b pb-3 border-gray-100 dark:border-gray-700">
-                        <h4 class="font-bold text-lg flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-folder-open"></i> ${kat.namaKategori}</h4>
+                        <h4 class="font-bold text-lg flex items-center gap-2 text-leaf"><i class="fa-solid fa-folder-open"></i> ${kat.namaKategori}</h4>
                         <div class="flex gap-2">
-                            <button onclick="bukaModalItemKustom('${kat.id}', \`${kat.namaKategori}\`)" class="text-xs bg-emerald-50 dark:bg-emerald-950/50 text-leaf dark:text-primary font-bold px-3 py-1.5 rounded-xl hover:bg-emerald-100 transition-colors">
+                            <button onclick="bukaModalItemKustom('${kat.id}', \`${kat.namaKategori}\`)" class="text-xs bg-emerald-50 dark:bg-emerald-950/50 text-leaf font-bold px-3 py-1.5 rounded-xl hover:bg-emerald-100 transition-colors">
                                 <i class="fa-solid fa-plus mr-1"></i> Tambah
                             </button>
                             <button onclick="hapusKategori('${kat.id}', \`${kat.namaKategori}\`)" class="text-xs bg-rose-50 dark:bg-rose-950/50 text-rose-600 font-bold px-2.5 py-1.5 rounded-xl hover:bg-rose-100 transition-colors" title="Hapus Kategori">
@@ -1807,7 +1843,7 @@
                     card.innerHTML = `
                         <div>
                             <div class="flex justify-between items-start mb-3">
-                                <span class="bg-emerald-50 dark:bg-indigo-950/50 text-leaf dark:text-indigo-400 text-xs font-bold px-3 py-1 rounded-full">${data.mapel}</span>
+                                <span class="bg-emerald-50 dark:bg-emerald-950/50 text-leaf text-xs font-bold px-3 py-1 rounded-full">${data.mapel}</span>
                                 <span class="text-xs text-gray-400 font-medium">Oleh: ${data.pembuatNama}</span>
                             </div>
                             <h4 class="font-extrabold text-lg mb-2">${data.judul}</h4>
@@ -1818,7 +1854,7 @@
                                 <i class="fa-solid fa-file-word mr-1 text-blue-500"></i> Unduh Word (.doc)
                             </button>
                             ${isOwner ? `
-                                <button onclick="bukaModalSoal('${id}', \`${data.judul}\`, '${data.mapel}', \`${data.isi}\`)" class="bg-leaf/10 hover:bg-leaf/20 text-leaf dark:text-primary px-4 py-2.5 rounded-xl font-bold text-xs transition-colors" title="Edit Soal Anda">
+                                <button onclick="bukaModalSoal('${id}', \`${data.judul}\`, '${data.mapel}', \`${data.isi}\`)" class="bg-leaf/10 hover:bg-leaf/20 text-leaf px-4 py-2.5 rounded-xl font-bold text-xs transition-colors" title="Edit Soal Anda">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
                                 <button onclick="hapusSoal('${id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-500 px-4 py-2.5 rounded-xl font-bold text-xs transition-colors" title="Hapus Soal Anda">
@@ -1938,7 +1974,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             }
         };
 
-        // --- REKAP & PENGHITUNGAN NILAI WORKFLOW LENGKAP ---
+        // --- REKAP & PENGHITUNGAN NILAI WORKFLOW LENGKAP & INPUT MANUAL TABEL ---
         let bobotNilaiGlobal = { tugas: 20, uh: 30, uts: 20, uas: 30, kkm: 75 };
 
         window.bukaModalPengaturanBobot = function() {
@@ -1964,6 +2000,72 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             bobotNilaiGlobal = { tugas: t, uh: uh, uts: uts, uas: uas, kkm: kkm };
             document.getElementById('modal-pengaturan-bobot').classList.add('hidden');
             tampilkanToast('success', 'Pengaturan bobot dan KKM berhasil disimpan!');
+            renderTabelRekapNilai();
+        };
+
+        window.bukaModalInputManual = function() {
+            const classId = document.getElementById('rekap-pilih-kelas').value;
+            const mapel = document.getElementById('rekap-pilih-mapel').value;
+            if(!classId || !mapel) {
+                return tampilkanToast('error', 'Pilih kelas dan mata pelajaran terlebih dahulu!');
+            }
+            const tbody = document.getElementById('tbody-input-manual');
+            tbody.innerHTML = '';
+            // Berikan 5 baris kosong default agar bisa langsung diisi banyak
+            for(let i=0; i<5; i++) {
+                tambahBarisInputManual();
+            }
+            document.getElementById('modal-input-manual').classList.remove('hidden');
+        };
+
+        window.tambahBarisInputManual = function() {
+            const tbody = document.getElementById('tbody-input-manual');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="p-1.5 border"><input type="text" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border rounded p-1.5 text-xs manual-nama"></td>
+                <td class="p-1.5 border text-center"><input type="number" placeholder="0" class="w-20 mx-auto bg-gray-50 dark:bg-gray-900 border rounded p-1.5 text-xs text-center manual-tugas"></td>
+                <td class="p-1.5 border text-center"><input type="number" placeholder="0" class="w-20 mx-auto bg-gray-50 dark:bg-gray-900 border rounded p-1.5 text-xs text-center manual-uh"></td>
+                <td class="p-1.5 border text-center"><input type="number" placeholder="0" class="w-20 mx-auto bg-gray-50 dark:bg-gray-900 border rounded p-1.5 text-xs text-center manual-uts"></td>
+                <td class="p-1.5 border text-center"><input type="number" placeholder="0" class="w-20 mx-auto bg-gray-50 dark:bg-gray-900 border rounded p-1.5 text-xs text-center manual-uas"></td>
+                <td class="p-1.5 border text-center"><button type="button" onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 p-1"><i class="fa-solid fa-trash"></i></button></td>
+            `;
+            tbody.appendChild(tr);
+        };
+
+        window.tutupModalInputManual = () => document.getElementById('modal-input-manual').classList.add('hidden');
+
+        window.simpanNilaiManualBulk = async function() {
+            const classId = document.getElementById('rekap-pilih-kelas').value;
+            const mapel = document.getElementById('rekap-pilih-mapel').value;
+            const rows = document.querySelectorAll('#tbody-input-manual tr');
+            
+            let count = 0;
+            for(const row of rows) {
+                const nama = row.querySelector('.manual-nama').value.trim();
+                if(!nama) continue;
+
+                const t = parseFloat(row.querySelector('.manual-tugas').value);
+                const uh = parseFloat(row.querySelector('.manual-uh').value);
+                const uts = parseFloat(row.querySelector('.manual-uts').value);
+                const uas = parseFloat(row.querySelector('.manual-uas').value);
+
+                if(!isNaN(t)) {
+                    await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: nama, kategori: 'Tugas', nilai: t, createdAt: serverTimestamp() });
+                }
+                if(!isNaN(uh)) {
+                    await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: nama, kategori: 'Ulangan Harian', nilai: uh, createdAt: serverTimestamp() });
+                }
+                if(!isNaN(uts)) {
+                    await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: nama, kategori: 'UTS', nilai: uts, createdAt: serverTimestamp() });
+                }
+                if(!isNaN(uas)) {
+                    await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: nama, kategori: 'UAS', nilai: uas, createdAt: serverTimestamp() });
+                }
+                count++;
+            }
+
+            tutupModalInputManual();
+            tampilkanToast('success', `Berhasil menyimpan nilai untuk ${count} siswa!`);
             renderTabelRekapNilai();
         };
 
@@ -1998,7 +2100,6 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                         const textContent = await page.getTextContent();
                         fullText += textContent.items.map(item => item.str).join(' ') + '\n';
                     }
-                    // Simple line parser for PDF table rows
                     jsonRows = fullText.split('\n').map(line => ({ text: line }));
                 }
 
@@ -2008,12 +2109,13 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
 
                 let countAdded = 0;
                 for(const row of jsonRows) {
-                    const nama = row['Nama Siswa'] || row['nama'] || row['Nama'] || Object.values(row)[0];
+                    // Cari properti nama secara fleksibel
+                    const nama = row['Nama Siswa'] || row['nama'] || row['Nama'] || row['NAMA'] || Object.values(row)[0];
                     if(!nama || typeof nama !== 'string' || nama.length < 2) continue;
 
                     const cleanName = nama.trim();
-                    const tugas = parseFloat(row['Tugas'] || row['tugas'] || 0);
-                    const uh = parseFloat(row['Ulangan Harian'] || row['UH'] || row['uh'] || 0);
+                    const tugas = parseFloat(row['Tugas'] || row['tugas'] || row['TUGAS'] || 0);
+                    const uh = parseFloat(row['Ulangan Harian'] || row['UH'] || row['uh'] || row['Ulangan'] || 0);
                     const uts = parseFloat(row['UTS'] || row['uts'] || 0);
                     const uas = parseFloat(row['UAS'] || row['uas'] || 0);
 
@@ -2035,7 +2137,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                     }
                 }
 
-                tampilkanToast('success', `Berhasil mengimpor ${countAdded} data nilai siswa secara otomatis!`);
+                tampilkanToast('success', `Berhasil mengimpor ${countAdded} data nilai siswa dari file!`);
                 renderTabelRekapNilai();
             } catch(err) {
                 console.error(err);
@@ -2065,7 +2167,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 });
 
                 if(dataNilai.length === 0) {
-                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-12">Belum ada data nilai untuk ${mapel} di kelas ini. Unggah file Excel atau PDF di atas.</p>`;
+                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-12">Belum ada data nilai untuk ${mapel} di kelas ini. Gunakan tombol "Unggah File" atau "Input Tabel Manual" di atas.</p>`;
                     return;
                 }
 
@@ -2109,7 +2211,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
 
                 let html = `<table id="tabel-rekap-export" class="w-full text-left border-collapse text-xs">
                     <thead>
-                        <tr class="bg-emerald-50 dark:bg-gray-900 text-leaf dark:text-primary border-b">
+                        <tr class="bg-emerald-50 dark:bg-gray-900 text-leaf border-b">
                             <th class="p-3">No</th>
                             <th class="p-3">Nama Siswa</th>
                             <th class="p-3 text-center">Tugas (${bobotNilaiGlobal.tugas}%)</th>
@@ -2132,7 +2234,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                         <td class="p-3 text-center">${s.uh !== null ? s.uh : '<span class="text-gray-300 italic">Belum</span>'}</td>
                         <td class="p-3 text-center">${s.uts !== null ? s.uts : '<span class="text-gray-300 italic">Belum</span>'}</td>
                         <td class="p-3 text-center">${s.uas !== null ? s.uas : '<span class="text-gray-300 italic">Belum</span>'}</td>
-                        <td class="p-3 text-center font-extrabold text-leaf dark:text-primary text-sm">${s.hasAnyScore ? s.finalScore : '-'}</td>
+                        <td class="p-3 text-center font-extrabold text-leaf text-sm">${s.hasAnyScore ? s.finalScore : '-'}</td>
                         <td class="p-3 text-center font-bold">${s.peringkat}</td>
                         <td class="p-3 text-center"><span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold ${badgeTuntas}">${s.status}</span></td>
                     </tr>`;
@@ -2196,9 +2298,9 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 const div = document.createElement('div');
                 div.className = "bg-emerald-50/60 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-200 dark:border-gray-700 space-y-2";
                 div.innerHTML = `
-                    <h5 class="font-bold text-leaf dark:text-primary text-sm flex items-center justify-between">
+                    <h5 class="font-bold text-leaf text-sm flex items-center justify-between">
                         <span>Kelompok ${idx + 1}</span>
-                        <span class="text-[10px] bg-emerald-200 dark:bg-indigo-900 px-2 py-0.5 rounded-full">${kel.length} Anggota</span>
+                        <span class="text-[10px] bg-emerald-200 dark:bg-emerald-900 px-2 py-0.5 rounded-full">${kel.length} Anggota</span>
                     </h5>
                     <ul class="list-disc list-inside text-xs space-y-1 text-gray-700 dark:text-gray-300">
                         ${kel.map(s => `<li>${s}</li>`).join('')}
@@ -2220,7 +2322,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
 
             const dummySiswa = [
                 { nama: 'Ahmad Fauzi', nilaiRata: 85, kehadiran: '95%', statusTugas: 'Lengkap', catatan: 'Aktif di kelas.' },
-                { nama: 'Siti Rahma', nilaiRata: 58, kehadiran: '75%', statusTugas: 'Kurang 2 Tugas', catatan: 'Perlu perhatian khusus pada mata pelajaran Eksakta.' },
+                { nama: 'Siti Rahma', nilaiRata: 58, kehadiran: '75%', statusTugas: 'Kurang 2 Tugas', catatan: 'Perlu perhatian khusus.' },
                 { nama: 'Budi Santoso', nilaiRata: 90, kehadiran: '100%', statusTugas: 'Lengkap', catatan: 'Sangat menonjol.' },
                 { nama: 'Dewi Lestari', nilaiRata: 62, kehadiran: '80%', statusTugas: 'Kurang 1 Tugas', catatan: 'Sering izin sakit.' }
             ];
@@ -2233,14 +2335,14 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 card.innerHTML = `
                     <div class="flex justify-between items-start">
                         <h4 class="font-bold text-sm text-gray-900 dark:text-white">${s.nama}</h4>
-                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full ${perluPerhatian ? 'bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-300' : 'bg-emerald-100 dark:bg-emerald-900 text-leaf dark:text-primary'}">
+                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full ${perluPerhatian ? 'bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-300' : 'bg-emerald-100 dark:bg-emerald-900 text-leaf'}">
                             ${perluPerhatian ? 'Perlu Perhatian' : 'Stabil'}
                         </span>
                     </div>
                     <div class="grid grid-cols-2 gap-2 text-xs">
                         <div class="bg-gray-50 dark:bg-gray-900 p-2 rounded-xl">
                             <span class="text-gray-400 block text-[10px]">Nilai Rata-Rata</span>
-                            <span class="font-extrabold text-sm ${s.nilaiRata < 65 ? 'text-rose-500' : 'text-leaf dark:text-primary'}">${s.nilaiRata}</span>
+                            <span class="font-extrabold text-sm ${s.nilaiRata < 65 ? 'text-rose-500' : 'text-leaf'}">${s.nilaiRata}</span>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-900 p-2 rounded-xl">
                             <span class="text-gray-400 block text-[10px]">Kehadiran</span>
@@ -2346,7 +2448,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                     div.className = "flex justify-between items-center bg-emerald-50/50 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-100 dark:border-gray-700 text-xs";
                     div.innerHTML = `
                         <div>
-                            <span class="text-[10px] bg-leaf dark:bg-primary text-white font-bold px-2.5 py-0.5 rounded-full mb-1 inline-block"><i class="fa-regular fa-calendar mr-1"></i> ${item.tanggal}</span>
+                            <span class="text-[10px] bg-leaf text-white font-bold px-2.5 py-0.5 rounded-full mb-1 inline-block"><i class="fa-regular fa-calendar mr-1"></i> ${item.tanggal}</span>
                             <h4 class="font-extrabold text-sm text-gray-900 dark:text-white mt-1">${item.judul}</h4>
                             <p class="text-gray-600 dark:text-gray-400 mt-0.5">${item.keterangan || '-'}</p>
                         </div>
