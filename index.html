@@ -57,7 +57,7 @@
 
             <div id="login-step-2" class="hidden text-left space-y-4">
                 <div class="text-center mb-6">
-                    <div id="auth-preview-avatar" class="w-20 h-20 bg-primary text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold shadow-md mb-2">?</div>
+                    <div id="auth-preview-avatar" class="w-20 h-20 bg-primary text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold shadow-md mb-2 overflow-hidden">?</div>
                     <h3 id="auth-preview-name" class="text-xl font-bold">Nama Guru</h3>
                     <p id="auth-preview-email" class="text-xs text-gray-400">email@school.id</p>
                 </div>
@@ -122,20 +122,33 @@
 
     <!-- Modal Tambah/Edit Bank Soal -->
     <div id="modal-bank-soal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60] hidden">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-100 dark:border-gray-700">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-100 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
             <h3 id="modal-soal-title" class="text-xl font-bold mb-4">Tambah Soal Baru</h3>
             <input type="hidden" id="edit-soal-id">
-            <div class="space-y-3">
-                <div class="flex justify-between items-center bg-indigo-50 dark:bg-indigo-950/40 p-3 rounded-2xl border border-indigo-100 dark:border-indigo-900">
-                    <span class="text-xs font-bold text-indigo-700 dark:text-indigo-300"><i class="fa-solid fa-file-arrow-up mr-1"></i> Impor dari File PDF / Word (.docx)</span>
-                    <input type="file" id="input-file-soal" accept=".pdf,.docx,.doc,.txt" class="hidden" onchange="imporSoalDariFile(event)">
-                    <button type="button" onclick="document.getElementById('input-file-soal').click()" class="bg-primary text-white text-xs px-3 py-1.5 rounded-xl font-bold shadow hover:bg-indigo-600 transition-colors">
-                        Pilih File Dokumen
-                    </button>
-                </div>
-                <input type="text" id="input-judul-soal" placeholder="Judul / Topik Soal (ex: Ulangan Harian Bab 1)" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none">
+            <div class="space-y-4">
+                <!-- Area Drag and Drop Dokumen Soal -->
                 <div>
-                    <select id="input-mapel-soal" onchange="cekMapelSoalLain(this)" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none">
+                    <label class="block text-xs font-bold uppercase mb-1 text-gray-500">Impor Soal Cepat (PDF / Word / TXT)</label>
+                    <div id="drop-zone" class="border-2 border-dashed border-indigo-300 dark:border-indigo-700 bg-indigo-50/50 dark:bg-indigo-950/30 rounded-2xl p-6 text-center cursor-pointer hover:bg-indigo-100/50 transition-all">
+                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 text-primary rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <p class="text-xs font-bold text-gray-700 dark:text-gray-200">Seret & letakkan file PDF / Word di sini, atau</p>
+                        <button type="button" onclick="document.getElementById('input-file-soal').click()" class="mt-2 text-xs bg-primary text-white font-bold px-4 py-2 rounded-xl shadow hover:bg-indigo-600 transition-colors">
+                            Pilih File dari Komputer
+                        </button>
+                        <input type="file" id="input-file-soal" accept=".pdf,.docx,.doc,.txt" class="hidden" onchange="imporSoalDariFile(event)">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Judul / Topik Soal</label>
+                    <input type="text" id="input-judul-soal" placeholder="Contoh: Ulangan Harian Bab 1" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran Soal</label>
+                    <select id="input-mapel-soal" onchange="cekMapelSoalLain(this)" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none text-sm">
                         <option value="Matematika">Matematika</option>
                         <option value="Bahasa Indonesia">Bahasa Indonesia</option>
                         <option value="Bahasa Inggris">Bahasa Inggris</option>
@@ -147,64 +160,72 @@
                         <option value="Seni Budaya">Seni Budaya</option>
                         <option value="Lainnya">Lainnya (Tulis Sendiri)</option>
                     </select>
-                    <input type="text" id="input-mapel-soal-lain" placeholder="Ketik nama mata pelajaran baru..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none hidden">
+                    <input type="text" id="input-mapel-soal-lain" placeholder="Ketik nama mata pelajaran baru..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none text-sm hidden">
                 </div>
-                <textarea id="input-isi-soal" rows="6" placeholder="Tuliskan butir soal atau hasil impor teks dari dokumen..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none resize-none"></textarea>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Isi Butir Soal (Teks)</label>
+                    <textarea id="input-isi-soal" rows="6" placeholder="Tuliskan butir soal atau hasil impor dokumen di sini..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none resize-none text-sm"></textarea>
+                </div>
             </div>
-            <div class="flex gap-3 justify-end mt-4">
-                <button onclick="tutupModalSoal()" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-200 rounded-xl font-bold transition-colors">Batal</button>
-                <button onclick="simpanSoalKeDB()" class="px-5 py-2.5 bg-primary hover:bg-indigo-600 text-white rounded-xl font-bold shadow-md transition-colors">Simpan Soal</button>
+            <div class="flex gap-3 justify-end mt-5">
+                <button onclick="tutupModalSoal()" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-200 rounded-xl font-bold transition-colors text-sm">Batal</button>
+                <button onclick="simpanSoalKeDB()" class="px-5 py-2.5 bg-primary hover:bg-indigo-600 text-white rounded-xl font-bold shadow-md transition-colors text-sm">Simpan Soal</button>
             </div>
         </div>
     </div>
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-white dark:bg-gray-800 shadow-xl border-r border-gray-200 dark:border-gray-700 flex flex-col justify-between h-full z-40 transition-colors duration-300">
-        <div>
-            <div class="h-20 flex items-center justify-center border-b border-gray-100 dark:border-gray-700">
-                <h1 class="text-2xl font-extrabold text-primary flex items-center gap-2">
-                    <i class="fa-solid fa-school"></i> Portal Guru
-                </h1>
+    <aside class="w-72 bg-white dark:bg-gray-800 shadow-xl border-r border-gray-200 dark:border-gray-700 flex flex-col h-full z-40 transition-colors duration-300">
+        <!-- PROFIL GURU DI ATAS TOOL -->
+        <div class="p-4 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 dark:from-gray-800 dark:to-gray-800">
+            <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center space-x-3">
+                    <div id="user-avatar" class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0 overflow-hidden border-2 border-indigo-200 dark:border-indigo-900">?</div>
+                    <div class="overflow-hidden">
+                        <h3 id="user-name-display" class="text-sm font-extrabold truncate text-gray-900 dark:text-white">Belum Login</h3>
+                        <p id="user-mapel-display" class="text-xs text-primary font-bold truncate">-</p>
+                    </div>
+                </div>
+                <button onclick="bukaModalProfil()" class="text-gray-400 hover:text-primary transition-colors p-1.5 rounded-xl hover:bg-white dark:hover:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-700" title="Edit Profil">
+                    <i class="fa-solid fa-pen text-xs"></i>
+                </button>
             </div>
-            <nav class="p-4 space-y-2 mt-4">
-                <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-primary text-white font-bold shadow-md shadow-indigo-500/20 transition-all">
-                    <i class="fa-solid fa-house w-5 text-center"></i>
-                    <span>Dashboard Kelas</span>
-                </button>
-                <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
-                    <i class="fa-solid fa-book w-5 text-center"></i>
-                    <span>Jurnal Bersama</span>
-                </button>
-                <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
-                    <i class="fa-solid fa-database w-5 text-center"></i>
-                    <span>Bank Soal</span>
-                </button>
-                <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
-                    <i class="fa-solid fa-camera-retro w-5 text-center"></i>
-                    <span>Scan & Koreksi Soal</span>
-                </button>
-            </nav>
+            <div class="space-y-1 text-[11px] text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-900/40 p-2.5 rounded-xl border border-gray-100 dark:border-gray-700/50">
+                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-indigo-500"></i> -</p>
+                <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-emerald-500"></i> -</p>
+            </div>
         </div>
+
+        <!-- NAVIGASI TOOLS -->
+        <nav class="p-4 space-y-2 flex-1 overflow-y-auto">
+            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-primary text-white font-bold shadow-md shadow-indigo-500/20 transition-all">
+                <i class="fa-solid fa-house w-5 text-center"></i>
+                <span>Dashboard Kelas</span>
+            </button>
+            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
+                <i class="fa-solid fa-book w-5 text-center"></i>
+                <span>Jurnal Bersama</span>
+            </button>
+            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
+                <i class="fa-solid fa-database w-5 text-center"></i>
+                <span>Bank Soal</span>
+            </button>
+            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
+                <i class="fa-solid fa-camera-retro w-5 text-center"></i>
+                <span>Scan & Koreksi Soal</span>
+            </button>
+        </nav>
         
-        <!-- User Profile & Dark Mode Toggle -->
-        <div class="p-4 border-t border-gray-100 dark:border-gray-700 space-y-3">
+        <!-- Toggle Dark Mode & Logout di Bawah -->
+        <div class="p-4 border-t border-gray-100 dark:border-gray-700 space-y-2">
             <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 text-sm font-bold hover:border-primary transition-colors">
                 <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-indigo-500"></i> Mode Tampilan</span>
                 <span id="dark-mode-text" class="text-xs text-gray-500">Terang</span>
             </button>
-
-            <!-- Kartu Profil Guru -->
-            <div onclick="bukaModalProfil()" class="group cursor-pointer flex items-center space-x-3 bg-gray-50 dark:bg-gray-900 p-3 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-primary transition-all relative" title="Klik untuk edit profil guru">
-                <div id="user-avatar" class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold shadow-sm text-sm shrink-0 overflow-hidden">?</div>
-                <div class="overflow-hidden flex-1">
-                    <p id="user-name-display" class="text-xs font-extrabold truncate">Belum Login</p>
-                    <p id="user-mapel-display" class="text-[10px] text-primary font-bold truncate">-</p>
-                    <p id="user-email-display" class="text-[9px] text-gray-400 truncate">-</p>
-                </div>
-                <button onclick="event.stopPropagation(); logout()" class="text-gray-400 hover:text-red-500 transition-colors p-1" title="Keluar">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </button>
-            </div>
+            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-3 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 rounded-2xl border border-rose-100 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-100 transition-colors">
+                <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
+            </button>
         </div>
     </aside>
 
@@ -278,7 +299,7 @@
                             </div>
                             <div class="bg-rose-50 dark:bg-rose-950/30 p-4 rounded-2xl border border-rose-100 dark:border-rose-900/50">
                                 <label class="block text-xs font-bold text-rose-700 dark:text-rose-400 uppercase mb-2"><i class="fa-solid fa-user-slash mr-1"></i> Siswa Tidak Masuk Hari Ini</label>
-                                <p class="text-[11px] text-gray-500 dark:text-gray-400 mb-2">Keterangan absen ini akan tergabung secara terpadu dan terlihat oleh guru mapel manapun pada hari yang sama.</p>
+                                <p class="text-[11px] text-gray-500 dark:text-gray-400 mb-2">Absensi ini akan tergabung secara terpadu dan terlihat oleh guru mapel manapun pada hari yang sama.</p>
                                 <div id="container-siswa-absen" class="space-y-2 mb-3">
                                     <!-- Baris Absensi Dinamis -->
                                 </div>
@@ -430,7 +451,6 @@
 
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
-                        // Cek apakah profil sudah tersimpan di Firestore
                         const docRef = doc(db, 'teachers', user.uid);
                         const docSnap = await getDoc(docRef);
 
@@ -442,7 +462,6 @@
                             memuatDaftarKelas();
                             memuatBankSoal();
                         } else {
-                            // Belum ada profil, tampilkan step pengisian profil awal
                             googleUserTemp = user;
                             document.getElementById('login-step-1').classList.add('hidden');
                             document.getElementById('login-step-2').classList.remove('hidden');
@@ -450,7 +469,7 @@
                             document.getElementById('auth-preview-email').innerText = user.email || '';
                             const av = document.getElementById('auth-preview-avatar');
                             if(user.photoURL) {
-                                av.innerHTML = `<img src="${user.photoURL}" class="w-full h-full rounded-2xl object-cover">`;
+                                av.innerHTML = `<img src="${user.photoURL}" class="w-full h-full object-cover">`;
                             } else {
                                 av.innerText = (user.displayName || 'G').charAt(0).toUpperCase();
                             }
@@ -514,12 +533,13 @@
         function updateProfileUI() {
             if(!window.currentUser) return;
             document.getElementById('user-name-display').innerText = window.currentUser.nama;
-            document.getElementById('user-mapel-display').innerText = `Mapel: ${window.currentUser.mapel}`;
-            document.getElementById('user-email-display').innerText = window.currentUser.email;
+            document.getElementById('user-mapel-display').innerText = window.currentUser.mapel;
+            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-indigo-500"></i> ${window.currentUser.email || '-'}`;
+            document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-emerald-500"></i> ${window.currentUser.telp || 'Belum diisi'}`;
             
             const avatar = document.getElementById('user-avatar');
             if(window.currentUser.photo) {
-                avatar.innerHTML = `<img src="${window.currentUser.photo}" class="w-full h-full rounded-xl object-cover">`;
+                avatar.innerHTML = `<img src="${window.currentUser.photo}" class="w-full h-full object-cover">`;
             } else {
                 avatar.innerText = window.currentUser.nama.charAt(0).toUpperCase();
             }
@@ -605,7 +625,7 @@
         };
 
         window.hapusKelas = async function(event, id, namaKelas) {
-            event.stopPropagation(); // Mencegah card tertrigger buka jurnal
+            event.stopPropagation(); 
             if(confirm(`Yakin ingin menghapus kelas ${namaKelas}? Semua riwayat jurnal terkait kelas ini juga akan terhapus.`)) {
                 try {
                     await deleteDoc(doc(db, 'classes', id));
@@ -749,7 +769,6 @@
             container.innerHTML = '';
             dataJurnal.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-            // Kelompokkan berdasarkan tanggalISO agar keterangan absen terpadu per hari
             const groupedByDate = {};
             dataJurnal.forEach(j => {
                 const key = j.tanggalISO || j.tanggal;
@@ -764,7 +783,6 @@
             sortedKeys.forEach(dateKey => {
                 const group = groupedByDate[dateKey];
                 
-                // Agregasi seluruh siswa tidak masuk pada hari tersebut tanpa duplikasi nama
                 const mapAbsenHariIni = new Map();
                 group.items.forEach(item => {
                     if(item.siswaTidakMasuk) {
@@ -791,7 +809,6 @@
                     </div>`;
                 }
 
-                // Render kartu jurnal setiap pelajaran
                 group.items.forEach(j => {
                     const card = document.createElement('div');
                     card.className = "bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-2 mb-3";
@@ -808,7 +825,6 @@
                     container.appendChild(card);
                 });
 
-                // Jika ada rekap absen terpadu di tanggal ini, tampilkan di akhir group tanggal tersebut
                 if(mapAbsenHariIni.size > 0) {
                     const absenWrapper = document.createElement('div');
                     absenWrapper.innerHTML = unifiedAbsenHtml;
@@ -833,7 +849,7 @@
             renderLinimasa(semuaDataJurnalGlobal);
         };
 
-        // --- BANK SOAL & PARSER DOKUMEN (PDF & Word) ---
+        // --- BANK SOAL & PARSER DOKUMEN & DRAG N DROP ---
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
@@ -873,7 +889,34 @@
 
         window.tutupModalSoal = () => document.getElementById('modal-bank-soal').classList.add('hidden');
 
-        // Fungsi Parser File PDF & Word (.docx)
+        // Setup Drag and Drop event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            if(dropZone) {
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        dropZone.classList.add('border-primary', 'bg-indigo-100/80');
+                    }, false);
+                });
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        dropZone.classList.remove('border-primary', 'bg-indigo-100/80');
+                    }, false);
+                });
+                dropZone.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    if(files.length > 0) {
+                        document.getElementById('input-file-soal').files = files;
+                        imporSoalDariFile({ target: { files: files } });
+                    }
+                }, false);
+            }
+        });
+
+        // Parser File PDF & Word (.docx)
         window.imporSoalDariFile = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
