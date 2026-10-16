@@ -177,89 +177,89 @@
     </div>
 
     <!-- SIDEBAR (Leaf Green on Light Mode, Dark on Dark Mode) -->
-    <aside class="w-full md:w-72 bg-emerald-600 dark:bg-gray-800 shadow-xl border-r border-emerald-700 dark:border-gray-700 flex flex-col h-auto md:h-full z-40 transition-colors duration-300 shrink-0 text-white dark:text-gray-100">
-        <!-- PROFIL GURU DI ATAS TOOL (Besar & Elegan) -->
-        <div class="p-4 border-b border-emerald-500/80 dark:border-gray-700 bg-emerald-700/90 dark:bg-gray-800 shadow-sm">
+    <aside class="w-full md:w-72 bg-emerald-50 dark:bg-gray-800 shadow-xl border-r border-emerald-200 dark:border-gray-700 flex flex-col h-auto md:h-full z-40 transition-colors duration-300 shrink-0 text-gray-800 dark:text-gray-100">
+        <!-- PROFIL GURU DI ATAS TOOL -->
+        <div class="p-4 border-b border-emerald-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
             <div class="flex items-start justify-between mb-3">
                 <div class="flex items-center space-x-3">
-                    <div id="user-avatar" class="w-14 h-14 rounded-2xl bg-emerald-800 dark:bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0 overflow-hidden border-2 border-emerald-400 dark:border-indigo-900">?</div>
+                    <div id="user-avatar" class="w-14 h-14 rounded-2xl bg-leaf dark:bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0 overflow-hidden border-2 border-emerald-300 dark:border-indigo-900">?</div>
                     <div class="overflow-hidden">
-                        <h3 id="user-name-display" class="text-sm font-extrabold truncate text-white dark:text-white">Belum Login</h3>
-                        <p id="user-mapel-display" class="text-xs text-emerald-200 dark:text-primary font-bold truncate">-</p>
+                        <h3 id="user-name-display" class="text-sm font-extrabold truncate text-gray-900 dark:text-white">Belum Login</h3>
+                        <p id="user-mapel-display" class="text-xs text-leaf dark:text-primary font-bold truncate">-</p>
                     </div>
                 </div>
-                <button onclick="bukaModalProfil()" class="text-emerald-200 hover:text-white dark:hover:text-primary transition-colors p-1.5 rounded-xl hover:bg-emerald-800 dark:hover:bg-gray-700 shadow-sm border border-emerald-500/50 dark:border-gray-700" title="Edit Profil">
+                <button onclick="bukaModalProfil()" class="text-gray-500 hover:text-leaf dark:hover:text-primary transition-colors p-1.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 shadow-sm border border-emerald-200 dark:border-gray-700" title="Edit Profil">
                     <i class="fa-solid fa-pen text-xs"></i>
                 </button>
             </div>
-            <div class="space-y-1 text-[11px] text-emerald-100 dark:text-gray-400 bg-emerald-800/60 dark:bg-gray-900/40 p-2.5 rounded-xl border border-emerald-500/50 dark:border-gray-700/50">
-                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-emerald-300 dark:text-indigo-500"></i> -</p>
-                <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-emerald-300"></i> -</p>
+            <div class="space-y-1 text-[11px] text-gray-600 dark:text-gray-400 bg-emerald-100/50 dark:bg-gray-900/40 p-2.5 rounded-xl border border-emerald-200/50 dark:border-gray-700/50">
+                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-leaf dark:text-indigo-500"></i> -</p>
+                <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-leaf"></i> -</p>
             </div>
         </div>
 
         <!-- NAVIGASI TOOLS -->
         <nav class="hidden md:flex p-4 space-y-1.5 flex-1 overflow-y-auto flex-col">
-            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl bg-emerald-800 dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs">
+            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs">
                 <i class="fa-solid fa-house w-5 text-center"></i>
                 <span>Dashboard Kelas</span>
             </button>
-            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-book w-5 text-center"></i>
                 <span>Jurnal Bersama</span>
             </button>
-            <button id="nav-info-kelas" onclick="pindahHalaman('info-kelas')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-info-kelas" onclick="pindahHalaman('info-kelas')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-circle-info w-5 text-center"></i>
                 <span>Info Kelas</span>
             </button>
-            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-database w-5 text-center"></i>
                 <span>Bank Soal</span>
             </button>
-            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-camera-retro w-5 text-center"></i>
                 <span>Scan & Koreksi Soal</span>
             </button>
             
             <!-- 5 Fitur Baru -->
-            <div class="pt-2 border-t border-emerald-500/50 dark:border-gray-700 my-1">
-                <p class="text-[10px] font-bold text-emerald-200 dark:text-gray-400 uppercase tracking-wider px-2 mb-1">Asisten Guru</p>
+            <div class="pt-2 border-t border-emerald-200 dark:border-gray-700 my-1">
+                <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-2 mb-1">Asisten Guru</p>
             </div>
-            <button id="nav-rekap-nilai" onclick="pindahHalaman('rekap-nilai')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-rekap-nilai" onclick="pindahHalaman('rekap-nilai')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-chart-pie w-5 text-center"></i>
                 <span>Rekap & Hitung Nilai</span>
             </button>
-            <button id="nav-kelompok" onclick="pindahHalaman('kelompok')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-kelompok" onclick="pindahHalaman('kelompok')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-people-group w-5 text-center"></i>
                 <span>Kelompok Otomatis</span>
             </button>
-            <button id="nav-perkembangan" onclick="pindahHalaman('perkembangan')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-perkembangan" onclick="pindahHalaman('perkembangan')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-chart-line w-5 text-center"></i>
                 <span>Pemantau Siswa</span>
             </button>
-            <button id="nav-aktivitas" onclick="pindahHalaman('aktivitas')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-aktivitas" onclick="pindahHalaman('aktivitas')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-lightbulb w-5 text-center"></i>
                 <span>Generator Aktivitas</span>
             </button>
-            <button id="nav-agenda" onclick="pindahHalaman('agenda')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+            <button id="nav-agenda" onclick="pindahHalaman('agenda')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-calendar-check w-5 text-center"></i>
                 <span>Pengingat & Agenda</span>
             </button>
         </nav>
         
         <!-- Toggle Dark Mode & Logout di Bawah (Desktop) -->
-        <div class="hidden md:block p-4 border-t border-emerald-500/80 dark:border-gray-700 space-y-2 bg-emerald-700/60 dark:bg-gray-800">
-            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-3 bg-emerald-800 dark:bg-gray-900 rounded-2xl border border-emerald-500/50 dark:border-gray-700 text-xs font-bold hover:border-white transition-colors text-white dark:text-gray-200">
-                <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-emerald-300 dark:text-indigo-500"></i> Mode Tampilan</span>
-                <span id="dark-mode-text" class="text-[11px] text-emerald-200">Terang</span>
+        <div class="hidden md:block p-4 border-t border-emerald-200 dark:border-gray-700 space-y-2 bg-white dark:bg-gray-800">
+            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-3 bg-emerald-100/50 dark:bg-gray-900 rounded-2xl border border-emerald-200 dark:border-gray-700 text-xs font-bold hover:border-leaf transition-colors text-gray-800 dark:text-gray-200">
+                <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-leaf dark:text-indigo-500"></i> Mode Tampilan</span>
+                <span id="dark-mode-text" class="text-[11px] text-gray-600 dark:text-gray-400">Terang</span>
             </button>
-            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-3 bg-rose-900/60 dark:bg-rose-950/40 text-rose-100 dark:text-rose-400 rounded-2xl border border-rose-700/50 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-900 transition-colors">
+            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-3 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 rounded-2xl border border-rose-200 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-100 transition-colors">
                 <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
             </button>
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full overflow-hidden bg-gray-50 dark:bg-gray-900/50 transition-colors duration-300 pb-16 md:pb-0">
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-gray-50 dark:bg-gray-900/50 transition-colors duration-300 pb-20 md:pb-0">
         <header class="h-20 bg-white dark:bg-gray-800 shadow-sm flex items-center justify-between px-6 md:px-8 z-10 border-b border-gray-200 dark:border-gray-700 shrink-0">
             <h2 id="judul-halaman" class="text-xl md:text-2xl font-extrabold tracking-tight">Dashboard Kelas</h2>
             <div class="flex items-center space-x-2 bg-gray-50 dark:bg-gray-900 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700">
@@ -618,46 +618,51 @@
     </main>
 
     <!-- MOBILE BOTTOM NAVIGATION BAR -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50 flex justify-around items-center h-16 px-1 shadow-2xl overflow-x-auto">
-        <button onclick="pindahHalaman('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary min-w-[55px]">
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50 flex justify-around items-center h-16 px-2 shadow-2xl">
+        <button onclick="pindahHalaman('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold">
             <i class="fa-solid fa-house text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Kelas</span>
+            <span class="text-[9px] mt-1">Kelas</span>
         </button>
-        <button onclick="pindahHalaman('jurnal')" id="mob-nav-jurnal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]">
+        <button onclick="pindahHalaman('jurnal')" id="mob-nav-jurnal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf">
             <i class="fa-solid fa-book text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Jurnal</span>
+            <span class="text-[9px] mt-1">Jurnal</span>
         </button>
-        <button onclick="pindahHalaman('info-kelas')" id="mob-nav-info-kelas" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]">
+        <button onclick="pindahHalaman('info-kelas')" id="mob-nav-info-kelas" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf">
             <i class="fa-solid fa-circle-info text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Info</span>
+            <span class="text-[9px] mt-1">Info</span>
         </button>
-        <button onclick="pindahHalaman('bank-soal')" id="mob-nav-bank-soal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]">
+        <button onclick="pindahHalaman('bank-soal')" id="mob-nav-bank-soal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf">
             <i class="fa-solid fa-database text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Soal</span>
+            <span class="text-[9px] mt-1">Soal</span>
         </button>
-        <button onclick="pindahHalaman('scan-soal')" id="mob-nav-scan-soal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]">
+        <button onclick="pindahHalaman('scan-soal')" id="mob-nav-scan-soal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf">
             <i class="fa-solid fa-camera-retro text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Koreksi</span>
+            <span class="text-[9px] mt-1">Koreksi</span>
         </button>
-        <button onclick="pindahHalaman('rekap-nilai')" id="mob-nav-rekap-nilai" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Rekap Nilai">
-            <i class="fa-solid fa-chart-pie text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Nilai</span>
+        <!-- Tombol Asisten Guru Terpadu di Mobile -->
+        <button onclick="toggleMobileAsistenMenu()" id="mob-nav-asisten" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf relative">
+            <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
+            <span class="text-[9px] mt-1">Asisten</span>
         </button>
-        <button onclick="pindahHalaman('kelompok')" id="mob-nav-kelompok" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Kelompok">
-            <i class="fa-solid fa-people-group text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Kelompok</span>
+    </div>
+
+    <!-- POPUP MENU ASISTEN GURU MOBILE -->
+    <div id="mobile-asisten-popup" class="fixed bottom-20 right-4 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 p-3 z-[60] hidden space-y-2 w-64">
+        <p class="text-xs font-bold text-gray-400 uppercase px-3 py-1 border-b dark:border-gray-700">Fitur Asisten Guru</p>
+        <button onclick="pindahHalaman('rekap-nilai'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
+            <i class="fa-solid fa-chart-pie text-leaf dark:text-primary"></i> Rekap & Hitung Nilai
         </button>
-        <button onclick="pindahHalaman('perkembangan')" id="mob-nav-perkembangan" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Pemantau">
-            <i class="fa-solid fa-chart-line text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Pantau</span>
+        <button onclick="pindahHalaman('kelompok'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
+            <i class="fa-solid fa-people-group text-leaf dark:text-primary"></i> Kelompok Otomatis
         </button>
-        <button onclick="pindahHalaman('aktivitas')" id="mob-nav-aktivitas" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Aktivitas">
-            <i class="fa-solid fa-lightbulb text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Aktivitas</span>
+        <button onclick="pindahHalaman('perkembangan'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
+            <i class="fa-solid fa-chart-line text-leaf dark:text-primary"></i> Pemantau Siswa
         </button>
-        <button onclick="pindahHalaman('agenda')" id="mob-nav-agenda" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Agenda">
-            <i class="fa-solid fa-calendar-check text-base"></i>
-            <span class="text-[9px] font-bold mt-1">Agenda</span>
+        <button onclick="pindahHalaman('aktivitas'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
+            <i class="fa-solid fa-lightbulb text-leaf dark:text-primary"></i> Generator Aktivitas
+        </button>
+        <button onclick="pindahHalaman('agenda'); tutupMobileAsistenMenu();" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 flex items-center gap-3 text-xs font-bold">
+            <i class="fa-solid fa-calendar-check text-leaf dark:text-primary"></i> Pengingat & Agenda
         </button>
     </div>
 
@@ -779,7 +784,7 @@
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
-                icon.className = "fa-solid fa-moon text-emerald-300";
+                icon.className = "fa-solid fa-moon text-leaf";
                 text.innerText = "Terang";
             } else {
                 html.classList.add('dark');
@@ -797,7 +802,7 @@
             });
         } else {
             document.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('dark-mode-icon').className = "fa-solid fa-moon text-emerald-300";
+                document.getElementById('dark-mode-icon').className = "fa-solid fa-moon text-leaf";
                 document.getElementById('dark-mode-text').innerText = "Terang";
             });
         }
@@ -812,6 +817,15 @@
             setTimeout(() => toast.remove(), 4000);
         };
 
+        window.toggleMobileAsistenMenu = function() {
+            const popup = document.getElementById('mobile-asisten-popup');
+            popup.classList.toggle('hidden');
+        };
+
+        window.tutupMobileAsistenMenu = function() {
+            document.getElementById('mobile-asisten-popup').classList.add('hidden');
+        };
+
         window.pindahHalaman = function(idTarget) {
             if ((['jurnal', 'info-kelas', 'rekap-nilai', 'perkembangan'].includes(idTarget)) && !window.activeClassId) {
                 tampilkanToast('error', 'Pilih kelas di Dashboard terlebih dahulu!');
@@ -819,7 +833,6 @@
             }
             document.querySelectorAll('main section').forEach(el => { el.classList.add('hidden'); el.classList.remove('block'); });
             document.getElementById('halaman-' + idTarget).classList.remove('hidden');
-            document.getElementById('halaman-' + idTarget).classList.block ? document.getElementById('halaman-' + idTarget).classList.remove('hidden') : '';
             document.getElementById('halaman-' + idTarget).classList.add('block');
             
             const titles = { 
@@ -837,22 +850,28 @@
             document.getElementById('judul-halaman').innerText = titles[idTarget] || 'Portal Guru';
 
             document.querySelectorAll('aside .nav-btn').forEach(btn => {
-                btn.className = "nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs";
+                btn.className = "nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all text-xs";
             });
             const activeBtn = document.getElementById('nav-' + idTarget);
-            if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 p-3 rounded-xl bg-emerald-800 dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs";
+            if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 p-3 rounded-xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs";
 
-            const allTabs = ['dashboard', 'jurnal', 'info-kelas', 'bank-soal', 'scan-soal', 'rekap-nilai', 'kelompok', 'perkembangan', 'aktivitas', 'agenda'];
+            const allTabs = ['dashboard', 'jurnal', 'info-kelas', 'bank-soal', 'scan-soal'];
             allTabs.forEach(tab => {
                 const mobBtn = document.getElementById('mob-nav-' + tab);
                 if(mobBtn) {
                     if(tab === idTarget) {
-                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold min-w-[55px]";
+                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold";
                     } else {
-                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]";
+                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf";
                     }
                 }
             });
+            const mobAsisten = document.getElementById('mob-nav-asisten');
+            if(['rekap-nilai', 'kelompok', 'perkembangan', 'aktivitas', 'agenda'].includes(idTarget)) {
+                mobAsisten.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold";
+            } else {
+                mobAsisten.className = "flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf";
+            }
         };
 
         async function inisialisasiApp() {
@@ -949,8 +968,8 @@
             if(!window.currentUser) return;
             document.getElementById('user-name-display').innerText = window.currentUser.nama;
             document.getElementById('user-mapel-display').innerText = window.currentUser.mapel;
-            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-emerald-300 dark:text-indigo-500"></i> ${window.currentUser.email || '-'}`;
-            document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-emerald-300"></i> ${window.currentUser.telp || 'Belum diisi'}`;
+            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-leaf dark:text-indigo-500"></i> ${window.currentUser.email || '-'}`;
+            document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-leaf"></i> ${window.currentUser.telp || 'Belum diisi'}`;
             
             const avatar = document.getElementById('user-avatar');
             if(window.currentUser.photo) {
@@ -1890,8 +1909,6 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 return;
             }
 
-            // Fetch nilaiSiswa for this class
-            // For single file simplicity, we query snapshot or cache
             const q = query(collection(db, 'nilaiSiswa'));
             onSnapshot(q, (snapshot) => {
                 let dataNilai = [];
@@ -1905,7 +1922,6 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                     return;
                 }
 
-                // Group by student
                 const rekapMap = {};
                 const kategoriSet = new Set();
                 dataNilai.forEach(n => {
@@ -1953,13 +1969,11 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             let siswaArr = rawSiswa.split(/,|\n/).map(s => s.trim()).filter(Boolean);
             if(siswaArr.length === 0) return tampilkanToast('error', 'Daftar siswa tidak valid.');
 
-            // Acak (Shuffle) array siswa
             for (let i = siswaArr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [siswaArr[i], siswaArr[j]] = [siswaArr[j], siswaArr[i]];
             }
 
-            // Bagi kelompok
             let kelompokList = [];
             for (let i = 0; i < siswaArr.length; i += jumlahPerKelompok) {
                 kelompokList.push(siswaArr.slice(i, i + jumlahPerKelompok));
@@ -1996,7 +2010,6 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 return;
             }
 
-            // Simulasi siswa pemantau cerdas
             const dummySiswa = [
                 { nama: 'Ahmad Fauzi', nilaiRata: 85, kehadiran: '95%', statusTugas: 'Lengkap', catatan: 'Aktif di kelas.' },
                 { nama: 'Siti Rahma', nilaiRata: 58, kehadiran: '75%', statusTugas: 'Kurang 2 Tugas', catatan: 'Perlu perhatian khusus pada mata pelajaran Eksakta.' },
