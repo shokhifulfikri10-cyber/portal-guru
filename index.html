@@ -81,17 +81,21 @@
                     </button>
                 </div>
                 <input type="text" id="input-judul-soal" placeholder="Judul / Topik Soal (ex: Ulangan Harian Bab 1)" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none">
-                <select id="input-mapel-soal" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none">
-                    <option value="Matematika">Matematika</option>
-                    <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                    <option value="Bahasa Inggris">Bahasa Inggris</option>
-                    <option value="IPA">IPA</option>
-                    <option value="IPS">IPS</option>
-                    <option value="PPKn">PPKn</option>
-                    <option value="PAI">PAI</option>
-                    <option value="PJOK">PJOK</option>
-                    <option value="Seni Budaya">Seni Budaya</option>
-                </select>
+                <div>
+                    <select id="input-mapel-soal" onchange="cekMapelSoalLain(this)" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none">
+                        <option value="Matematika">Matematika</option>
+                        <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                        <option value="Bahasa Inggris">Bahasa Inggris</option>
+                        <option value="IPA">IPA</option>
+                        <option value="IPS">IPS</option>
+                        <option value="PPKn">PPKn</option>
+                        <option value="PAI">PAI</option>
+                        <option value="PJOK">PJOK</option>
+                        <option value="Seni Budaya">Seni Budaya</option>
+                        <option value="Lainnya">Lainnya (Tulis Sendiri)</option>
+                    </select>
+                    <input type="text" id="input-mapel-soal-lain" placeholder="Ketik nama mata pelajaran baru..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none hidden">
+                </div>
                 <textarea id="input-isi-soal" rows="6" placeholder="Tuliskan butir soal atau lampirkan teks lengkap di sini..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none resize-none"></textarea>
             </div>
             <div class="flex gap-3 justify-end mt-4">
@@ -682,74 +686,51 @@
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
-            document.getElementById('input-mapel-soal').value = mapel || 'Matematika';
+            
+            const selectMapel = document.getElementById('input-mapel-soal');
+            const inputLain = document.getElementById('input-mapel-soal-lain');
+            
+            const defaultMapels = ['Matematika', 'Bahasa Indonesia', 'Bahasa Inggris', 'IPA', 'IPS', 'PPKn', 'PAI', 'PJOK', 'Seni Budaya'];
+            if(mapel && !defaultMapels.includes(mapel)) {
+                selectMapel.value = 'Lainnya';
+                inputLain.classList.remove('hidden');
+                inputLain.value = mapel;
+                inputLain.required = true;
+            } else {
+                selectMapel.value = mapel || 'Matematika';
+                inputLain.classList.add('hidden');
+                inputLain.value = '';
+                inputLain.required = false;
+            }
+
             document.getElementById('input-isi-soal').value = isi;
             document.getElementById('modal-soal-title').innerText = id ? 'Edit Soal' : 'Buat Soal Baru';
             document.getElementById('modal-bank-soal').classList.remove('hidden');
         };
 
-        window.tutupModalSoal = () => document.getElementById('modal-bank-soal').classList.add('hidden');
-
-        // Fungsi membaca file PDF atau Word (.docx / .txt) untuk mengisi bank soal secara otomatis
-        window.imporSoalDariFile = async function(e) {
-            const file = e.target.files[0];
-            if(!file) return;
-
-            const fileName = file.name.toLowerCase();
-            tampilkanToast('success', `Membaca dokumen ${file.name}...`);
-
-            try {
-                if(fileName.endsWith('.pdf')) {
-                    const reader = new FileReader();
-                    reader.onload = async function() {
-                        try {
-                            const typedarray = new Uint8Array(this.result);
-                            const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                            let extractedText = "";
-                            for(let i = 1; i <= pdf.numPages; i++) {
-                                const page = await pdf.getPage(i);
-                                const textContent = await page.getTextContent();
-                                textContent.items.forEach(item => {
-                                    extractedText += item.str + " ";
-                                });
-                                extractedText += "\n";
-                            }
-                            document.getElementById('input-isi-soal').value = extractedText.trim();
-                            // Set judul otomatis dari nama file jika kosong
-                            if(!document.getElementById('input-judul-soal').value) {
-                                document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
-                            }
-                            tampilkanToast('success', 'Berhasil mengekstrak teks dari PDF!');
-                        } catch(err) {
-                            console.error(err);
-                            tampilkanToast('error', 'Gagal membaca isi file PDF.');
-                        }
-                    };
-                    reader.readAsArrayBuffer(file);
-                } else {
-                    // Untuk .docx atau .txt
-                    const reader = new FileReader();
-                    reader.onload = function(evt) {
-                        document.getElementById('input-isi-soal').value = evt.target.result;
-                        if(!document.getElementById('input-judul-soal').value) {
-                            document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
-                        }
-                        tampilkanToast('success', 'Berhasil memuat isi dokumen teks!');
-                    };
-                    reader.readAsText(file);
-                }
-            } catch(err) {
-                tampilkanToast('error', 'Gagal memproses file dokumen.');
+        window.cekMapelSoalLain = function(selectEl) {
+            const inputLain = document.getElementById('input-mapel-soal-lain');
+            if (selectEl.value === 'Lainnya') {
+                inputLain.classList.remove('hidden');
+                inputLain.required = true;
+            } else {
+                inputLain.classList.add('hidden');
+                inputLain.required = false;
+                inputLain.value = '';
             }
         };
+
+        window.tutupModalSoal = () => document.getElementById('modal-bank-soal').classList.add('hidden');
 
         window.simpanSoalKeDB = async function() {
             const id = document.getElementById('edit-soal-id').value;
             const judul = document.getElementById('input-judul-soal').value.trim();
-            const mapel = document.getElementById('input-mapel-soal').value;
+            const selectMapel = document.getElementById('input-mapel-soal').value;
+            const mapelLain = document.getElementById('input-mapel-soal-lain').value.trim();
+            const mapel = selectMapel === 'Lainnya' ? mapelLain : selectMapel;
             const isi = document.getElementById('input-isi-soal').value.trim();
 
-            if(!judul || !isi) return tampilkanToast('error', 'Judul dan isi soal wajib diisi!');
+            if(!judul || !mapel || !isi) return tampilkanToast('error', 'Semua kolom wajib diisi!');
 
             try {
                 if(id) {
