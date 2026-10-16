@@ -129,12 +129,12 @@
                 <!-- Area Drag and Drop Dokumen Soal -->
                 <div>
                     <label class="block text-xs font-bold uppercase mb-1 text-gray-500">Impor Soal Cepat (PDF / Word / TXT)</label>
-                    <div id="drop-zone" class="border-2 border-dashed border-indigo-300 dark:border-indigo-700 bg-indigo-50/50 dark:bg-indigo-950/30 rounded-2xl p-6 text-center cursor-pointer hover:bg-indigo-100/50 transition-all">
-                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 text-primary rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">
+                    <div id="drop-zone" class="border-2 border-dashed border-emerald-300 dark:border-indigo-700 bg-emerald-50/50 dark:bg-indigo-950/30 rounded-2xl p-6 text-center cursor-pointer hover:bg-emerald-100/50 transition-all">
+                        <div class="w-12 h-12 bg-emerald-100 dark:bg-indigo-900 text-emerald-600 dark:text-primary rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">
                             <i class="fa-solid fa-cloud-arrow-up"></i>
                         </div>
                         <p class="text-xs font-bold text-gray-700 dark:text-gray-200">Seret & letakkan file PDF / Word di sini, atau</p>
-                        <button type="button" onclick="document.getElementById('input-file-soal').click()" class="mt-2 text-xs bg-primary text-white font-bold px-4 py-2 rounded-xl shadow hover:bg-indigo-600 transition-colors">
+                        <button type="button" onclick="document.getElementById('input-file-soal').click()" class="mt-2 text-xs bg-secondary text-white font-bold px-4 py-2 rounded-xl shadow hover:bg-emerald-600 transition-colors">
                             Pilih File dari Komputer
                         </button>
                         <input type="file" id="input-file-soal" accept=".pdf,.docx,.doc,.txt" class="hidden" onchange="imporSoalDariFile(event)">
@@ -176,51 +176,51 @@
     </div>
 
     <!-- SIDEBAR -->
-    <aside class="w-72 bg-white dark:bg-gray-800 shadow-xl border-r border-gray-200 dark:border-gray-700 flex flex-col h-full z-40 transition-colors duration-300">
+    <aside class="w-72 bg-emerald-50 dark:bg-gray-800 shadow-xl border-r border-emerald-200 dark:border-gray-700 flex flex-col h-full z-40 transition-colors duration-300">
         <!-- PROFIL GURU DI ATAS TOOL -->
-        <div class="p-4 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 dark:from-gray-800 dark:to-gray-800">
+        <div class="p-4 border-b border-emerald-200/60 dark:border-gray-700 bg-white/80 dark:bg-gray-800 shadow-sm">
             <div class="flex items-start justify-between mb-3">
                 <div class="flex items-center space-x-3">
-                    <div id="user-avatar" class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0 overflow-hidden border-2 border-indigo-200 dark:border-indigo-900">?</div>
+                    <div id="user-avatar" class="w-14 h-14 rounded-2xl bg-secondary dark:bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0 overflow-hidden border-2 border-emerald-200 dark:border-indigo-900">?</div>
                     <div class="overflow-hidden">
                         <h3 id="user-name-display" class="text-sm font-extrabold truncate text-gray-900 dark:text-white">Belum Login</h3>
-                        <p id="user-mapel-display" class="text-xs text-primary font-bold truncate">-</p>
+                        <p id="user-mapel-display" class="text-xs text-secondary dark:text-primary font-bold truncate">-</p>
                     </div>
                 </div>
-                <button onclick="bukaModalProfil()" class="text-gray-400 hover:text-primary transition-colors p-1.5 rounded-xl hover:bg-white dark:hover:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-700" title="Edit Profil">
+                <button onclick="bukaModalProfil()" class="text-gray-400 hover:text-secondary dark:hover:text-primary transition-colors p-1.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-700" title="Edit Profil">
                     <i class="fa-solid fa-pen text-xs"></i>
                 </button>
             </div>
-            <div class="space-y-1 text-[11px] text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-900/40 p-2.5 rounded-xl border border-gray-100 dark:border-gray-700/50">
-                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-indigo-500"></i> -</p>
-                <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-emerald-500"></i> -</p>
+            <div class="space-y-1 text-[11px] text-gray-600 dark:text-gray-400 bg-emerald-50/50 dark:bg-gray-900/40 p-2.5 rounded-xl border border-emerald-100 dark:border-gray-700/50">
+                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-secondary dark:text-indigo-500"></i> -</p>
+                <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-emerald-600"></i> -</p>
             </div>
         </div>
 
         <!-- NAVIGASI TOOLS -->
         <nav class="p-4 space-y-2 flex-1 overflow-y-auto">
-            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-primary text-white font-bold shadow-md shadow-indigo-500/20 transition-all">
+            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-secondary dark:bg-primary text-white font-bold shadow-md shadow-emerald-500/20 dark:shadow-indigo-500/20 transition-all">
                 <i class="fa-solid fa-house w-5 text-center"></i>
                 <span>Dashboard Kelas</span>
             </button>
-            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
+            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-100/50 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-primary transition-all">
                 <i class="fa-solid fa-book w-5 text-center"></i>
                 <span>Jurnal Bersama</span>
             </button>
-            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
+            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-100/50 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-primary transition-all">
                 <i class="fa-solid fa-database w-5 text-center"></i>
                 <span>Bank Soal</span>
             </button>
-            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all">
+            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-100/50 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-primary transition-all">
                 <i class="fa-solid fa-camera-retro w-5 text-center"></i>
                 <span>Scan & Koreksi Soal</span>
             </button>
         </nav>
         
         <!-- Toggle Dark Mode & Logout di Bawah -->
-        <div class="p-4 border-t border-gray-100 dark:border-gray-700 space-y-2">
-            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 text-sm font-bold hover:border-primary transition-colors">
-                <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-indigo-500"></i> Mode Tampilan</span>
+        <div class="p-4 border-t border-emerald-200/60 dark:border-gray-700 space-y-2 bg-white/50 dark:bg-gray-800">
+            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-3 bg-white dark:bg-gray-900 rounded-2xl border border-emerald-200 dark:border-gray-700 text-sm font-bold hover:border-secondary transition-colors">
+                <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-secondary dark:text-indigo-500"></i> Mode Tampilan</span>
                 <span id="dark-mode-text" class="text-xs text-gray-500">Terang</span>
             </button>
             <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-3 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 rounded-2xl border border-rose-100 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-100 transition-colors">
@@ -233,7 +233,7 @@
         <header class="h-20 bg-white dark:bg-gray-800 shadow-sm flex items-center justify-between px-8 z-10 border-b border-gray-200 dark:border-gray-700 shrink-0">
             <h2 id="judul-halaman" class="text-2xl font-extrabold tracking-tight">Dashboard Kelas</h2>
             <div class="flex items-center space-x-2 bg-gray-50 dark:bg-gray-900 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700">
-                <i class="fa-regular fa-calendar text-primary"></i>
+                <i class="fa-regular fa-calendar text-secondary dark:text-primary"></i>
                 <span class="text-sm font-bold">T.A 2026/2027</span>
             </div>
         </header>
@@ -253,7 +253,7 @@
                 
                 <div id="grid-kelas" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-400">
-                        <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4 text-primary"></i>
+                        <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4 text-secondary dark:text-primary"></i>
                         <p class="font-medium">Memuat data kelas...</p>
                     </div>
                 </div>
@@ -263,39 +263,39 @@
             <section id="halaman-jurnal" class="hidden">
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
                     <div class="flex items-center gap-4">
-                        <button onclick="pindahHalaman('dashboard')" class="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
+                        <button onclick="pindahHalaman('dashboard')" class="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-secondary hover:text-white transition-all shadow-sm">
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
                         <div>
-                            <h3 class="text-2xl font-extrabold">Jurnal <span id="judul-kelas-aktif" class="text-primary">Kelas</span></h3>
+                            <h3 class="text-2xl font-extrabold">Jurnal <span id="judul-kelas-aktif" class="text-secondary dark:text-primary">Kelas</span></h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Catatan kegiatan mengajar & absensi terpadu harian</p>
                         </div>
                     </div>
                     <!-- Filter Tanggal Jurnal -->
                     <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <label for="filter-tanggal" class="text-xs font-bold text-gray-500"><i class="fa-regular fa-calendar-days mr-1"></i> Pilih Tanggal:</label>
-                        <input type="date" id="filter-tanggal" onchange="filterJurnalByTanggal()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-primary">
-                        <button onclick="resetFilterTanggal()" class="text-xs text-primary font-bold hover:underline ml-1">Semua</button>
+                        <input type="date" id="filter-tanggal" onchange="filterJurnalByTanggal()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-secondary">
+                        <button onclick="resetFilterTanggal()" class="text-xs text-secondary dark:text-primary font-bold hover:underline ml-1">Semua</button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Form Tambah Jurnal & Siswa Tidak Masuk -->
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 h-fit space-y-4">
-                        <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-pen-nib mr-2 text-primary"></i> Tulis Jurnal Hari Ini</h4>
+                        <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-pen-nib mr-2 text-secondary dark:text-primary"></i> Tulis Jurnal Hari Ini</h4>
                         <form id="form-jurnal" onsubmit="simpanJurnal(event)" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran</label>
                                 <div class="flex gap-2">
-                                    <select id="jurnal-mapel-select" onchange="cekMapelLain(this)" class="flex-1 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
+                                    <select id="jurnal-mapel-select" onchange="cekMapelLain(this)" class="flex-1 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-secondary focus:outline-none">
                                         <!-- Opsi mapel terisi otomatis dari profil guru -->
                                     </select>
                                 </div>
-                                <input type="text" id="jurnal-mapel-lain" placeholder="Ketik nama mata pelajaran..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none hidden">
+                                <input type="text" id="jurnal-mapel-lain" placeholder="Ketik nama mata pelajaran..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-secondary focus:outline-none hidden">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold uppercase mb-1">Materi Pembelajaran</label>
-                                <textarea id="jurnal-materi" required rows="3" placeholder="Tulis ringkasan materi..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none resize-none"></textarea>
+                                <textarea id="jurnal-materi" required rows="3" placeholder="Tulis ringkasan materi..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-secondary focus:outline-none resize-none"></textarea>
                             </div>
                             <div class="bg-rose-50 dark:bg-rose-950/30 p-4 rounded-2xl border border-rose-100 dark:border-rose-900/50">
                                 <label class="block text-xs font-bold text-rose-700 dark:text-rose-400 uppercase mb-2"><i class="fa-solid fa-user-slash mr-1"></i> Siswa Tidak Masuk Hari Ini</label>
@@ -307,7 +307,7 @@
                                     <i class="fa-solid fa-plus mr-1"></i> Tambah Keterangan Siswa
                                 </button>
                             </div>
-                            <button type="submit" class="w-full bg-primary hover:bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
+                            <button type="submit" class="w-full bg-secondary dark:bg-primary hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
                                 Simpan Jurnal & Absensi
                             </button>
                         </form>
@@ -316,8 +316,8 @@
                     <!-- Linimasa Jurnal -->
                     <div class="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700">
                         <div class="flex justify-between items-center mb-4">
-                            <h4 class="font-bold text-lg"><i class="fa-solid fa-clock-rotate-left mr-2 text-primary"></i> Riwayat Jurnal Kelas</h4>
-                            <span id="info-filter-status" class="text-xs bg-indigo-50 dark:bg-indigo-950 text-primary px-3 py-1 rounded-full font-bold">Menampilkan Semua Tanggal</span>
+                            <h4 class="font-bold text-lg"><i class="fa-solid fa-clock-rotate-left mr-2 text-secondary dark:text-primary"></i> Riwayat Jurnal Kelas</h4>
+                            <span id="info-filter-status" class="text-xs bg-emerald-50 dark:bg-indigo-950 text-secondary dark:text-primary px-3 py-1 rounded-full font-bold">Menampilkan Semua Tanggal</span>
                         </div>
                         <div id="container-linimasa" class="space-y-4">
                             <p class="text-sm text-gray-400 text-center py-10">Memuat data jurnal...</p>
@@ -333,7 +333,7 @@
                         <h3 class="text-2xl font-extrabold">Bank Soal Bersama</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400">Semua guru dapat melihat dan mengunduh soal, namun **hanya guru pembuat** yang berhak mengedit atau menghapus soal miliknya.</p>
                     </div>
-                    <button onclick="bukaModalSoal()" class="bg-primary hover:bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all flex items-center gap-2 text-sm">
+                    <button onclick="bukaModalSoal()" class="bg-secondary dark:bg-primary hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all flex items-center gap-2 text-sm">
                         <i class="fa-solid fa-plus"></i> Buat Soal Baru
                     </button>
                 </div>
@@ -347,7 +347,7 @@
             <section id="halaman-scan-soal" class="hidden">
                 <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="text-center">
-                        <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-primary">
+                        <div class="w-16 h-16 bg-emerald-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-secondary dark:text-primary">
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <h3 class="text-2xl font-extrabold mb-1">Koreksi Lembar Jawaban dengan AI</h3>
@@ -356,31 +356,31 @@
 
                     <!-- Input Kunci Jawaban -->
                     <div class="bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-4">
-                        <h4 class="font-bold text-sm text-primary uppercase"><i class="fa-solid fa-key mr-1.5"></i> 1. Tentukan Kunci Jawaban & Bobot</h4>
+                        <h4 class="font-bold text-sm text-secondary dark:text-primary uppercase"><i class="fa-solid fa-key mr-1.5"></i> 1. Tentukan Kunci Jawaban & Bobot</h4>
                         <div>
                             <label class="block text-xs font-bold mb-1">Kunci Pilihan Ganda (Format: Nomor.Jawaban, misal: 1.A, 2.C, 3.B)</label>
-                            <input type="text" id="kunci-pg" placeholder="1.A, 2.B, 3.C, 4.D, 5.A" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs focus:border-primary focus:outline-none">
+                            <input type="text" id="kunci-pg" placeholder="1.A, 2.B, 3.C, 4.D, 5.A" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs focus:border-secondary focus:outline-none">
                         </div>
                         <div>
                             <label class="block text-xs font-bold mb-1">Kunci Essay / Pertanyaan Terbuka & Standar Penilaian AI</label>
-                            <textarea id="kunci-essay" rows="3" placeholder="Contoh: Soal 1: Fotosintesis adalah proses tumbuhan membuat makanan dengan cahaya matahari, air, dan CO2. (Kunci: Menyebutkan cahaya matahari & karbon dioksida)." class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs focus:border-primary focus:outline-none resize-none"></textarea>
+                            <textarea id="kunci-essay" rows="3" placeholder="Contoh: Soal 1: Fotosintesis adalah proses tumbuhan membuat makanan dengan cahaya matahari, air, dan CO2. (Kunci: Menyebutkan cahaya matahari & karbon dioksida)." class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs focus:border-secondary focus:outline-none resize-none"></textarea>
                         </div>
                     </div>
 
                     <!-- Upload Jawaban Siswa -->
                     <div class="bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 text-center space-y-4">
-                        <h4 class="font-bold text-sm text-primary uppercase text-left"><i class="fa-solid fa-file-image mr-1.5"></i> 2. Unggah Foto / Lembar Jawaban Siswa</h4>
+                        <h4 class="font-bold text-sm text-secondary dark:text-primary uppercase text-left"><i class="fa-solid fa-file-image mr-1.5"></i> 2. Unggah Foto / Lembar Jawaban Siswa</h4>
                         <input type="file" id="input-scan-file" accept="image/*" class="hidden" onchange="prosesScanGambar(event)">
-                        <button onclick="document.getElementById('input-scan-file').click()" class="bg-secondary hover:bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg transition-all text-sm">
+                        <button onclick="document.getElementById('input-scan-file').click()" class="bg-secondary dark:bg-primary hover:bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg transition-all text-sm">
                             <i class="fa-solid fa-upload mr-2"></i> Pilih Foto Jawaban Siswa
                         </button>
                     </div>
                     
                     <!-- Hasil Analisis Koreksi AI -->
-                    <div id="hasil-scan-container" class="hidden bg-indigo-50/50 dark:bg-indigo-950/30 p-6 rounded-2xl border border-indigo-200 dark:border-indigo-900 space-y-3">
-                        <h4 class="font-bold text-lg text-primary flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil Analisis AI Gemini:</h4>
+                    <div id="hasil-scan-container" class="hidden bg-emerald-50/50 dark:bg-indigo-950/30 p-6 rounded-2xl border border-emerald-200 dark:border-indigo-900 space-y-3">
+                        <h4 class="font-bold text-lg text-secondary dark:text-primary flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil Analisis AI Gemini:</h4>
                         <div id="loading-scan" class="hidden py-6 text-center text-gray-500">
-                            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-primary mb-2"></i>
+                            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-secondary dark:text-primary mb-2"></i>
                             <p class="text-xs font-bold">AI sedang memeriksa jawaban pilihan ganda dan menganalisis esai siswa...</p>
                         </div>
                         <div id="hasil-scan-teks" class="text-sm font-sans whitespace-pre-wrap leading-relaxed"></div>
@@ -419,7 +419,7 @@
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
-                icon.className = "fa-solid fa-moon text-indigo-500";
+                icon.className = "fa-solid fa-moon text-secondary";
                 text.innerText = "Terang";
             } else {
                 html.classList.add('dark');
@@ -434,6 +434,11 @@
             document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('dark-mode-icon').className = "fa-solid fa-sun text-amber-400";
                 document.getElementById('dark-mode-text').innerText = "Gelap";
+            });
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('dark-mode-icon').className = "fa-solid fa-moon text-secondary";
+                document.getElementById('dark-mode-text').innerText = "Terang";
             });
         }
 
@@ -460,10 +465,10 @@
             document.getElementById('judul-halaman').innerText = titles[idTarget] || 'Portal Guru';
 
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-primary transition-all";
+                btn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-100/50 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-primary transition-all";
             });
             const activeBtn = document.getElementById('nav-' + idTarget);
-            if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-primary text-white font-bold shadow-md shadow-indigo-500/20 transition-all";
+            if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-secondary dark:bg-primary text-white font-bold shadow-md shadow-emerald-500/20 dark:shadow-indigo-500/20 transition-all";
         };
 
         async function inisialisasiApp() {
@@ -558,8 +563,8 @@
             if(!window.currentUser) return;
             document.getElementById('user-name-display').innerText = window.currentUser.nama;
             document.getElementById('user-mapel-display').innerText = window.currentUser.mapel;
-            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-indigo-500"></i> ${window.currentUser.email || '-'}`;
-            document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-emerald-500"></i> ${window.currentUser.telp || 'Belum diisi'}`;
+            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-secondary dark:text-indigo-500"></i> ${window.currentUser.email || '-'}`;
+            document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-emerald-600"></i> ${window.currentUser.telp || 'Belum diisi'}`;
             
             const avatar = document.getElementById('user-avatar');
             if(window.currentUser.photo) {
@@ -671,7 +676,7 @@
                 let data = [];
                 snapshot.forEach(doc => data.push({id: doc.id, ...doc.data()}));
                 container.innerHTML = '';
-                const themes = ['from-blue-500 to-indigo-600', 'from-emerald-400 to-teal-500', 'from-purple-500 to-pink-500'];
+                const themes = ['from-emerald-500 to-teal-600', 'from-blue-500 to-indigo-600', 'from-purple-500 to-pink-500'];
 
                 data.forEach((kls, i) => {
                     const card = document.createElement('div');
@@ -839,8 +844,8 @@
                     card.innerHTML = `
                         <div class="flex justify-between items-start">
                             <div>
-                                <span class="text-[10px] bg-indigo-50 dark:bg-indigo-950 text-primary font-bold px-2.5 py-0.5 rounded-full mb-1 inline-block">${j.tanggal}</span>
-                                <h5 class="font-extrabold text-base text-primary mt-1">${j.mapel}</h5>
+                                <span class="text-[10px] bg-emerald-50 dark:bg-indigo-950 text-secondary dark:text-primary font-bold px-2.5 py-0.5 rounded-full mb-1 inline-block">${j.tanggal}</span>
+                                <h5 class="font-extrabold text-base text-secondary dark:text-primary mt-1">${j.mapel}</h5>
                                 <p class="text-xs text-gray-500">Guru Pengajar: ${j.namaGuru}</p>
                             </div>
                         </div>
@@ -873,7 +878,7 @@
             renderLinimasa(semuaDataJurnalGlobal);
         };
 
-        // --- BANK SOAL & PARSER DOKUMEN (PRESERVING FORMAT) ---
+        // --- BANK SOAL & PARSER DOKUMEN (PRESERVING FORMAT & CLEAN LINE BREAKS) ---
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
@@ -919,13 +924,13 @@
                 ['dragenter', 'dragover'].forEach(eventName => {
                     dropZone.addEventListener(eventName, (e) => {
                         e.preventDefault();
-                        dropZone.classList.add('border-primary', 'bg-indigo-100/80');
+                        dropZone.classList.add('border-secondary', 'bg-emerald-100/80');
                     }, false);
                 });
                 ['dragleave', 'drop'].forEach(eventName => {
                     dropZone.addEventListener(eventName, (e) => {
                         e.preventDefault();
-                        dropZone.classList.remove('border-primary', 'bg-indigo-100/80');
+                        dropZone.classList.remove('border-secondary', 'bg-emerald-100/80');
                     }, false);
                 });
                 dropZone.addEventListener('drop', (e) => {
@@ -939,7 +944,7 @@
             }
         });
 
-        // Parser File PDF & Word (.docx) dengan menjaga tata letak baris rapi
+        // Parser File PDF & Word (.docx) dengan menjaga tata letak baris tetap rapi dan terstruktur seperti aslinya
         window.imporSoalDariFile = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -952,26 +957,42 @@
                     const arrayBuffer = await file.arrayBuffer();
                     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
                     let fullText = '';
+                    
                     for (let i = 1; i <= pdf.numPages; i++) {
                         const page = await pdf.getPage(i);
                         const textContent = await page.getTextContent();
                         
+                        // Urutkan item berdasarkan koordinat vertikal (Y) dan horizontal (X) agar rapi
+                        const items = textContent.items.map(item => ({
+                            str: item.str,
+                            x: item.transform[4],
+                            y: item.transform[5]
+                        })).sort((a, b) => {
+                            if (Math.abs(b.y - a.y) > 4) {
+                                return b.y - a.y; // Baris berbeda
+                            }
+                            return a.x - b.x; // Urut horizontal
+                        });
+
                         let lastY = null;
                         let pageText = '';
-                        textContent.items.forEach(item => {
-                            if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+                        items.forEach(item => {
+                            if (lastY !== null && Math.abs(item.y - lastY) > 5) {
                                 pageText += '\n';
+                            } else if (pageText && !pageText.endsWith(' ') && !item.str.startsWith(' ')) {
+                                pageText += ' ';
                             }
-                            pageText += item.str + ' ';
-                            lastY = item.transform[5];
+                            pageText += item.str;
+                            lastY = item.y;
                         });
                         fullText += pageText + '\n\n';
                     }
+
                     document.getElementById('input-isi-soal').value = fullText.trim();
                     if(!document.getElementById('input-judul-soal').value) {
                         document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
                     }
-                    tampilkanToast('success', 'Berhasil mengimpor soal dari PDF!');
+                    tampilkanToast('success', 'Berhasil mengimpor soal dari PDF dengan rapi!');
                 } else if (fileName.endsWith('.docx')) {
                     const arrayBuffer = await file.arrayBuffer();
                     const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
@@ -1048,18 +1069,18 @@
                     card.innerHTML = `
                         <div>
                             <div class="flex justify-between items-start mb-3">
-                                <span class="bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 text-xs font-bold px-3 py-1 rounded-full">${data.mapel}</span>
+                                <span class="bg-emerald-50 dark:bg-indigo-950/50 text-secondary dark:text-indigo-400 text-xs font-bold px-3 py-1 rounded-full">${data.mapel}</span>
                                 <span class="text-xs text-gray-400 font-medium">Oleh: ${data.pembuatNama}</span>
                             </div>
                             <h4 class="font-extrabold text-lg mb-2">${data.judul}</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4 font-mono whitespace-pre-wrap">${data.isi}</p>
                         </div>
                         <div class="flex gap-2 pt-4 border-t border-gray-100 dark:border-gray-700">
-                            <button onclick="downloadSoal('${btoa(unescape(encodeURIComponent(data.isi)))}', '${data.judul}')" class="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-200 py-2.5 rounded-xl font-bold text-xs transition-colors">
-                                <i class="fa-solid fa-download mr-1"></i> Unduh
+                            <button onclick="downloadSoalWord('${btoa(unescape(encodeURIComponent(data.isi)))}', '${data.judul}')" class="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-200 py-2.5 rounded-xl font-bold text-xs transition-colors">
+                                <i class="fa-solid fa-file-word mr-1 text-blue-500"></i> Unduh Word (.doc)
                             </button>
                             ${isOwner ? `
-                                <button onclick="bukaModalSoal('${id}', \`${data.judul}\`, '${data.mapel}', \`${data.isi}\`)" class="bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2.5 rounded-xl font-bold text-xs transition-colors" title="Edit Soal Anda">
+                                <button onclick="bukaModalSoal('${id}', \`${data.judul}\`, '${data.mapel}', \`${data.isi}\`)" class="bg-secondary/10 hover:bg-secondary/20 text-secondary dark:text-primary px-4 py-2.5 rounded-xl font-bold text-xs transition-colors" title="Edit Soal Anda">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
                                 <button onclick="hapusSoal('${id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-500 px-4 py-2.5 rounded-xl font-bold text-xs transition-colors" title="Hapus Soal Anda">
@@ -1073,16 +1094,27 @@
             });
         }
 
-        window.downloadSoal = function(base64Content, judul) {
+        window.downloadSoalWord = function(base64Content, judul) {
             const text = decodeURIComponent(escape(atob(base64Content)));
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            // Membuat dokumen Word (.doc) dengan format HTML agar layout baris dan paragraf tetap terjaga rapi saat dibuka di Microsoft Word
+            const htmlContent = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head><meta charset='utf-8'><title>${judul}</title></head>
+                <body style='font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.5;'>
+                    <h2 style='text-align: center; color: #4f46e5;'>${judul}</h2>
+                    <hr style='border: 1px solid #ddd; margin-bottom: 20px;'>
+                    <div style='white-space: pre-wrap;'>${text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+                </body>
+                </html>
+            `;
+            const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${judul}.txt`;
+            a.download = `${judul}.doc`;
             a.click();
             URL.revokeObjectURL(url);
-            tampilkanToast('success', 'Soal berhasil diunduh!');
+            tampilkanToast('success', 'File soal berhasil diunduh dalam format Word (.doc)!');
         };
 
         window.hapusSoal = async function(id) {
