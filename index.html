@@ -164,8 +164,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold uppercase mb-1">Isi Butir Soal (Teks)</label>
-                    <textarea id="input-isi-soal" rows="6" placeholder="Tuliskan butir soal atau hasil impor dokumen di sini..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none resize-none text-sm"></textarea>
+                    <label class="block text-xs font-bold uppercase mb-1">Isi Butir Soal</label>
+                    <textarea id="input-isi-soal" rows="8" placeholder="Tuliskan butir soal atau hasil impor dokumen di sini..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none text-sm font-mono whitespace-pre-wrap leading-relaxed"></textarea>
                 </div>
             </div>
             <div class="flex gap-3 justify-end mt-5">
@@ -345,21 +345,45 @@
 
             <!-- SCAN & KOREKSI SOAL SECTION -->
             <section id="halaman-scan-soal" class="hidden">
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 max-w-2xl mx-auto text-center">
-                    <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl text-primary">
-                        <i class="fa-solid fa-camera-retro"></i>
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-primary">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <h3 class="text-2xl font-extrabold mb-1">Koreksi Lembar Jawaban dengan AI</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">Masukkan Kunci Jawaban (Pilihan Ganda & Essay) lalu unggah foto lembar jawaban siswa untuk analisis otomatis.</p>
                     </div>
-                    <h3 class="text-2xl font-extrabold mb-2">Scan & Koreksi Jawaban Siswa</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Unggah foto lembar jawaban siswa atau kunci jawaban untuk mendeteksi nilai secara instan.</p>
+
+                    <!-- Input Kunci Jawaban -->
+                    <div class="bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-4">
+                        <h4 class="font-bold text-sm text-primary uppercase"><i class="fa-solid fa-key mr-1.5"></i> 1. Tentukan Kunci Jawaban & Bobot</h4>
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Kunci Pilihan Ganda (Format: Nomor.Jawaban, misal: 1.A, 2.C, 3.B)</label>
+                            <input type="text" id="kunci-pg" placeholder="1.A, 2.B, 3.C, 4.D, 5.A" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs focus:border-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Kunci Essay / Pertanyaan Terbuka & Standar Penilaian AI</label>
+                            <textarea id="kunci-essay" rows="3" placeholder="Contoh: Soal 1: Fotosintesis adalah proses tumbuhan membuat makanan dengan cahaya matahari, air, dan CO2. (Kunci: Menyebutkan cahaya matahari & karbon dioksida)." class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs focus:border-primary focus:outline-none resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Upload Jawaban Siswa -->
+                    <div class="bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 text-center space-y-4">
+                        <h4 class="font-bold text-sm text-primary uppercase text-left"><i class="fa-solid fa-file-image mr-1.5"></i> 2. Unggah Foto / Lembar Jawaban Siswa</h4>
+                        <input type="file" id="input-scan-file" accept="image/*" class="hidden" onchange="prosesScanGambar(event)">
+                        <button onclick="document.getElementById('input-scan-file').click()" class="bg-secondary hover:bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg transition-all text-sm">
+                            <i class="fa-solid fa-upload mr-2"></i> Pilih Foto Jawaban Siswa
+                        </button>
+                    </div>
                     
-                    <input type="file" id="input-scan-file" accept="image/*" class="hidden" onchange="prosesScanGambar(event)">
-                    <button onclick="document.getElementById('input-scan-file').click()" class="bg-secondary hover:bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg transition-all">
-                        <i class="fa-solid fa-upload mr-2"></i> Pilih Foto Lembar Jawaban
-                    </button>
-                    
-                    <div id="hasil-scan-container" class="mt-8 hidden text-left bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
-                        <h4 class="font-bold text-lg mb-2 text-primary">Hasil Analisis Koreksi:</h4>
-                        <p id="hasil-scan-teks" class="text-sm font-mono whitespace-pre-wrap"></p>
+                    <!-- Hasil Analisis Koreksi AI -->
+                    <div id="hasil-scan-container" class="hidden bg-indigo-50/50 dark:bg-indigo-950/30 p-6 rounded-2xl border border-indigo-200 dark:border-indigo-900 space-y-3">
+                        <h4 class="font-bold text-lg text-primary flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil Analisis AI Gemini:</h4>
+                        <div id="loading-scan" class="hidden py-6 text-center text-gray-500">
+                            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-primary mb-2"></i>
+                            <p class="text-xs font-bold">AI sedang memeriksa jawaban pilihan ganda dan menganalisis esai siswa...</p>
+                        </div>
+                        <div id="hasil-scan-teks" class="text-sm font-sans whitespace-pre-wrap leading-relaxed"></div>
                     </div>
                 </div>
             </section>
@@ -849,7 +873,7 @@
             renderLinimasa(semuaDataJurnalGlobal);
         };
 
-        // --- BANK SOAL & PARSER DOKUMEN & DRAG N DROP ---
+        // --- BANK SOAL & PARSER DOKUMEN (PRESERVING FORMAT) ---
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
@@ -889,7 +913,6 @@
 
         window.tutupModalSoal = () => document.getElementById('modal-bank-soal').classList.add('hidden');
 
-        // Setup Drag and Drop event listeners
         document.addEventListener('DOMContentLoaded', () => {
             const dropZone = document.getElementById('drop-zone');
             if(dropZone) {
@@ -916,7 +939,7 @@
             }
         });
 
-        // Parser File PDF & Word (.docx)
+        // Parser File PDF & Word (.docx) dengan menjaga tata letak baris rapi
         window.imporSoalDariFile = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -932,14 +955,23 @@
                     for (let i = 1; i <= pdf.numPages; i++) {
                         const page = await pdf.getPage(i);
                         const textContent = await page.getTextContent();
-                        const pageText = textContent.items.map(item => item.str).join(' ');
+                        
+                        let lastY = null;
+                        let pageText = '';
+                        textContent.items.forEach(item => {
+                            if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+                                pageText += '\n';
+                            }
+                            pageText += item.str + ' ';
+                            lastY = item.transform[5];
+                        });
                         fullText += pageText + '\n\n';
                     }
                     document.getElementById('input-isi-soal').value = fullText.trim();
                     if(!document.getElementById('input-judul-soal').value) {
                         document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
                     }
-                    tampilkanToast('success', 'Berhasil mengimpor teks dari PDF!');
+                    tampilkanToast('success', 'Berhasil mengimpor soal dari PDF!');
                 } else if (fileName.endsWith('.docx')) {
                     const arrayBuffer = await file.arrayBuffer();
                     const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
@@ -947,15 +979,15 @@
                     if(!document.getElementById('input-judul-soal').value) {
                         document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
                     }
-                    tampilkanToast('success', 'Berhasil mengimpor teks dari Word (.docx)!');
+                    tampilkanToast('success', 'Berhasil mengimpor soal dari Word (.docx)!');
                 } else if (fileName.endsWith('.txt') || fileName.endsWith('.doc')) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        document.getElementById('input-isi-soal').value = e.target.result;
+                        document.getElementById('input-isi-soal').value = e.target.result.trim();
                         if(!document.getElementById('input-judul-soal').value) {
                             document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
                         }
-                        tampilkanToast('success', 'Berhasil mengimpor teks dari dokumen!');
+                        tampilkanToast('success', 'Berhasil mengimpor teks dokumen!');
                     };
                     reader.readAsText(file);
                 } else {
@@ -1020,7 +1052,7 @@
                                 <span class="text-xs text-gray-400 font-medium">Oleh: ${data.pembuatNama}</span>
                             </div>
                             <h4 class="font-extrabold text-lg mb-2">${data.judul}</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">${data.isi}</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4 font-mono whitespace-pre-wrap">${data.isi}</p>
                         </div>
                         <div class="flex gap-2 pt-4 border-t border-gray-100 dark:border-gray-700">
                             <button onclick="downloadSoal('${btoa(unescape(encodeURIComponent(data.isi)))}', '${data.judul}')" class="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-200 py-2.5 rounded-xl font-bold text-xs transition-colors">
@@ -1064,17 +1096,77 @@
             }
         };
 
-        // --- SCAN & KOREKSI SOAL ---
-        window.prosesScanGambar = function(e) {
+        // --- SCAN & KOREKSI SOAL DENGAN GEMINI API ---
+        window.prosesScanGambar = async function(e) {
             const file = e.target.files[0];
             if(!file) return;
-            
-            tampilkanToast('success', 'Memindai lembar jawaban...');
+
+            const kunciPG = document.getElementById('kunci-pg').value.trim();
+            const kunciEssay = document.getElementById('kunci-essay').value.trim();
+
             const container = document.getElementById('hasil-scan-container');
+            const loading = document.getElementById('loading-scan');
             const teks = document.getElementById('hasil-scan-teks');
-            
+
             container.classList.remove('hidden');
-            teks.innerText = "Menganalisis pola jawaban siswa...\n[SIMULASI] Terdeteksi lembar jawaban.\nJumlah benar: 8 / 10\nJumlah salah: 2 / 10\nNilai Akhir: 80 (Baik)";
+            loading.classList.remove('hidden');
+            teks.innerText = '';
+
+            try {
+                const base64Data = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+
+                const systemPrompt = `Anda adalah asisten AI guru profesional untuk koreksi lembar jawaban siswa. 
+Kunci Pilihan Ganda: ${kunciPG || '(Tidak ada kunci PG)'}
+Kunci Essay: ${kunciEssay || '(Tidak ada kunci Essay)'}
+
+Tugas Anda:
+1. Analisis gambar lembar jawaban siswa.
+2. Cocokkan Pilihan Ganda siswa dengan Kunci PG dan tentukan skor benar/salah.
+3. Baca jawaban essay siswa, bandingkan dengan Kunci Essay, lalu berikan penilaian: "BENAR", "MENDEKATI", atau "SALAH" beserta penjelasan singkat dan konstruktif.
+4. Berikan Rekapitulasi Nilai Akhir (Skor total / 100).
+Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
+
+                const userPrompt = "Tolong koreksi lembar jawaban siswa pada gambar ini berdasarkan kunci jawaban yang diberikan.";
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{
+                        role: "user",
+                        parts: [
+                            { text: userPrompt },
+                            { inlineData: { mimeType: file.type || "image/jpeg", data: base64Data } }
+                        ]
+                    }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    teks.innerText = candidate.content.parts[0].text;
+                    tampilkanToast('success', 'Analisis koreksi AI selesai!');
+                } else {
+                    teks.innerText = "Gagal memproses analisis jawaban dengan AI. Coba lagi.";
+                }
+            } catch (err) {
+                console.error(err);
+                tampilkanToast('error', 'Terjadi kesalahan saat menghubungi layanan AI.');
+                teks.innerText = "Terjadi kesalahan sistem saat memindai gambar.";
+            } finally {
+                loading.classList.add('hidden');
+            }
         };
 
         inisialisasiApp();
