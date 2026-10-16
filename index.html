@@ -41,7 +41,7 @@
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>
             <h2 class="text-2xl font-extrabold mb-2">Masuk ke Portal</h2>
-            <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Gunakan akun Google Anda untuk akses lintas perangkat</p>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">Gunakan akun Google resmi sekolah Anda untuk akses terverifikasi</p>
             <button onclick="loginWithGoogle()" class="w-full bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-800 dark:text-white border-2 border-gray-200 dark:border-gray-600 font-bold py-3.5 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3">
                 <i class="fa-brands fa-google text-red-500 text-lg"></i> Masuk dengan Google
             </button>
@@ -75,7 +75,10 @@
                     <option value="Bahasa Inggris">Bahasa Inggris</option>
                     <option value="IPA">IPA</option>
                     <option value="IPS">IPS</option>
-                    <option value="Lainnya">Lainnya</option>
+                    <option value="PPKn">PPKn</option>
+                    <option value="PAI">PAI</option>
+                    <option value="PJOK">PJOK</option>
+                    <option value="Seni Budaya">Seni Budaya</option>
                 </select>
                 <textarea id="input-isi-soal" rows="6" placeholder="Tuliskan butir soal atau lampirkan teks lengkap di sini..." class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none resize-none"></textarea>
             </div>
@@ -166,7 +169,7 @@
 
             <!-- JURNAL SECTION -->
             <section id="halaman-jurnal" class="hidden">
-                <div class="flex items-center justify-between mb-6">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
                     <div class="flex items-center gap-4">
                         <button onclick="pindahHalaman('dashboard')" class="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
                             <i class="fa-solid fa-arrow-left"></i>
@@ -175,6 +178,12 @@
                             <h3 class="text-2xl font-extrabold">Jurnal <span id="judul-kelas-aktif" class="text-primary">Kelas</span></h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Catatan kegiatan mengajar & absensi harian</p>
                         </div>
+                    </div>
+                    <!-- Filter Tanggal Jurnal -->
+                    <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <label for="filter-tanggal" class="text-xs font-bold text-gray-500"><i class="fa-regular fa-calendar-days mr-1"></i> Pilih Tanggal:</label>
+                        <input type="date" id="filter-tanggal" onchange="filterJurnalByTanggal()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-primary">
+                        <button onclick="resetFilterTanggal()" class="text-xs text-primary font-bold hover:underline ml-1">Semua</button>
                     </div>
                 </div>
 
@@ -185,7 +194,21 @@
                         <form id="form-jurnal" onsubmit="simpanJurnal(event)" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran</label>
-                                <input type="text" id="jurnal-mapel" required placeholder="Contoh: Matematika" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none">
+                                <div class="flex gap-2">
+                                    <select id="jurnal-mapel-select" onchange="cekMapelLain(this)" class="flex-1 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none">
+                                        <option value="Matematika">Matematika</option>
+                                        <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                                        <option value="Bahasa Inggris">Bahasa Inggris</option>
+                                        <option value="IPA">IPA</option>
+                                        <option value="IPS">IPS</option>
+                                        <option value="PPKn">PPKn</option>
+                                        <option value="PAI">PAI</option>
+                                        <option value="PJOK">PJOK</option>
+                                        <option value="Seni Budaya">Seni Budaya</option>
+                                        <option value="Lainnya">Lainnya (Tulis Sendiri)</option>
+                                    </select>
+                                </div>
+                                <input type="text" id="jurnal-mapel-lain" placeholder="Ketik nama mata pelajaran..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-primary focus:outline-none hidden">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold uppercase mb-1">Materi Pembelajaran</label>
@@ -208,7 +231,10 @@
 
                     <!-- Linimasa Jurnal -->
                     <div class="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700">
-                        <h4 class="font-bold text-lg mb-4"><i class="fa-solid fa-clock-rotate-left mr-2 text-primary"></i> Riwayat Jurnal Kelas</h4>
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="font-bold text-lg"><i class="fa-solid fa-clock-rotate-left mr-2 text-primary"></i> Riwayat Jurnal Kelas</h4>
+                            <span id="info-filter-status" class="text-xs bg-indigo-50 dark:bg-indigo-950 text-primary px-3 py-1 rounded-full font-bold">Menampilkan Semua Tanggal</span>
+                        </div>
                         <div id="container-linimasa" class="space-y-4">
                             <p class="text-sm text-gray-400 text-center py-10">Memuat data jurnal...</p>
                         </div>
@@ -221,7 +247,7 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <div>
                         <h3 class="text-2xl font-extrabold">Bank Soal Bersama</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Guru lain dapat melihat dan mengunduh, namun hanya Anda yang dapat mengedit soal buatan sendiri.</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Semua guru dapat melihat dan mengunduh soal, namun **hanya guru pembuat** yang berhak mengedit atau menghapus soal miliknya.</p>
                     </div>
                     <button onclick="bukaModalSoal()" class="bg-primary hover:bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all flex items-center gap-2 text-sm">
                         <i class="fa-solid fa-plus"></i> Buat Soal Baru
@@ -275,6 +301,7 @@
         window.currentUser = null;
         window.activeClassId = null;
         let unsubscribeKelas = null, unsubscribeJurnal = null, unsubscribeSoal = null;
+        let semuaDataJurnalGlobal = []; // Menyimpan data cache jurnal untuk filter tanggal
 
         window.toggleDarkMode = function() {
             const html = document.documentElement;
@@ -362,7 +389,7 @@
         window.loginWithGoogle = async function() {
             try {
                 await signInWithPopup(auth, googleProvider);
-                tampilkanToast('success', 'Berhasil masuk dengan Google!');
+                tampilkanToast('success', 'Berhasil masuk dengan akun Google!');
             } catch (error) {
                 console.error(error);
                 tampilkanToast('error', 'Gagal masuk menggunakan Google.');
@@ -442,7 +469,19 @@
             });
         }
 
-        // --- MANAJEMEN ABSENSI & JURNAL ---
+        // --- MANAJEMEN MAPEL & ABSENSI & JURNAL ---
+        window.cekMapelLain = function(selectEl) {
+            const inputLain = document.getElementById('jurnal-mapel-lain');
+            if (selectEl.value === 'Lainnya') {
+                inputLain.classList.remove('hidden');
+                inputLain.required = true;
+            } else {
+                inputLain.classList.add('hidden');
+                inputLain.required = false;
+                inputLain.value = '';
+            }
+        };
+
         window.tambahBarisAbsen = function() {
             const container = document.getElementById('container-siswa-absen');
             const row = document.createElement('div');
@@ -463,7 +502,9 @@
             e.preventDefault();
             if(!window.activeClassId || !window.currentUser) return;
 
-            const mapel = document.getElementById('jurnal-mapel').value.trim();
+            const selectMapel = document.getElementById('jurnal-mapel-select').value;
+            const mapelLain = document.getElementById('jurnal-mapel-lain').value.trim();
+            const mapel = selectMapel === 'Lainnya' ? mapelLain : selectMapel;
             const materi = document.getElementById('jurnal-materi').value.trim();
             
             const listAbsen = [];
@@ -473,6 +514,12 @@
                 if(nama) listAbsen.push({ nama, status });
             });
 
+            const tglSekarang = new Date();
+            const yyyy = tglSekarang.getFullYear();
+            const mm = String(tglSekarang.getMonth() + 1).padStart(2, '0');
+            const dd = String(tglSekarang.getDate()).padStart(2, '0');
+            const tanggalFormatISO = `${yyyy}-${mm}-${dd}`;
+
             try {
                 await addDoc(collection(db, 'jurnals'), {
                     classId: window.activeClassId,
@@ -481,7 +528,8 @@
                     mapel,
                     materi,
                     siswaTidakMasuk: listAbsen,
-                    tanggal: new Date().toLocaleDateString('id-ID', {weekday: 'long', year:'numeric', month:'long', day:'numeric'}),
+                    tanggalISO: tanggalFormatISO,
+                    tanggal: tglSekarang.toLocaleDateString('id-ID', {weekday: 'long', year:'numeric', month:'long', day:'numeric'}),
                     createdAt: serverTimestamp()
                 });
                 document.getElementById('jurnal-materi').value = '';
@@ -495,54 +543,73 @@
         function memuatJurnal(classId) {
             if(unsubscribeJurnal) unsubscribeJurnal();
             unsubscribeJurnal = onSnapshot(query(collection(db, 'jurnals')), (snapshot) => {
-                const container = document.getElementById('container-linimasa');
-                let data = [];
+                semuaDataJurnalGlobal = [];
                 snapshot.forEach(doc => {
                     const item = doc.data();
-                    if(item.classId === classId) data.push({id: doc.id, ...item});
+                    if(item.classId === classId) semuaDataJurnalGlobal.push({id: doc.id, ...item});
                 });
-
-                if(data.length === 0) {
-                    container.innerHTML = `<p class="text-sm text-gray-400 text-center py-6">Belum ada catatan jurnal untuk kelas ini.</p>`;
-                    return;
-                }
-
-                container.innerHTML = '';
-                data.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-
-                data.forEach(j => {
-                    let absenHtml = '';
-                    if(j.siswaTidakMasuk && j.siswaTidakMasuk.length > 0) {
-                        absenHtml = `<div class="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 text-xs">
-                            <span class="font-bold text-rose-500">Siswa Tidak Masuk:</span>
-                            <div class="flex flex-wrap gap-1 mt-1">
-                                ${j.siswaTidakMasuk.map(s => `<span class="bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 px-2 py-0.5 rounded-md">${s.nama} (${s.status})</span>`).join('')}
-                            </div>
-                        </div>`;
-                    }
-
-                    const card = document.createElement('div');
-                    card.className = "bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-2";
-                    card.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h5 class="font-extrabold text-base text-primary">${j.mapel}</h5>
-                                <p class="text-xs text-gray-500">${j.namaGuru} • ${j.tanggal}</p>
-                            </div>
-                        </div>
-                        <p class="text-sm text-gray-700 dark:text-gray-300 mt-2 whitespace-pre-wrap">${j.materi}</p>
-                        ${absenHtml}
-                    `;
-                    container.appendChild(card);
-                });
+                renderLinimasa(semuaDataJurnalGlobal);
             });
         }
+
+        function renderLinimasa(dataJurnal) {
+            const container = document.getElementById('container-linimasa');
+            if(dataJurnal.length === 0) {
+                container.innerHTML = `<p class="text-sm text-gray-400 text-center py-6">Belum ada catatan jurnal yang ditemukan.</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            dataJurnal.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+            dataJurnal.forEach(j => {
+                let absenHtml = '';
+                if(j.siswaTidakMasuk && j.siswaTidakMasuk.length > 0) {
+                    absenHtml = `<div class="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 text-xs">
+                        <span class="font-bold text-rose-500">Siswa Tidak Masuk:</span>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                            ${j.siswaTidakMasuk.map(s => `<span class="bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 px-2 py-0.5 rounded-md">${s.nama} (${s.status})</span>`).join('')}
+                        </div>
+                    </div>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = "bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-2";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h5 class="font-extrabold text-base text-primary">${j.mapel}</h5>
+                            <p class="text-xs text-gray-500">${j.namaGuru} • ${j.tanggal}</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 mt-2 whitespace-pre-wrap">${j.materi}</p>
+                    ${absenHtml}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.filterJurnalByTanggal = function() {
+            const tanggalPilihan = document.getElementById('filter-tanggal').value;
+            const statusLabel = document.getElementById('info-filter-status');
+            if(!tanggalPilihan) return;
+
+            statusLabel.innerText = `Filter Tanggal: ${tanggalPilihan}`;
+            const filtered = semuaDataJurnalGlobal.filter(j => j.tanggalISO === tanggalPilihan);
+            renderLinimasa(filtered);
+        };
+
+        window.resetFilterTanggal = function() {
+            document.getElementById('filter-tanggal').value = '';
+            document.getElementById('info-filter-status').innerText = 'Menampilkan Semua Tanggal';
+            renderLinimasa(semuaDataJurnalGlobal);
+        };
 
         // --- BANK SOAL (Hanya pembuat yang bisa edit/hapus) ---
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
-            document.getElementById('input-mapel-soal').value = mapel || 'Bahasa Indonesia';
+            document.getElementById('input-mapel-soal').value = mapel || 'Matematika';
             document.getElementById('input-isi-soal').value = isi;
             document.getElementById('modal-soal-title').innerText = id ? 'Edit Soal' : 'Buat Soal Baru';
             document.getElementById('modal-bank-soal').classList.remove('hidden');
@@ -607,10 +674,10 @@
                                 <i class="fa-solid fa-download mr-1"></i> Unduh
                             </button>
                             ${isOwner ? `
-                                <button onclick="bukaModalSoal('${id}', \`${data.judul}\`, '${data.mapel}', \`${data.isi}\`)" class="bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2.5 rounded-xl font-bold text-xs transition-colors">
+                                <button onclick="bukaModalSoal('${id}', \`${data.judul}\`, '${data.mapel}', \`${data.isi}\`)" class="bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2.5 rounded-xl font-bold text-xs transition-colors" title="Edit Soal Anda">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
-                                <button onclick="hapusSoal('${id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-500 px-4 py-2.5 rounded-xl font-bold text-xs transition-colors">
+                                <button onclick="hapusSoal('${id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-500 px-4 py-2.5 rounded-xl font-bold text-xs transition-colors" title="Hapus Soal Anda">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             ` : ''}
