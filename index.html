@@ -1,42 +1,239 @@
-            } catch (err) {
-                console.error("Akses kamera ditolak:", err);
-                tampilkanToast('error', 'Gagal akses kamera. Pastikan izin kamera diaktifkan di browser.');
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portal Guru Terpadu</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tesseract.js untuk OCR -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" crossorigin="anonymous"></script>
+    
+    <!-- PDF.js untuk membaca file PDF sebelum diekstrak OCR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js" crossorigin="anonymous"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                        background: '#f3f4f6',
+                    }
+                }
             }
         }
-
-        window.ambilFotoLJK = function() {
-            // Simulasi proses jepretan
-            const video = document.getElementById('kamera-video');
-            video.style.opacity = '0.5';
-            setTimeout(() => video.style.opacity = '1', 200);
-            
-            const btn = document.getElementById('btn-capture-kamera');
-            const origin = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menilai...';
-            
-            // Mocking proses auto-grade LJK
-            setTimeout(() => {
-                btn.innerHTML = origin;
-                alert(`Simulasi Berhasil!
-Sistem LJK menangkap gambar.
-(Note: Modul Auto-grading Nilai asli memerlukan pengolahan server-side (Backend) untuk akurasi LJK sesungguhnya).`);
-                matikanKamera();
-            }, 1500);
-        }
-
-        function matikanKamera() {
-            if(streamKamera) {
-                streamKamera.getTracks().forEach(track => track.stop());
-                streamKamera = null;
-            }
-            document.getElementById('kamera-video').classList.add('hidden');
-            document.getElementById('kamera-overlay').classList.add('hidden');
-            document.getElementById('kamera-placeholder').classList.remove('hidden');
-            document.getElementById('btn-start-kamera').classList.remove('hidden');
-            document.getElementById('btn-capture-kamera').classList.add('hidden');
-        }
-
-        window.addEventListener('DOMContentLoaded', inisialisasiApp);
     </script>
-</body>
-</html>
+
+    <style>
+        @media print {
+            body { background: white; }
+            aside, header, #form-jurnal, .non-printable, #bottom-nav { display: none !important; }
+            main { margin: 0; padding: 0; overflow: visible !important; height: auto !important; }
+            .print-area { width: 100%; border: none; box-shadow: none; }
+            .print-title { display: block !important; text-align: center; margin-bottom: 20px; }
+            .print-title h2 { font-size: 24px; font-weight: bold; }
+            .print-title p { font-size: 18px; }
+            #container-linimasa { margin-top: 20px; }
+        }
+        .print-title { display: none; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 text-gray-800 font-sans flex flex-col md:flex-row h-screen overflow-hidden relative">
+
+    <!-- Ornamen Background -->
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+    <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+    <div class="absolute bottom-[-20%] left-[20%] w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+
+    <div id="toast-container" class="fixed top-5 right-5 md:bottom-5 md:top-auto md:right-5 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Modal Login -->
+    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[100] transition-opacity opacity-0" style="display: flex;">
+        <div class="bg-white/90 p-8 rounded-3xl shadow-2xl w-11/12 max-w-md transform scale-100 transition-transform glass text-center border border-white">
+            <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl text-white shadow-lg">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-gray-800 mb-2">Portal Guru</h2>
+            <p class="text-gray-500 text-sm mb-8">Masuk untuk mengakses ruang kelas dan jurnal harian Anda.</p>
+            <button onclick="loginGoogle()" class="w-full bg-white hover:bg-gray-50 text-gray-800 border-2 border-gray-200 font-bold py-3.5 px-4 rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-3">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-6 h-6">
+                Lanjutkan dengan Google
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Kelas -->
+    <div id="modal-tambah-kelas" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60] hidden">
+        <div class="bg-white p-6 rounded-3xl shadow-2xl w-11/12 max-w-sm glass">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Tambah Kelas Baru</h3>
+            <input type="text" id="input-nama-kelas" placeholder="Nama Kelas (ex: 7C)" class="w-full bg-white/80 border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-3 transition-colors">
+            <input type="text" id="input-wali-kelas" placeholder="Wali Kelas" class="w-full bg-white/80 border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-3 transition-colors">
+            <input type="number" id="input-jumlah-siswa" placeholder="Jumlah Siswa" class="w-full bg-white/80 border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-5 transition-colors">
+            <div class="flex gap-3 justify-end">
+                <button onclick="tutupModalKelas()" class="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-bold transition-colors">Batal</button>
+                <button onclick="simpanKelasKeDB()" class="px-5 py-2.5 bg-gradient-to-r from-primary to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl font-bold shadow-md transition-colors">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside id="bottom-nav" class="w-full md:w-64 glass shadow-[0_-4px_20px_rgba(0,0,0,0.05)] md:shadow-xl border-t md:border-r border-white/50 flex flex-row md:flex-col justify-between z-40 fixed md:relative bottom-0 order-2 md:order-1 h-16 md:h-full">
+        <div class="hidden md:block">
+            <div class="h-20 flex items-center justify-center border-b border-gray-200/50">
+                <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
+                    <i class="fa-solid fa-school text-primary mr-2"></i>Portal Guru
+                </h1>
+            </div>
+            <nav class="p-4 space-y-2 mt-4 flex-col hidden md:flex">
+                <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-gradient-to-r from-primary to-indigo-500 text-white font-bold shadow-lg shadow-indigo-200 transition-all">
+                    <i class="fa-solid fa-house w-5 text-center"></i><span>Dashboard</span>
+                </button>
+                <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 font-medium hover:bg-white hover:text-primary transition-all">
+                    <i class="fa-solid fa-book w-5 text-center"></i><span>Jurnal</span>
+                </button>
+                <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 font-medium hover:bg-white hover:text-primary transition-all">
+                    <i class="fa-solid fa-database w-5 text-center"></i><span>Bank Soal & OCR</span>
+                </button>
+                <button id="nav-koreksi" onclick="pindahHalaman('koreksi')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 font-medium hover:bg-white hover:text-primary transition-all">
+                    <i class="fa-solid fa-camera w-5 text-center"></i><span>Koreksi LJK</span>
+                </button>
+            </nav>
+        </div>
+
+        <nav class="flex md:hidden w-full justify-around items-center px-2 bg-white/90 backdrop-blur-lg h-full">
+            <button id="nav-mobile-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn-mobile flex flex-col items-center justify-center w-full h-full text-primary drop-shadow-md">
+                <i class="fa-solid fa-house text-xl mb-1"></i><span class="text-[10px] font-bold">Beranda</span>
+            </button>
+            <button id="nav-mobile-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn-mobile flex flex-col items-center justify-center w-full h-full text-gray-400">
+                <i class="fa-solid fa-book text-xl mb-1"></i><span class="text-[10px] font-bold">Jurnal</span>
+            </button>
+            <button id="nav-mobile-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn-mobile flex flex-col items-center justify-center w-full h-full text-gray-400">
+                <i class="fa-solid fa-database text-xl mb-1"></i><span class="text-[10px] font-bold">OCR</span>
+            </button>
+            <button id="nav-mobile-koreksi" onclick="pindahHalaman('koreksi')" class="nav-btn-mobile flex flex-col items-center justify-center w-full h-full text-gray-400">
+                <i class="fa-solid fa-camera text-xl mb-1"></i><span class="text-[10px] font-bold">Scan LJK</span>
+            </button>
+        </nav>
+        
+        <div class="hidden md:flex p-5 border-t border-gray-200/50 bg-white/50 items-center space-x-3 cursor-pointer hover:bg-white transition-colors m-2 rounded-2xl">
+            <img id="user-avatar" src="https://ui-avatars.com/api/?name=G&background=4f46e5&color=fff" class="w-10 h-10 rounded-full shadow-sm object-cover">
+            <div class="overflow-hidden flex-1">
+                <p id="user-name-display" class="text-sm font-bold text-gray-800 truncate">Belum Login</p>
+                <p id="user-mapel-display" class="text-xs text-primary font-medium truncate">Guru</p>
+            </div>
+            <button onclick="logout()" class="text-gray-400 hover:text-red-500 transition-colors" title="Keluar">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-[calc(100vh-4rem)] md:h-screen overflow-hidden order-1 md:order-2 relative z-10">
+        <header class="h-16 md:h-20 glass shadow-sm flex items-center justify-between px-4 md:px-8 z-10 border-b border-white/50 shrink-0">
+            <h2 id="judul-halaman" class="text-xl md:text-3xl font-extrabold text-gray-800 tracking-tight">Dashboard Kelas</h2>
+            <div class="flex items-center space-x-4 bg-white/80 px-3 md:px-4 py-1.5 md:py-2 rounded-xl shadow-sm border border-white/50">
+                <i class="fa-regular fa-calendar text-primary"></i>
+                <span id="tahun-ajaran" contenteditable="true" class="text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-primary transition-all cursor-text" onblur="simpanTahunAjaran()">2026/2027</span>
+                <button onclick="logout()" class="md:hidden ml-2 text-gray-400 hover:text-red-500 border-l border-gray-200 pl-3">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="p-4 md:p-10 flex-1 overflow-y-auto w-full pb-20 md:pb-10">
+            <!-- DASHBOARD -->
+            <section id="halaman-dashboard" class="halaman-aktif block">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                    <div class="glass px-5 py-3 rounded-2xl shadow-sm inline-flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                        <h3 class="text-gray-700 font-bold text-sm">Pilih ruang kelas:</h3>
+                    </div>
+                    <button onclick="bukaModalKelas()" class="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Tambah Kelas
+                    </button>
+                </div>
+                <div id="grid-kelas" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-500">
+                        <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4 text-primary"></i>
+                        <p class="font-medium">Memuat data kelas...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- JURNAL -->
+            <section id="halaman-jurnal" class="hidden">
+                <div class="print-title">
+                    <h2>Laporan Jurnal Mengajar</h2>
+                    <p id="print-nama-kelas">Kelas: -</p>
+                    <p id="print-tanggal" class="text-sm text-gray-500 mt-1"></p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 glass p-4 md:p-5 rounded-2xl shadow-sm gap-4 non-printable">
+                    <div class="flex items-center space-x-3 w-full sm:w-auto">
+                        <button onclick="pindahHalaman('dashboard')" class="bg-white/80 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-gray-700 hover:bg-primary hover:text-white hover:shadow-md transition-all shadow-sm">
+                            <i class="fa-solid fa-arrow-left text-lg"></i>
+                        </button>
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-extrabold text-gray-800 leading-tight">Kelas <span id="judul-kelas-aktif" class="text-primary"></span></h3>
+                            <p class="text-xs md:text-sm text-gray-500 font-medium">Jurnal Harian & Catatan</p>
+                        </div>
+                    </div>
+                    <button onclick="cetakJurnal()" class="w-full sm:w-auto bg-white/80 hover:bg-white text-primary font-bold px-5 py-2.5 rounded-xl transition-colors flex items-center justify-center shadow-sm border border-indigo-100">
+                        <i class="fa-solid fa-print mr-2"></i> Cetak
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div id="form-jurnal" class="lg:col-span-4 xl:col-span-4 glass p-5 md:p-6 rounded-3xl shadow-lg border border-white/60 h-fit sticky top-0">
+                        <div class="flex items-center justify-between mb-5 pb-4 border-b border-gray-200/50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center shadow-md">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </div>
+                                <h4 class="font-extrabold text-gray-800">Isi Jurnal Baru</h4>
+                            </div>
+                        </div>
+                        
+                        <form onsubmit="simpanJurnalKeDB(event)" class="space-y-4">
+                            <input type="hidden" id="jurnal-nama-guru">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5">Mata Pelajaran</label>
+                                <input type="text" id="jurnal-mapel" class="w-full bg-white/90 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-xl p-3 text-sm font-semibold text-gray-700 transition-all outline-none" placeholder="Cth: Matematika" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5">Materi / Kegiatan</label>
+                                <textarea id="jurnal-materi" required rows="3" class="w-full bg-white/90 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-xl p-3 text-sm transition-all outline-none resize-none" placeholder="Deskripsikan materi hari ini..."></textarea>
+                            </div>
+                            <div class="bg-orange-50/80 p-3 rounded-xl border border-orange-100 relative">
+                                <div class="absolute -top-2.5 right-3 bg-orange-100 text-orange-600 text-[10px] px-2 py-0.5 rounded-full font-bold border border-orange-200">Menyimpan Otomatis</div>
+                                <label class="block text-xs font-bold text-orange-800 uppercase tracking-wider mb-1.5"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Catatan Siswa (Sakit/Izin/Alfa)</label>
+                                <p class="text-[10px] text-orange-600 mb-2 font-medium leading-tight">Catatan ini akan diteruskan ke guru jam berikutnya pada hari yang sama agar tidak perlu mengetik ulang.</p>
+                                <textarea id="jurnal-catatan" rows="2" class="w-full bg-white border border-orange-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 rounded-lg p-2.5 text-sm transition-all outline-none resize-none" placeholder="Cth: Budi (Sakit), Andi (Izin)"></textarea>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" id="btn-simpan-jurnal" class="w-full bg-gradient-to-r from-primary to-indigo-600 hover:from-indigo-600 hover:to-primary text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-paper-plane"></i> Simpan Jurnal
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-8 xl:col-span-8 glass p-5 md:p-8 rounded-3xl shadow-lg border border-white/60 print-area min-h-[500px]">
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-20
