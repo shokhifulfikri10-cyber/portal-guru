@@ -23,16 +23,16 @@
     </script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- PDF.js for parsing PDF bank soal & nilai files -->
+    <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
-    <!-- Mammoth.js for parsing Word (.docx) files -->
+    <!-- Mammoth.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <!-- SheetJS (XLSX) for Excel import/export -->
+    <!-- SheetJS (XLSX) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- html2pdf for PDF export -->
+    <!-- html2pdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
@@ -293,7 +293,6 @@
                 </div>
             </section>
 
-            <!-- JURNAL SECTION -->
             <section id="halaman-jurnal" class="hidden">
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
                     <div class="flex items-center gap-4">
@@ -305,7 +304,6 @@
                             <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Catatan kegiatan mengajar & absensi terpadu harian</p>
                         </div>
                     </div>
-                    <!-- Filter Tanggal Jurnal -->
                     <div class="flex items-center gap-2 bg-white/80 dark:bg-gray-800 backdrop-blur px-4 py-2 rounded-xl border border-emerald-200 dark:border-gray-700 shadow-sm">
                         <label for="filter-tanggal" class="text-xs font-bold text-gray-500"><i class="fa-regular fa-calendar-days mr-1"></i> Pilih Tanggal:</label>
                         <input type="date" id="filter-tanggal" onchange="filterJurnalByTanggal()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-leaf">
@@ -314,7 +312,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Form Tambah Jurnal & Siswa Tidak Masuk -->
                     <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 h-fit space-y-4">
                         <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-pen-nib mr-2 text-leaf"></i> Tulis Jurnal Hari Ini</h4>
                         <form id="form-jurnal" onsubmit="simpanJurnal(event)" class="space-y-4">
@@ -322,7 +319,6 @@
                                 <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran</label>
                                 <div class="flex gap-2">
                                     <select id="jurnal-mapel-select" onchange="cekMapelLain(this)" class="flex-1 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-leaf focus:outline-none">
-                                        <!-- Opsi mapel terisi otomatis dari profil guru -->
                                     </select>
                                 </div>
                                 <input type="text" id="jurnal-mapel-lain" placeholder="Ketik nama mata pelajaran..." class="w-full mt-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:border-leaf focus:outline-none hidden">
@@ -333,9 +329,7 @@
                             </div>
                             <div class="bg-rose-50 dark:bg-rose-950/30 p-4 rounded-2xl border border-rose-100 dark:border-rose-900/50">
                                 <label class="block text-xs font-bold text-rose-700 dark:text-rose-400 uppercase mb-2"><i class="fa-solid fa-user-slash mr-1"></i> Siswa Tidak Masuk Hari Ini</label>
-                                <p class="text-[11px] text-gray-500 dark:text-gray-400 mb-2">Absensi ini akan tergabung secara terpadu dan terlihat oleh guru mapel manapun pada hari yang sama.</p>
                                 <div id="container-siswa-absen" class="space-y-2 mb-3">
-                                    <!-- Baris Absensi Dinamis -->
                                 </div>
                                 <button type="button" onclick="tambahBarisAbsen()" class="text-xs bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300 font-bold px-3 py-1.5 rounded-lg hover:bg-rose-200 transition-colors">
                                     <i class="fa-solid fa-plus mr-1"></i> Tambah Keterangan Siswa
@@ -347,7 +341,6 @@
                         </form>
                     </div>
 
-                    <!-- Linimasa Jurnal -->
                     <div class="lg:col-span-2 bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700">
                         <div class="flex justify-between items-center mb-4">
                             <h4 class="font-bold text-lg"><i class="fa-solid fa-clock-rotate-left mr-2 text-leaf"></i> Riwayat Jurnal Kelas</h4>
@@ -360,7 +353,6 @@
                 </div>
             </section>
 
-            <!-- INFO KELAS SECTION -->
             <section id="halaman-info-kelas" class="hidden space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700">
                     <div>
@@ -377,9 +369,7 @@
                     </div>
                 </div>
 
-                <!-- Grid Utama Info Kelas -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Siswa Berprestasi -->
                     <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 space-y-4">
                         <div class="flex justify-between items-center border-b pb-3 border-gray-100 dark:border-gray-700">
                             <h4 class="font-bold text-lg flex items-center gap-2 text-amber-500"><i class="fa-solid fa-award"></i> Siswa Berprestasi</h4>
@@ -392,7 +382,6 @@
                         </div>
                     </div>
 
-                    <!-- Siswa Belum Mengumpulkan Tugas -->
                     <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 space-y-4">
                         <div class="flex justify-between items-center border-b pb-3 border-gray-100 dark:border-gray-700">
                             <h4 class="font-bold text-lg flex items-center gap-2 text-rose-500"><i class="fa-solid fa-triangle-exclamation"></i> Belum Mengumpulkan Tugas</h4>
@@ -406,13 +395,10 @@
                     </div>
                 </div>
 
-                <!-- Kontainer Kategori Catatan Tambahan Dinamis -->
                 <div id="container-kategori-tambahan" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Kategori Tambahan Muncul di Sini -->
                 </div>
             </section>
 
-            <!-- BANK SOAL SECTION -->
             <section id="halaman-bank-soal" class="hidden">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <div>
@@ -425,11 +411,9 @@
                 </div>
 
                 <div id="grid-bank-soal" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Daftar Soal -->
                 </div>
             </section>
 
-            <!-- SCAN & KOREKSI SOAL SECTION -->
             <section id="halaman-scan-soal" class="hidden">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-8 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="text-center">
@@ -440,7 +424,6 @@
                         <p class="text-gray-500 dark:text-gray-400 text-sm">Masukkan Kunci Jawaban (Pilihan Ganda & Essay) lalu unggah foto lembar jawaban siswa untuk analisis otomatis.</p>
                     </div>
 
-                    <!-- Input Kunci Jawaban -->
                     <div class="bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-4">
                         <h4 class="font-bold text-sm text-leaf uppercase"><i class="fa-solid fa-key mr-1.5"></i> 1. Tentukan Kunci Jawaban & Bobot</h4>
                         <div>
@@ -453,7 +436,6 @@
                         </div>
                     </div>
 
-                    <!-- Upload Jawaban Siswa -->
                     <div class="bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 text-center space-y-4">
                         <h4 class="font-bold text-sm text-leaf uppercase text-left"><i class="fa-solid fa-file-image mr-1.5"></i> 2. Unggah Foto / Lembar Jawaban Siswa</h4>
                         <input type="file" id="input-scan-file" accept="image/*" class="hidden" onchange="prosesScanGambar(event)">
@@ -462,7 +444,6 @@
                         </button>
                     </div>
                     
-                    <!-- Hasil Analisis Koreksi AI -->
                     <div id="hasil-scan-container" class="hidden bg-emerald-50/50 dark:bg-emerald-950/30 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-900 space-y-3">
                         <h4 class="font-bold text-lg text-leaf flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil Analisis AI Gemini:</h4>
                         <div id="loading-scan" class="hidden py-6 text-center text-gray-500">
@@ -474,7 +455,6 @@
                 </div>
             </section>
 
-            <!-- REKAP NILAI SECTION -->
             <section id="halaman-rekap-nilai" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 space-y-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-4">
@@ -495,7 +475,6 @@
                         </div>
                     </div>
 
-                    <!-- Toolbar Filter & Upload Nilai & Input Manual -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-emerald-50/60 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-200/50 dark:border-gray-700">
                         <div>
                             <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Pilih Kelas</label>
@@ -506,7 +485,6 @@
                         <div>
                             <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Mata Pelajaran</label>
                             <select id="rekap-pilih-mapel" onchange="renderTabelRekapNilai()" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none">
-                                <!-- Terisi otomatis dari profil guru -->
                             </select>
                         </div>
                         <div>
@@ -523,14 +501,12 @@
                         </div>
                     </div>
 
-                    <!-- Area Tabel Rekap Nilai -->
                     <div id="container-tabel-rekap" class="overflow-x-auto">
                         <p class="text-xs text-gray-400 text-center py-12">Pilih kelas dan mata pelajaran, lalu unggah file nilai atau gunakan input manual.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- KELOMPOK OTOMATIS SECTION -->
             <section id="halaman-kelompok" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="text-center">
@@ -566,25 +542,23 @@
                 </div>
             </section>
 
-            <!-- PEMANTAU SISWA SECTION -->
             <section id="halaman-perkembangan" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                         <div>
                             <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf"><i class="fa-solid fa-chart-line"></i> Pemantau Perkembangan Siswa</h3>
-                            <p class="text-xs text-gray-500 mt-1">Analisis nilai, kehadiran, tugas, dan catatan guru untuk mendeteksi siswa yang membutuhkan perhatian khusus.</p>
+                            <p class="text-xs text-gray-500 mt-1">Analisis nilai, kehadiran, tugas, dan catatan guru secara real-time dari database untuk mendeteksi siswa yang membutuhkan perhatian khusus.</p>
                         </div>
                         <select id="perkembangan-pilih-kelas" onchange="renderPemantauSiswa()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none">
                             <option value="">Pilih Kelas...</option>
                         </select>
                     </div>
                     <div id="container-pemantau-siswa" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                        <p class="text-xs text-gray-400 text-center py-10 col-span-full">Pilih kelas terlebih dahulu.</p>
+                        <p class="text-xs text-gray-400 text-center py-10 col-span-full">Pilih kelas terlebih dahulu untuk memuat data siswa.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- GENERATOR AKTIVITAS SECTION -->
             <section id="halaman-aktivitas" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="text-center">
@@ -633,7 +607,6 @@
                 </div>
             </section>
 
-            <!-- AGENDA SECTION -->
             <section id="halaman-agenda" class="hidden space-y-6">
                 <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
                     <div class="flex justify-between items-center border-b pb-4">
@@ -809,7 +782,6 @@
                         </tr>
                     </thead>
                     <tbody id="tbody-input-manual">
-                        <!-- Baris Dinamis -->
                     </tbody>
                 </table>
             </div>
@@ -957,6 +929,9 @@
 
             if(idTarget === 'rekap-nilai') {
                 renderTabelRekapNilai();
+            }
+            if(idTarget === 'perkembangan') {
+                renderPemantauSiswa();
             }
         };
 
@@ -1233,7 +1208,7 @@
             });
         }
 
-        // --- MANAJEMEN MAPEL & ABSENSI & JURNAL TERPADU ---
+        // --- STREAMING_CHUNK:Jurnal & Attendance Management Logic... ---
         window.cekMapelLain = function(selectEl) {
             const inputLain = document.getElementById('jurnal-mapel-lain');
             if (selectEl.value === 'Lainnya') {
@@ -1406,7 +1381,7 @@
             renderLinimasa(semuaDataJurnalGlobal);
         };
 
-        // --- INFO KELAS ---
+        // --- STREAMING_CHUNK:Info Kelas & Dynamic Categories Management... ---
         window.bukaModalPrestasi = () => document.getElementById('modal-prestasi').classList.remove('hidden');
         window.bukaModalBelumTugas = () => document.getElementById('modal-belum-tugas').classList.remove('hidden');
         window.bukaModalKategoriBaru = () => document.getElementById('modal-kategori-baru').classList.remove('hidden');
@@ -1654,7 +1629,7 @@
             });
         }
 
-        // --- BANK SOAL & PARSER DOKUMEN ---
+        // --- STREAMING_CHUNK:Bank Soal & Document Parsing Logic... ---
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
@@ -1901,7 +1876,7 @@
             }
         };
 
-        // --- SCAN & KOREKSI SOAL DENGAN GEMINI API ---
+        // --- STREAMING_CHUNK:AI Grading (Scan & Koreksi Soal)... ---
         window.prosesScanGambar = async function(e) {
             const file = e.target.files[0];
             if(!file) return;
@@ -1974,7 +1949,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             }
         };
 
-        // --- REKAP & PENGHITUNGAN NILAI WORKFLOW LENGKAP & INPUT MANUAL TABEL ---
+        // --- STREAMING_CHUNK:Rekap & Penghitungan Nilai (Excel/PDF Import & Manual Table)... ---
         let bobotNilaiGlobal = { tugas: 20, uh: 30, uts: 20, uas: 30, kkm: 75 };
 
         window.bukaModalPengaturanBobot = function() {
@@ -2011,7 +1986,6 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             }
             const tbody = document.getElementById('tbody-input-manual');
             tbody.innerHTML = '';
-            // Berikan 5 baris kosong default agar bisa langsung diisi banyak
             for(let i=0; i<5; i++) {
                 tambahBarisInputManual();
             }
@@ -2090,7 +2064,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                     const arrayBuffer = await file.arrayBuffer();
                     const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
                     const sheetName = workbook.SheetNames[0];
-                    jsonRows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+                    jsonRows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: "" });
                 } else if (fileName.endsWith('.pdf')) {
                     const arrayBuffer = await file.arrayBuffer();
                     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -2109,29 +2083,49 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
 
                 let countAdded = 0;
                 for(const row of jsonRows) {
-                    // Cari properti nama secara fleksibel
-                    const nama = row['Nama Siswa'] || row['nama'] || row['Nama'] || row['NAMA'] || Object.values(row)[0];
+                    let nama = '';
+                    let tugas = 0, uh = 0, uts = 0, uas = 0;
+
+                    for(const [key, val] of Object.entries(row)) {
+                        const kLower = key.toLowerCase();
+                        if(kLower.includes('nama') || kLower.includes('siswa')) {
+                            nama = val;
+                        } else if(kLower.includes('tugas')) {
+                            tugas = parseFloat(val) || 0;
+                        } else if(kLower.includes('harian') || kLower.includes('uh') || kLower.includes('ulangan')) {
+                            uh = parseFloat(val) || 0;
+                        } else if(kLower.includes('uts')) {
+                            uts = parseFloat(val) || 0;
+                        } else if(kLower.includes('uas')) {
+                            uas = parseFloat(val) || 0;
+                        }
+                    }
+
+                    if(!nama && Object.values(row).length >= 2) {
+                        const vals = Object.values(row);
+                        nama = vals[0];
+                        tugas = parseFloat(vals[1]) || 0;
+                        uh = parseFloat(vals[2]) || 0;
+                        uts = parseFloat(vals[3]) || 0;
+                        uas = parseFloat(vals[4]) || 0;
+                    }
+
                     if(!nama || typeof nama !== 'string' || nama.length < 2) continue;
-
                     const cleanName = nama.trim();
-                    const tugas = parseFloat(row['Tugas'] || row['tugas'] || row['TUGAS'] || 0);
-                    const uh = parseFloat(row['Ulangan Harian'] || row['UH'] || row['uh'] || row['Ulangan'] || 0);
-                    const uts = parseFloat(row['UTS'] || row['uts'] || 0);
-                    const uas = parseFloat(row['UAS'] || row['uas'] || 0);
 
-                    if(!isNaN(tugas) && tugas > 0) {
+                    if(tugas > 0) {
                         await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: cleanName, kategori: 'Tugas', nilai: tugas, createdAt: serverTimestamp() });
                         countAdded++;
                     }
-                    if(!isNaN(uh) && uh > 0) {
+                    if(uh > 0) {
                         await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: cleanName, kategori: 'Ulangan Harian', nilai: uh, createdAt: serverTimestamp() });
                         countAdded++;
                     }
-                    if(!isNaN(uts) && uts > 0) {
+                    if(uts > 0) {
                         await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: cleanName, kategori: 'UTS', nilai: uts, createdAt: serverTimestamp() });
                         countAdded++;
                     }
-                    if(!isNaN(uas) && uas > 0) {
+                    if(uas > 0) {
                         await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: cleanName, kategori: 'UAS', nilai: uas, createdAt: serverTimestamp() });
                         countAdded++;
                     }
@@ -2269,7 +2263,7 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             tampilkanToast('success', 'File PDF berhasil diunduh!');
         };
 
-        // 2. Pembagian Kelompok Otomatis
+        // --- STREAMING_CHUNK:Automatic Grouping, Dynamic Student Progress Tracker & AI Tools... ---
         window.buatKelompokOtomatis = function() {
             const rawSiswa = document.getElementById('kelompok-daftar-siswa').value.trim();
             const jumlahPerKelompok = parseInt(document.getElementById('kelompok-jumlah').value) || 4;
@@ -2311,8 +2305,8 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             tampilkanToast('success', 'Kelompok berhasil diacak secara otomatis!');
         };
 
-        // 3. Pemantau Perkembangan Siswa
-        window.renderPemantauSiswa = function() {
+        // Pemantau Perkembangan Siswa Dinamis (Database-driven)
+        window.renderPemantauSiswa = async function() {
             const classId = document.getElementById('perkembangan-pilih-kelas').value;
             const container = document.getElementById('container-pemantau-siswa');
             if(!classId) {
@@ -2320,21 +2314,61 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 return;
             }
 
-            const dummySiswa = [
-                { nama: 'Ahmad Fauzi', nilaiRata: 85, kehadiran: '95%', statusTugas: 'Lengkap', catatan: 'Aktif di kelas.' },
-                { nama: 'Siti Rahma', nilaiRata: 58, kehadiran: '75%', statusTugas: 'Kurang 2 Tugas', catatan: 'Perlu perhatian khusus.' },
-                { nama: 'Budi Santoso', nilaiRata: 90, kehadiran: '100%', statusTugas: 'Lengkap', catatan: 'Sangat menonjol.' },
-                { nama: 'Dewi Lestari', nilaiRata: 62, kehadiran: '80%', statusTugas: 'Kurang 1 Tugas', catatan: 'Sering izin sakit.' }
-            ];
+            // Ambil data nilai siswa dari database
+            const nilaiSnap = await new Promise((resolve) => {
+                let unsub = onSnapshot(query(collection(db, 'nilaiSiswa')), (snap) => {
+                    unsub();
+                    resolve(snap);
+                });
+            });
+
+            // Ambil data belum tugas dari database
+            const tugasSnap = await new Promise((resolve) => {
+                let unsub = onSnapshot(query(collection(db, 'belumTugas')), (snap) => {
+                    unsub();
+                    resolve(snap);
+                });
+            });
+
+            const siswaMap = {};
+            nilaiSnap.forEach(d => {
+                const item = d.data();
+                if(item.classId === classId) {
+                    if(!siswaMap[item.namaSiswa]) {
+                        siswaMap[item.namaSiswa] = { totalNilai: 0, count: 0, tugasBelum: 0 };
+                    }
+                    siswaMap[item.namaSiswa].totalNilai += parseFloat(item.nilai) || 0;
+                    siswaMap[item.namaSiswa].count++;
+                }
+            });
+
+            tugasSnap.forEach(d => {
+                const item = d.data();
+                if(item.classId === classId) {
+                    if(!siswaMap[item.namaSiswa]) {
+                        siswaMap[item.namaSiswa] = { totalNilai: 0, count: 0, tugasBelum: 0 };
+                    }
+                    siswaMap[item.namaSiswa].tugasBelum++;
+                }
+            });
+
+            const listSiswa = Object.keys(siswaMap);
+            if(listSiswa.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-10 col-span-full">Belum ada data nilai atau catatan tugas tercatat untuk kelas ini.</p>`;
+                return;
+            }
 
             container.innerHTML = '';
-            dummySiswa.forEach(s => {
-                const perluPerhatian = s.nilaiRata < 65 || s.statusTugas.includes('Kurang');
+            listSiswa.forEach(nama => {
+                const data = siswaMap[nama];
+                const rata = data.count > 0 ? (data.totalNilai / data.count).toFixed(1) : 0;
+                const perluPerhatian = rata < 70 || data.tugasBelum > 0;
+
                 const card = document.createElement('div');
                 card.className = `p-5 rounded-3xl border shadow-sm space-y-3 ${perluPerhatian ? 'bg-rose-50/70 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900' : 'bg-white/90 dark:bg-gray-800 border-emerald-200/60 dark:border-gray-700'}`;
                 card.innerHTML = `
                     <div class="flex justify-between items-start">
-                        <h4 class="font-bold text-sm text-gray-900 dark:text-white">${s.nama}</h4>
+                        <h4 class="font-bold text-sm text-gray-900 dark:text-white">${nama}</h4>
                         <span class="text-[10px] font-bold px-2.5 py-1 rounded-full ${perluPerhatian ? 'bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-300' : 'bg-emerald-100 dark:bg-emerald-900 text-leaf'}">
                             ${perluPerhatian ? 'Perlu Perhatian' : 'Stabil'}
                         </span>
@@ -2342,21 +2376,19 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                     <div class="grid grid-cols-2 gap-2 text-xs">
                         <div class="bg-gray-50 dark:bg-gray-900 p-2 rounded-xl">
                             <span class="text-gray-400 block text-[10px]">Nilai Rata-Rata</span>
-                            <span class="font-extrabold text-sm ${s.nilaiRata < 65 ? 'text-rose-500' : 'text-leaf'}">${s.nilaiRata}</span>
+                            <span class="font-extrabold text-sm ${rata < 70 ? 'text-rose-500' : 'text-leaf'}">${rata}</span>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-900 p-2 rounded-xl">
-                            <span class="text-gray-400 block text-[10px]">Kehadiran</span>
-                            <span class="font-extrabold text-sm">${s.kehadiran}</span>
+                            <span class="text-gray-400 block text-[10px]">Tugas Belum Selesai</span>
+                            <span class="font-extrabold text-sm ${data.tugasBelum > 0 ? 'text-rose-500' : 'text-leaf'}">${data.tugasBelum} Tugas</span>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-600 dark:text-gray-300"><span class="font-bold">Tugas:</span> ${s.statusTugas}</p>
-                    <p class="text-xs text-gray-500 italic bg-white/50 dark:bg-gray-900/50 p-2 rounded-xl">"${s.catatan}"</p>
+                    <p class="text-xs text-gray-500 italic bg-white/50 dark:bg-gray-900/50 p-2 rounded-xl">"${perluPerhatian ? 'Perlu tindak lanjut nilai/tugas.' : 'Perkembangan belajar sangat baik.'}"</p>
                 `;
                 container.appendChild(card);
             });
         };
 
-        // 4. Generator Aktivitas Pembelajaran
         window.generateAktivitasAI = async function() {
             const materi = document.getElementById('aktivitas-materi').value.trim();
             const jenis = document.getElementById('aktivitas-jenis').value;
@@ -2406,7 +2438,6 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             }
         };
 
-        // 5. Pengingat Tugas & Agenda Kelas
         window.bukaModalAgenda = () => document.getElementById('modal-agenda').classList.remove('hidden');
 
         window.simpanAgenda = async function() {
