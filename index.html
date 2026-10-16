@@ -177,58 +177,83 @@
     </div>
 
     <!-- SIDEBAR (Leaf Green on Light Mode, Dark on Dark Mode) -->
-    <aside class="w-full md:w-72 bg-emerald-50 dark:bg-gray-800 shadow-xl border-r border-emerald-200 dark:border-gray-700 flex flex-col h-auto md:h-full z-40 transition-colors duration-300 shrink-0">
+    <aside class="w-full md:w-72 bg-emerald-600 dark:bg-gray-800 shadow-xl border-r border-emerald-700 dark:border-gray-700 flex flex-col h-auto md:h-full z-40 transition-colors duration-300 shrink-0 text-white dark:text-gray-100">
         <!-- PROFIL GURU DI ATAS TOOL (Besar & Elegan) -->
-        <div class="p-4 border-b border-emerald-200/80 dark:border-gray-700 bg-white/90 dark:bg-gray-800 shadow-sm">
+        <div class="p-4 border-b border-emerald-500/80 dark:border-gray-700 bg-emerald-700/90 dark:bg-gray-800 shadow-sm">
             <div class="flex items-start justify-between mb-3">
                 <div class="flex items-center space-x-3">
-                    <div id="user-avatar" class="w-14 h-14 rounded-2xl bg-leaf dark:bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0 overflow-hidden border-2 border-emerald-300 dark:border-indigo-900">?</div>
+                    <div id="user-avatar" class="w-14 h-14 rounded-2xl bg-emerald-800 dark:bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0 overflow-hidden border-2 border-emerald-400 dark:border-indigo-900">?</div>
                     <div class="overflow-hidden">
-                        <h3 id="user-name-display" class="text-sm font-extrabold truncate text-gray-900 dark:text-white">Belum Login</h3>
-                        <p id="user-mapel-display" class="text-xs text-leaf dark:text-primary font-bold truncate">-</p>
+                        <h3 id="user-name-display" class="text-sm font-extrabold truncate text-white dark:text-white">Belum Login</h3>
+                        <p id="user-mapel-display" class="text-xs text-emerald-200 dark:text-primary font-bold truncate">-</p>
                     </div>
                 </div>
-                <button onclick="bukaModalProfil()" class="text-gray-400 hover:text-leaf dark:hover:text-primary transition-colors p-1.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-700" title="Edit Profil">
+                <button onclick="bukaModalProfil()" class="text-emerald-200 hover:text-white dark:hover:text-primary transition-colors p-1.5 rounded-xl hover:bg-emerald-800 dark:hover:bg-gray-700 shadow-sm border border-emerald-500/50 dark:border-gray-700" title="Edit Profil">
                     <i class="fa-solid fa-pen text-xs"></i>
                 </button>
             </div>
-            <div class="space-y-1 text-[11px] text-gray-600 dark:text-gray-400 bg-emerald-100/50 dark:bg-gray-900/40 p-2.5 rounded-xl border border-emerald-200 dark:border-gray-700/50">
-                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-leaf dark:text-indigo-500"></i> -</p>
-                <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-emerald-700"></i> -</p>
+            <div class="space-y-1 text-[11px] text-emerald-100 dark:text-gray-400 bg-emerald-800/60 dark:bg-gray-900/40 p-2.5 rounded-xl border border-emerald-500/50 dark:border-gray-700/50">
+                <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-emerald-300 dark:text-indigo-500"></i> -</p>
+                <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-emerald-300"></i> -</p>
             </div>
         </div>
 
         <!-- NAVIGASI TOOLS -->
-        <nav class="hidden md:flex p-4 space-y-2 flex-1 overflow-y-auto flex-col">
-            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-500/20 dark:shadow-indigo-500/20 transition-all">
+        <nav class="hidden md:flex p-4 space-y-1.5 flex-1 overflow-y-auto flex-col">
+            <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl bg-emerald-800 dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs">
                 <i class="fa-solid fa-house w-5 text-center"></i>
                 <span>Dashboard Kelas</span>
             </button>
-            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all">
+            <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-book w-5 text-center"></i>
                 <span>Jurnal Bersama</span>
             </button>
-            <button id="nav-info-kelas" onclick="pindahHalaman('info-kelas')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all">
+            <button id="nav-info-kelas" onclick="pindahHalaman('info-kelas')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-circle-info w-5 text-center"></i>
                 <span>Info Kelas</span>
             </button>
-            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all">
+            <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-database w-5 text-center"></i>
                 <span>Bank Soal</span>
             </button>
-            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all">
+            <button id="nav-scan-soal" onclick="pindahHalaman('scan-soal')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
                 <i class="fa-solid fa-camera-retro w-5 text-center"></i>
                 <span>Scan & Koreksi Soal</span>
+            </button>
+            
+            <!-- 5 Fitur Baru -->
+            <div class="pt-2 border-t border-emerald-500/50 dark:border-gray-700 my-1">
+                <p class="text-[10px] font-bold text-emerald-200 dark:text-gray-400 uppercase tracking-wider px-2 mb-1">Asisten Guru</p>
+            </div>
+            <button id="nav-rekap-nilai" onclick="pindahHalaman('rekap-nilai')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                <span>Rekap & Hitung Nilai</span>
+            </button>
+            <button id="nav-kelompok" onclick="pindahHalaman('kelompok')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+                <i class="fa-solid fa-people-group w-5 text-center"></i>
+                <span>Kelompok Otomatis</span>
+            </button>
+            <button id="nav-perkembangan" onclick="pindahHalaman('perkembangan')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+                <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                <span>Pemantau Siswa</span>
+            </button>
+            <button id="nav-aktivitas" onclick="pindahHalaman('aktivitas')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+                <i class="fa-solid fa-lightbulb w-5 text-center"></i>
+                <span>Generator Aktivitas</span>
+            </button>
+            <button id="nav-agenda" onclick="pindahHalaman('agenda')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs">
+                <i class="fa-solid fa-calendar-check w-5 text-center"></i>
+                <span>Pengingat & Agenda</span>
             </button>
         </nav>
         
         <!-- Toggle Dark Mode & Logout di Bawah (Desktop) -->
-        <div class="hidden md:block p-4 border-t border-emerald-200 dark:border-gray-700 space-y-2 bg-white/50 dark:bg-gray-800">
-            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-3 bg-white dark:bg-gray-900 rounded-2xl border border-emerald-200 dark:border-gray-700 text-sm font-bold hover:border-leaf transition-colors">
-                <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-leaf dark:text-indigo-500"></i> Mode Tampilan</span>
-                <span id="dark-mode-text" class="text-xs text-gray-500">Terang</span>
+        <div class="hidden md:block p-4 border-t border-emerald-500/80 dark:border-gray-700 space-y-2 bg-emerald-700/60 dark:bg-gray-800">
+            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-3 bg-emerald-800 dark:bg-gray-900 rounded-2xl border border-emerald-500/50 dark:border-gray-700 text-xs font-bold hover:border-white transition-colors text-white dark:text-gray-200">
+                <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-emerald-300 dark:text-indigo-500"></i> Mode Tampilan</span>
+                <span id="dark-mode-text" class="text-[11px] text-emerald-200">Terang</span>
             </button>
-            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-3 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 rounded-2xl border border-rose-100 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-100 transition-colors">
+            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-3 bg-rose-900/60 dark:bg-rose-950/40 text-rose-100 dark:text-rose-400 rounded-2xl border border-rose-700/50 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-900 transition-colors">
                 <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
             </button>
         </div>
@@ -444,30 +469,195 @@
                     </div>
                 </div>
             </section>
+
+            <!-- 5 FITUR BARU SECTIONS -->
+            <!-- 1. Rekap & Penghitungan Nilai -->
+            <section id="halaman-rekap-nilai" class="hidden space-y-6">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                        <div>
+                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-chart-pie"></i> Rekap & Penghitungan Nilai Siswa</h3>
+                            <p class="text-xs text-gray-500 mt-1">Kelola nilai tugas, ulangan harian, dan ujian untuk menghitung rata-rata akhir secara otomatis.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <select id="rekap-pilih-kelas" onchange="renderTabelRekapNilai()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none">
+                                <option value="">Pilih Kelas...</option>
+                            </select>
+                            <button onclick="bukaModalInputNilai()" class="bg-leaf dark:bg-primary text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-700 transition-colors">
+                                <i class="fa-solid fa-plus mr-1"></i> Input Nilai Baru
+                            </button>
+                        </div>
+                    </div>
+                    <div id="container-tabel-rekap" class="overflow-x-auto">
+                        <p class="text-xs text-gray-400 text-center py-10">Pilih kelas terlebih dahulu untuk melihat rekap nilai.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Pembagian Kelompok Otomatis -->
+            <section id="halaman-kelompok" class="hidden space-y-6">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-emerald-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-leaf dark:text-primary">
+                            <i class="fa-solid fa-people-group"></i>
+                        </div>
+                        <h3 class="text-2xl font-extrabold mb-1">Generator Pembagian Kelompok Otomatis</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">Bagikan siswa ke dalam beberapa kelompok secara adil dan acak instan.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase mb-1">Pilih Kelas</label>
+                            <select id="kelompok-pilih-kelas" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                                <option value="">Pilih Kelas...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase mb-1">Jumlah Anggota per Kelompok / Total Kelompok</label>
+                            <input type="number" id="kelompok-jumlah" min="1" value="4" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase mb-1">Daftar Nama Siswa (Pisahkan dengan koma atau baris baru)</label>
+                        <textarea id="kelompok-daftar-siswa" rows="5" placeholder="Andi, Budi, Caca, Dedi, Eka, Fajar..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none font-mono"></textarea>
+                    </div>
+                    <button onclick="buatKelompokOtomatis()" class="w-full bg-leaf dark:bg-primary hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
+                        <i class="fa-solid fa-shuffle mr-2"></i> Acak & Buat Kelompok
+                    </button>
+                    <div id="hasil-kelompok-container" class="hidden space-y-4 pt-4 border-t">
+                        <h4 class="font-bold text-lg text-leaf dark:text-primary">Hasil Pembagian Kelompok:</h4>
+                        <div id="hasil-kelompok-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Pemantau Perkembangan Siswa -->
+            <section id="halaman-perkembangan" class="hidden space-y-6">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                        <div>
+                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-chart-line"></i> Pemantau Perkembangan Siswa</h3>
+                            <p class="text-xs text-gray-500 mt-1">Analisis nilai, kehadiran, tugas, dan catatan guru untuk mendeteksi siswa yang membutuhkan perhatian khusus.</p>
+                        </div>
+                        <select id="perkembangan-pilih-kelas" onchange="renderPemantauSiswa()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none">
+                            <option value="">Pilih Kelas...</option>
+                        </select>
+                    </div>
+                    <div id="container-pemantau-siswa" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        <p class="text-xs text-gray-400 text-center py-10 col-span-full">Pilih kelas terlebih dahulu.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Generator Aktivitas Pembelajaran -->
+            <section id="halaman-aktivitas" class="hidden space-y-6">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-emerald-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl text-leaf dark:text-primary">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3 class="text-2xl font-extrabold mb-1">Generator Aktivitas Pembelajaran AI</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">Dapatkan ide ice breaking, permainan edukatif, studi kasus, atau kuis interaktif anti-monoton.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase mb-1">Mata Pelajaran & Topik / Materi Pembelajaran</label>
+                            <input type="text" id="aktivitas-materi" placeholder="Contoh: Fisika - Hukum Newton / Bahasa Indonesia - Puisi" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase mb-1">Jenis Aktivitas</label>
+                                <select id="aktivitas-jenis" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                                    <option value="Ice Breaking & Pembuka">Ice Breaking / Pembuka Pelajaran</option>
+                                    <option value="Permainan Edukatif">Permainan Edukatif (Gamifikasi)</option>
+                                    <option value="Diskusi Kelompok & Studi Kasus">Diskusi Kelompok & Studi Kasus</option>
+                                    <option value="Kuis Singkat Interaktif">Kuis Singkat Interaktif</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase mb-1">Jenjang / Usia Siswa</label>
+                                <select id="aktivitas-jenjang" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                                    <option value="SMP Kelas 7-9">SMP (Kelas 7 - 9)</option>
+                                    <option value="SMA Kelas 10-12">SMA / SMK (Kelas 10 - 12)</option>
+                                    <option value="SD Kelas 4-6">SD (Kelas 4 - 6)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="generateAktivitasAI()" class="w-full bg-leaf dark:bg-primary hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Buat Ide Aktivitas dengan AI
+                    </button>
+                    <div id="loading-aktivitas" class="hidden py-6 text-center text-gray-500">
+                        <i class="fa-solid fa-circle-notch fa-spin text-3xl text-leaf dark:text-primary mb-2"></i>
+                        <p class="text-xs font-bold">AI sedang merancang aktivitas pembelajaran kreatif...</p>
+                    </div>
+                    <div id="hasil-aktivitas-container" class="hidden bg-emerald-50/50 dark:bg-indigo-950/30 p-6 rounded-2xl border border-emerald-200 dark:border-indigo-900 space-y-3">
+                        <h4 class="font-bold text-lg text-leaf dark:text-primary flex items-center gap-2"><i class="fa-solid fa-star"></i> Ide Aktivitas Pembelajaran:</h4>
+                        <div id="hasil-aktivitas-teks" class="text-sm font-sans whitespace-pre-wrap leading-relaxed"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Pengingat Tugas & Agenda Kelas -->
+            <section id="halaman-agenda" class="hidden space-y-6">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 max-w-3xl mx-auto space-y-6">
+                    <div class="flex justify-between items-center border-b pb-4">
+                        <div>
+                            <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-calendar-check"></i> Pengingat Tugas & Agenda Kelas</h3>
+                            <p class="text-xs text-gray-500 mt-1">Atur jadwal ujian, tenggat pengumpulan tugas, dan agenda mengajar penting.</p>
+                        </div>
+                        <button onclick="bukaModalAgenda()" class="bg-leaf dark:bg-primary text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-700 transition-colors">
+                            <i class="fa-solid fa-plus mr-1"></i> Tambah Agenda
+                        </button>
+                    </div>
+                    <div id="container-daftar-agenda" class="space-y-3">
+                        <p class="text-xs text-gray-400 text-center py-10">Belum ada agenda atau pengingat tugas tercatat.</p>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
     <!-- MOBILE BOTTOM NAVIGATION BAR -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50 flex justify-around items-center h-16 px-2 shadow-2xl">
-        <button onclick="pindahHalaman('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">Kelas</span>
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50 flex justify-around items-center h-16 px-1 shadow-2xl overflow-x-auto">
+        <button onclick="pindahHalaman('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary min-w-[55px]">
+            <i class="fa-solid fa-house text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Kelas</span>
         </button>
-        <button onclick="pindahHalaman('jurnal')" id="mob-nav-jurnal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf">
-            <i class="fa-solid fa-book text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">Jurnal</span>
+        <button onclick="pindahHalaman('jurnal')" id="mob-nav-jurnal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]">
+            <i class="fa-solid fa-book text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Jurnal</span>
         </button>
-        <button onclick="pindahHalaman('info-kelas')" id="mob-nav-info-kelas" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf">
-            <i class="fa-solid fa-circle-info text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">Info</span>
+        <button onclick="pindahHalaman('info-kelas')" id="mob-nav-info-kelas" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]">
+            <i class="fa-solid fa-circle-info text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Info</span>
         </button>
-        <button onclick="pindahHalaman('bank-soal')" id="mob-nav-bank-soal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf">
-            <i class="fa-solid fa-database text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">Soal</span>
+        <button onclick="pindahHalaman('bank-soal')" id="mob-nav-bank-soal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]">
+            <i class="fa-solid fa-database text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Soal</span>
         </button>
-        <button onclick="pindahHalaman('scan-soal')" id="mob-nav-scan-soal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf">
-            <i class="fa-solid fa-camera-retro text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">Koreksi</span>
+        <button onclick="pindahHalaman('scan-soal')" id="mob-nav-scan-soal" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]">
+            <i class="fa-solid fa-camera-retro text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Koreksi</span>
+        </button>
+        <button onclick="pindahHalaman('rekap-nilai')" id="mob-nav-rekap-nilai" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Rekap Nilai">
+            <i class="fa-solid fa-chart-pie text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Nilai</span>
+        </button>
+        <button onclick="pindahHalaman('kelompok')" id="mob-nav-kelompok" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Kelompok">
+            <i class="fa-solid fa-people-group text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Kelompok</span>
+        </button>
+        <button onclick="pindahHalaman('perkembangan')" id="mob-nav-perkembangan" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Pemantau">
+            <i class="fa-solid fa-chart-line text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Pantau</span>
+        </button>
+        <button onclick="pindahHalaman('aktivitas')" id="mob-nav-aktivitas" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Aktivitas">
+            <i class="fa-solid fa-lightbulb text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Aktivitas</span>
+        </button>
+        <button onclick="pindahHalaman('agenda')" id="mob-nav-agenda" class="flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]" title="Agenda">
+            <i class="fa-solid fa-calendar-check text-base"></i>
+            <span class="text-[9px] font-bold mt-1">Agenda</span>
         </button>
     </div>
 
@@ -526,6 +716,38 @@
         </div>
     </div>
 
+    <!-- Modal Input Nilai Baru -->
+    <div id="modal-input-nilai" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
+            <h3 class="text-xl font-bold mb-4 text-leaf">Input Nilai Siswa</h3>
+            <div class="space-y-3">
+                <input type="text" id="nilai-nama-siswa" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                <input type="text" id="nilai-kategori" placeholder="Kategori (ex: Tugas 1 / Ulangan Harian)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                <input type="number" id="nilai-angka" placeholder="Nilai (0-100)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+            </div>
+            <div class="flex gap-3 justify-end mt-4">
+                <button onclick="document.getElementById('modal-input-nilai').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="simpanNilaiSiswa()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Nilai</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Agenda -->
+    <div id="modal-agenda" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
+            <h3 class="text-xl font-bold mb-4 text-leaf">Tambah Agenda & Pengingat</h3>
+            <div class="space-y-3">
+                <input type="text" id="agenda-judul" placeholder="Judul Agenda / Ujian / Tugas" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                <input type="date" id="agenda-tanggal" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                <textarea id="agenda-ket" rows="3" placeholder="Keterangan tambahan..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none resize-none"></textarea>
+            </div>
+            <div class="flex gap-3 justify-end mt-4">
+                <button onclick="document.getElementById('modal-agenda').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="simpanAgenda()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Agenda</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -545,9 +767,10 @@
         window.currentUser = null;
         window.activeClassId = null;
         window.activeClassName = '';
-        let unsubscribeKelas = null, unsubscribeJurnal = null, unsubscribeSoal = null, unsubscribeInfoKelas = null;
+        let unsubscribeKelas = null, unsubscribeJurnal = null, unsubscribeSoal = null, unsubscribeInfoKelas = null, unsubscribeNilai = null, unsubscribeAgenda = null;
         let semuaDataJurnalGlobal = []; 
         let googleUserTemp = null;
+        let listKelasCache = [];
 
         window.toggleDarkMode = function() {
             const html = document.documentElement;
@@ -556,7 +779,7 @@
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
-                icon.className = "fa-solid fa-moon text-leaf";
+                icon.className = "fa-solid fa-moon text-emerald-300";
                 text.innerText = "Terang";
             } else {
                 html.classList.add('dark');
@@ -574,7 +797,7 @@
             });
         } else {
             document.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('dark-mode-icon').className = "fa-solid fa-moon text-leaf";
+                document.getElementById('dark-mode-icon').className = "fa-solid fa-moon text-emerald-300";
                 document.getElementById('dark-mode-text').innerText = "Terang";
             });
         }
@@ -590,30 +813,43 @@
         };
 
         window.pindahHalaman = function(idTarget) {
-            if ((idTarget === 'jurnal' || idTarget === 'info-kelas') && !window.activeClassId) {
+            if ((['jurnal', 'info-kelas', 'rekap-nilai', 'perkembangan'].includes(idTarget)) && !window.activeClassId) {
                 tampilkanToast('error', 'Pilih kelas di Dashboard terlebih dahulu!');
                 idTarget = 'dashboard';
             }
             document.querySelectorAll('main section').forEach(el => { el.classList.add('hidden'); el.classList.remove('block'); });
             document.getElementById('halaman-' + idTarget).classList.remove('hidden');
+            document.getElementById('halaman-' + idTarget).classList.block ? document.getElementById('halaman-' + idTarget).classList.remove('hidden') : '';
             document.getElementById('halaman-' + idTarget).classList.add('block');
             
-            const titles = { 'dashboard': 'Dashboard Kelas', 'jurnal': 'Jurnal Mengajar', 'info-kelas': 'Informasi Kelas', 'bank-soal': 'Bank Soal Bersama', 'scan-soal': 'Scan & Koreksi Soal' };
+            const titles = { 
+                'dashboard': 'Dashboard Kelas', 
+                'jurnal': 'Jurnal Mengajar', 
+                'info-kelas': 'Informasi Kelas', 
+                'bank-soal': 'Bank Soal Bersama', 
+                'scan-soal': 'Scan & Koreksi Soal',
+                'rekap-nilai': 'Rekap & Penghitungan Nilai',
+                'kelompok': 'Generator Kelompok Otomatis',
+                'perkembangan': 'Pemantau Perkembangan Siswa',
+                'aktivitas': 'Generator Aktivitas Pembelajaran',
+                'agenda': 'Pengingat & Agenda Kelas'
+            };
             document.getElementById('judul-halaman').innerText = titles[idTarget] || 'Portal Guru';
 
             document.querySelectorAll('aside .nav-btn').forEach(btn => {
-                btn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all";
+                btn.className = "nav-btn w-full flex items-center space-x-3 p-3 rounded-xl text-emerald-100 dark:text-gray-300 font-medium hover:bg-emerald-700/50 dark:hover:bg-gray-700 hover:text-white dark:hover:text-primary transition-all text-xs";
             });
             const activeBtn = document.getElementById('nav-' + idTarget);
-            if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-500/20 dark:shadow-indigo-500/20 transition-all";
+            if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 p-3 rounded-xl bg-emerald-800 dark:bg-primary text-white font-bold shadow-md shadow-emerald-900/20 dark:shadow-indigo-500/20 transition-all text-xs";
 
-            ['dashboard', 'jurnal', 'info-kelas', 'bank-soal', 'scan-soal'].forEach(tab => {
+            const allTabs = ['dashboard', 'jurnal', 'info-kelas', 'bank-soal', 'scan-soal', 'rekap-nilai', 'kelompok', 'perkembangan', 'aktivitas', 'agenda'];
+            allTabs.forEach(tab => {
                 const mobBtn = document.getElementById('mob-nav-' + tab);
                 if(mobBtn) {
-                    if(tab === idTarget || (tab === 'dashboard' && idTarget === 'dashboard')) {
-                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold";
+                    if(tab === idTarget) {
+                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-leaf dark:text-primary font-bold min-w-[55px]";
                     } else {
-                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf";
+                        mobBtn.className = "flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf min-w-[55px]";
                     }
                 }
             });
@@ -638,6 +874,7 @@
                             document.getElementById('login-modal').style.display = 'none';
                             memuatDaftarKelas();
                             memuatBankSoal();
+                            memuatAgenda();
                         } else {
                             googleUserTemp = user;
                             document.getElementById('login-step-1').classList.add('hidden');
@@ -701,6 +938,7 @@
                 tampilkanToast('success', 'Profil berhasil disimpan! Selamat datang.');
                 memuatDaftarKelas();
                 memuatBankSoal();
+                memuatAgenda();
             } catch(e) {
                 console.error(e);
                 tampilkanToast('error', 'Gagal menyimpan profil.');
@@ -711,8 +949,8 @@
             if(!window.currentUser) return;
             document.getElementById('user-name-display').innerText = window.currentUser.nama;
             document.getElementById('user-mapel-display').innerText = window.currentUser.mapel;
-            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-leaf dark:text-indigo-500"></i> ${window.currentUser.email || '-'}`;
-            document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-emerald-700"></i> ${window.currentUser.telp || 'Belum diisi'}`;
+            document.getElementById('user-email-display').innerHTML = `<i class="fa-regular fa-envelope text-emerald-300 dark:text-indigo-500"></i> ${window.currentUser.email || '-'}`;
+            document.getElementById('user-telp-display').innerHTML = `<i class="fa-solid fa-phone text-emerald-300"></i> ${window.currentUser.telp || 'Belum diisi'}`;
             
             const avatar = document.getElementById('user-avatar');
             if(window.currentUser.photo) {
@@ -817,16 +1055,30 @@
             if(unsubscribeKelas) unsubscribeKelas();
             unsubscribeKelas = onSnapshot(query(collection(db, 'classes')), (snapshot) => {
                 const container = document.getElementById('grid-kelas');
+                const selectRekap = document.getElementById('rekap-pilih-kelas');
+                const selectKelompok = document.getElementById('kelompok-pilih-kelas');
+                const selectPemantau = document.getElementById('perkembangan-pilih-kelas');
+
+                if(selectRekap) selectRekap.innerHTML = '<option value="">Pilih Kelas...</option>';
+                if(selectKelompok) selectKelompok.innerHTML = '<option value="">Pilih Kelas...</option>';
+                if(selectPemantau) selectPemantau.innerHTML = '<option value="">Pilih Kelas...</option>';
+
                 if(snapshot.empty) {
                     container.innerHTML = `<div class="col-span-full py-16 text-center text-gray-400 bg-white dark:bg-gray-800 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700"><p class="font-bold">Belum ada kelas</p></div>`;
+                    listKelasCache = [];
                     return;
                 }
                 let data = [];
                 snapshot.forEach(doc => data.push({id: doc.id, ...doc.data()}));
+                listKelasCache = data;
                 container.innerHTML = '';
                 const themes = ['from-emerald-500 to-teal-600', 'from-blue-500 to-indigo-600', 'from-purple-500 to-pink-500'];
 
                 data.forEach((kls, i) => {
+                    if(selectRekap) selectRekap.innerHTML += `<option value="${kls.id}">${kls.namaKelas}</option>`;
+                    if(selectKelompok) selectKelompok.innerHTML += `<option value="${kls.id}">${kls.namaKelas}</option>`;
+                    if(selectPemantau) selectPemantau.innerHTML += `<option value="${kls.id}">${kls.namaKelas}</option>`;
+
                     const card = document.createElement('div');
                     card.className = `group cursor-pointer bg-gradient-to-br ${themes[i % themes.length]} rounded-3xl p-6 shadow-lg text-white hover:scale-[1.02] transition-all relative`;
                     card.innerHTML = `
@@ -1029,7 +1281,7 @@
             renderLinimasa(semuaDataJurnalGlobal);
         };
 
-        // --- INFO KELAS (PRESTASI, BELUM KUMPUL TUGAS DENGAN DETAIL, & KATEGORI KUSTOM) ---
+        // --- INFO KELAS ---
         window.bukaModalPrestasi = () => document.getElementById('modal-prestasi').classList.remove('hidden');
         window.bukaModalBelumTugas = () => document.getElementById('modal-belum-tugas').classList.remove('hidden');
         window.bukaModalKategoriBaru = () => document.getElementById('modal-kategori-baru').classList.remove('hidden');
@@ -1594,6 +1846,304 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
                 teks.innerText = "Terjadi kesalahan sistem saat memindai gambar.";
             } finally {
                 loading.classList.add('hidden');
+            }
+        };
+
+        // --- 5 FITUR BARU LOGIC ---
+        // 1. Rekap & Hitung Nilai
+        window.bukaModalInputNilai = function() {
+            if(!window.activeClassId) return tampilkanToast('error', 'Pilih kelas di Dashboard terlebih dahulu!');
+            document.getElementById('modal-input-nilai').classList.remove('hidden');
+        };
+
+        window.simpanNilaiSiswa = async function() {
+            const nama = document.getElementById('nilai-nama-siswa').value.trim();
+            const kategori = document.getElementById('nilai-kategori').value.trim();
+            const angka = parseFloat(document.getElementById('nilai-angka').value);
+
+            if(!nama || !kategori || isNaN(angka)) return tampilkanToast('error', 'Semua kolom wajib diisi dengan benar!');
+
+            try {
+                await addDoc(collection(db, 'nilaiSiswa'), {
+                    classId: window.activeClassId,
+                    namaSiswa: nama,
+                    kategori: kategori,
+                    nilai: angka,
+                    createdAt: serverTimestamp()
+                });
+                document.getElementById('nilai-nama-siswa').value = '';
+                document.getElementById('nilai-kategori').value = '';
+                document.getElementById('nilai-angka').value = '';
+                document.getElementById('modal-input-nilai').classList.add('hidden');
+                tampilkanToast('success', 'Nilai siswa berhasil disimpan!');
+                renderTabelRekapNilai();
+            } catch(e) {
+                tampilkanToast('error', 'Gagal menyimpan nilai.');
+            }
+        };
+
+        window.renderTabelRekapNilai = async function() {
+            const classId = document.getElementById('rekap-pilih-kelas').value;
+            const container = document.getElementById('container-tabel-rekap');
+            if(!classId) {
+                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-10">Pilih kelas terlebih dahulu.</p>`;
+                return;
+            }
+
+            // Fetch nilaiSiswa for this class
+            // For single file simplicity, we query snapshot or cache
+            const q = query(collection(db, 'nilaiSiswa'));
+            onSnapshot(q, (snapshot) => {
+                let dataNilai = [];
+                snapshot.forEach(doc => {
+                    const item = doc.data();
+                    if(item.classId === classId) dataNilai.push(item);
+                });
+
+                if(dataNilai.length === 0) {
+                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-10">Belum ada data nilai tercatat untuk kelas ini.</p>`;
+                    return;
+                }
+
+                // Group by student
+                const rekapMap = {};
+                const kategoriSet = new Set();
+                dataNilai.forEach(n => {
+                    kategoriSet.add(n.kategori);
+                    if(!rekapMap[n.namaSiswa]) rekapMap[n.namaSiswa] = {};
+                    rekapMap[n.namaSiswa][n.kategori] = n.nilai;
+                });
+
+                const kategoriArr = Array.from(kategoriSet);
+                let html = `<table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-emerald-50 dark:bg-gray-900 text-leaf dark:text-primary border-b">
+                            <th class="p-3">Nama Siswa</th>
+                            ${kategoriArr.map(k => `<th class="p-3">${k}</th>`).join('')}
+                            <th class="p-3 font-extrabold">Rata-Rata</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+                for(const [siswa, nilaiKategori] of Object.entries(rekapMap)) {
+                    let total = 0;
+                    let count = 0;
+                    html += `<tr class="border-b hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                        <td class="p-3 font-bold">${siswa}</td>`;
+                    kategoriArr.forEach(k => {
+                        const val = nilaiKategori[k] !== undefined ? nilaiKategori[k] : '-';
+                        if(val !== '-') { total += val; count++; }
+                        html += `<td class="p-3">${val}</td>`;
+                    });
+                    const avg = count > 0 ? (total / count).toFixed(1) : '-';
+                    html += `<td class="p-3 font-extrabold text-leaf dark:text-primary">${avg}</td></tr>`;
+                }
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            });
+        };
+
+        // 2. Pembagian Kelompok Otomatis
+        window.buatKelompokOtomatis = function() {
+            const rawSiswa = document.getElementById('kelompok-daftar-siswa').value.trim();
+            const jumlahPerKelompok = parseInt(document.getElementById('kelompok-jumlah').value) || 4;
+            
+            if(!rawSiswa) return tampilkanToast('error', 'Masukkan daftar nama siswa terlebih dahulu!');
+
+            let siswaArr = rawSiswa.split(/,|\n/).map(s => s.trim()).filter(Boolean);
+            if(siswaArr.length === 0) return tampilkanToast('error', 'Daftar siswa tidak valid.');
+
+            // Acak (Shuffle) array siswa
+            for (let i = siswaArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [siswaArr[i], siswaArr[j]] = [siswaArr[j], siswaArr[i]];
+            }
+
+            // Bagi kelompok
+            let kelompokList = [];
+            for (let i = 0; i < siswaArr.length; i += jumlahPerKelompok) {
+                kelompokList.push(siswaArr.slice(i, i + jumlahPerKelompok));
+            }
+
+            const container = document.getElementById('hasil-kelompok-container');
+            const grid = document.getElementById('hasil-kelompok-grid');
+            container.classList.remove('hidden');
+            grid.innerHTML = '';
+
+            kelompokList.forEach((kel, idx) => {
+                const div = document.createElement('div');
+                div.className = "bg-emerald-50/60 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-200 dark:border-gray-700 space-y-2";
+                div.innerHTML = `
+                    <h5 class="font-bold text-leaf dark:text-primary text-sm flex items-center justify-between">
+                        <span>Kelompok ${idx + 1}</span>
+                        <span class="text-[10px] bg-emerald-200 dark:bg-indigo-900 px-2 py-0.5 rounded-full">${kel.length} Anggota</span>
+                    </h5>
+                    <ul class="list-disc list-inside text-xs space-y-1 text-gray-700 dark:text-gray-300">
+                        ${kel.map(s => `<li>${s}</li>`).join('')}
+                    </ul>
+                `;
+                grid.appendChild(div);
+            });
+            tampilkanToast('success', 'Kelompok berhasil diacak secara otomatis!');
+        };
+
+        // 3. Pemantau Perkembangan Siswa
+        window.renderPemantauSiswa = function() {
+            const classId = document.getElementById('perkembangan-pilih-kelas').value;
+            const container = document.getElementById('container-pemantau-siswa');
+            if(!classId) {
+                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-10 col-span-full">Pilih kelas terlebih dahulu.</p>`;
+                return;
+            }
+
+            // Simulasi siswa pemantau cerdas
+            const dummySiswa = [
+                { nama: 'Ahmad Fauzi', nilaiRata: 85, kehadiran: '95%', statusTugas: 'Lengkap', catatan: 'Aktif di kelas.' },
+                { nama: 'Siti Rahma', nilaiRata: 58, kehadiran: '75%', statusTugas: 'Kurang 2 Tugas', catatan: 'Perlu perhatian khusus pada mata pelajaran Eksakta.' },
+                { nama: 'Budi Santoso', nilaiRata: 90, kehadiran: '100%', statusTugas: 'Lengkap', catatan: 'Sangat menonjol.' },
+                { nama: 'Dewi Lestari', nilaiRata: 62, kehadiran: '80%', statusTugas: 'Kurang 1 Tugas', catatan: 'Sering izin sakit.' }
+            ];
+
+            container.innerHTML = '';
+            dummySiswa.forEach(s => {
+                const perluPerhatian = s.nilaiRata < 65 || s.statusTugas.includes('Kurang');
+                const card = document.createElement('div');
+                card.className = `p-5 rounded-3xl border shadow-sm space-y-3 ${perluPerhatian ? 'bg-rose-50/70 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'}`;
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-sm text-gray-900 dark:text-white">${s.nama}</h4>
+                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full ${perluPerhatian ? 'bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-300' : 'bg-emerald-100 dark:bg-emerald-900 text-leaf dark:text-primary'}">
+                            ${perluPerhatian ? 'Perlu Perhatian' : 'Stabil'}
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="bg-gray-50 dark:bg-gray-900 p-2 rounded-xl">
+                            <span class="text-gray-400 block text-[10px]">Nilai Rata-Rata</span>
+                            <span class="font-extrabold text-sm ${s.nilaiRata < 65 ? 'text-rose-500' : 'text-leaf dark:text-primary'}">${s.nilaiRata}</span>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-900 p-2 rounded-xl">
+                            <span class="text-gray-400 block text-[10px]">Kehadiran</span>
+                            <span class="font-extrabold text-sm">${s.kehadiran}</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-300"><span class="font-bold">Tugas:</span> ${s.statusTugas}</p>
+                    <p class="text-xs text-gray-500 italic bg-white/50 dark:bg-gray-900/50 p-2 rounded-xl">"${s.catatan}"</p>
+                `;
+                container.appendChild(card);
+            });
+        };
+
+        // 4. Generator Aktivitas Pembelajaran
+        window.generateAktivitasAI = async function() {
+            const materi = document.getElementById('aktivitas-materi').value.trim();
+            const jenis = document.getElementById('aktivitas-jenis').value;
+            const jenjang = document.getElementById('aktivitas-jenjang').value;
+
+            if(!materi) return tampilkanToast('error', 'Masukkan topik atau materi pembelajaran!');
+
+            const loading = document.getElementById('loading-aktivitas');
+            const container = document.getElementById('hasil-aktivitas-container');
+            const teks = document.getElementById('hasil-aktivitas-teks');
+
+            container.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            teks.innerText = '';
+
+            try {
+                const systemPrompt = `Anda adalah asisten kurikulum guru profesional. Berikan ide ${jenis} yang sangat kreatif, menarik, dan interaktif untuk jenjang ${jenjang} dengan topik "${materi}". Berikan panduan langkah demi langkah yang praktis bagi guru.`;
+                const userPrompt = `Buatkan aktivitas ${jenis} untuk materi ${materi}.`;
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    teks.innerText = candidate.content.parts[0].text;
+                    tampilkanToast('success', 'Aktivitas pembelajaran berhasil dibuat oleh AI!');
+                } else {
+                    teks.innerText = "Gagal menghasilkan ide aktivitas. Coba lagi.";
+                }
+            } catch(e) {
+                console.error(e);
+                tampilkanToast('error', 'Terjadi kesalahan koneksi AI.');
+                teks.innerText = "Gagal memproses permintaan.";
+            } finally {
+                loading.classList.add('hidden');
+            }
+        };
+
+        // 5. Pengingat Tugas & Agenda Kelas
+        window.bukaModalAgenda = () => document.getElementById('modal-agenda').classList.remove('hidden');
+
+        window.simpanAgenda = async function() {
+            const judul = document.getElementById('agenda-judul').value.trim();
+            const tanggal = document.getElementById('agenda-tanggal').value;
+            const ket = document.getElementById('agenda-ket').value.trim();
+
+            if(!judul || !tanggal) return tampilkanToast('error', 'Judul dan tanggal agenda wajib diisi!');
+
+            try {
+                await addDoc(collection(db, 'agendaKelas'), {
+                    judul, tanggal, keterangan: ket, createdAt: serverTimestamp()
+                });
+                document.getElementById('agenda-judul').value = '';
+                document.getElementById('agenda-tanggal').value = '';
+                document.getElementById('agenda-ket').value = '';
+                document.getElementById('modal-agenda').classList.add('hidden');
+                tampilkanToast('success', 'Agenda berhasil ditambahkan!');
+            } catch(e) {
+                tampilkanToast('error', 'Gagal menyimpan agenda.');
+            }
+        };
+
+        function memuatAgenda() {
+            if(unsubscribeAgenda) unsubscribeAgenda();
+            unsubscribeAgenda = onSnapshot(query(collection(db, 'agendaKelas')), (snapshot) => {
+                const container = document.getElementById('container-daftar-agenda');
+                if(snapshot.empty) {
+                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-10">Belum ada agenda atau pengingat tugas tercatat.</p>`;
+                    return;
+                }
+                container.innerHTML = '';
+                let list = [];
+                snapshot.forEach(d => list.push({id: d.id, ...d.data()}));
+                list.sort((a,b) => new Date(a.tanggal) - new Date(b.tanggal));
+
+                list.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = "flex justify-between items-center bg-emerald-50/50 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-100 dark:border-gray-700 text-xs";
+                    div.innerHTML = `
+                        <div>
+                            <span class="text-[10px] bg-leaf dark:bg-primary text-white font-bold px-2.5 py-0.5 rounded-full mb-1 inline-block"><i class="fa-regular fa-calendar mr-1"></i> ${item.tanggal}</span>
+                            <h4 class="font-extrabold text-sm text-gray-900 dark:text-white mt-1">${item.judul}</h4>
+                            <p class="text-gray-600 dark:text-gray-400 mt-0.5">${item.keterangan || '-'}</p>
+                        </div>
+                        <button onclick="hapusAgenda('${item.id}')" class="text-rose-500 hover:text-rose-700 p-2"><i class="fa-solid fa-trash"></i></button>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        window.hapusAgenda = async function(id) {
+            if(confirm('Hapus agenda ini?')) {
+                try {
+                    await deleteDoc(doc(db, 'agendaKelas', id));
+                    tampilkanToast('success', 'Agenda dihapus.');
+                } catch(e) {
+                    tampilkanToast('error', 'Gagal menghapus agenda.');
+                }
             }
         };
 
