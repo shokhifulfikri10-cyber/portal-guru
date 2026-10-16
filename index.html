@@ -30,6 +30,10 @@
     </script>
     <!-- Mammoth.js for parsing Word (.docx) files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <!-- SheetJS (XLSX) for Excel import/export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- html2pdf for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         ::-webkit-scrollbar { width: 8px; }
@@ -123,7 +127,6 @@
             <h3 id="modal-soal-title" class="text-xl font-bold mb-4">Tambah Soal Baru</h3>
             <input type="hidden" id="edit-soal-id">
             <div class="space-y-4">
-                <!-- Drag and Drop Zone -->
                 <div>
                     <label class="block text-xs font-bold uppercase mb-1 text-gray-500">Impor Soal Cepat (PDF / Word / TXT)</label>
                     <div id="drop-zone" class="border-2 border-dashed border-emerald-400 dark:border-indigo-700 bg-emerald-50/50 dark:bg-indigo-950/30 rounded-2xl p-6 text-center cursor-pointer hover:bg-emerald-100/50 transition-all">
@@ -172,9 +175,9 @@
         </div>
     </div>
 
-    <aside class="hidden md:flex w-72 bg-white/90 dark:bg-gray-800 shadow-xl border-r border-emerald-200/80 dark:border-gray-700 flex-col h-full z-40 transition-colors duration-300 shrink-0 text-gray-800 dark:text-gray-100 backdrop-blur-md">
+    <aside class="hidden md:flex w-72 bg-gradient-to-b from-emerald-100 via-teal-50 to-emerald-50 dark:bg-gray-800 shadow-xl border-r border-emerald-200 dark:border-gray-700 flex-col h-full z-40 transition-colors duration-300 shrink-0 text-gray-800 dark:text-gray-100">
         <!-- PROFIL GURU DI ATAS SIDEBAR -->
-        <div class="p-4 border-b border-emerald-200/60 dark:border-gray-700 bg-white/50 dark:bg-gray-800 shadow-sm">
+        <div class="p-4 border-b border-emerald-200/80 dark:border-gray-700 bg-white/60 dark:bg-gray-800 shadow-sm">
             <div class="flex items-start justify-between mb-2">
                 <div class="flex items-center space-x-3 overflow-hidden">
                     <div id="user-avatar" class="w-12 h-12 rounded-2xl bg-leaf dark:bg-primary flex items-center justify-center text-white font-bold text-lg shadow-md shrink-0 overflow-hidden border-2 border-emerald-300 dark:border-indigo-900">?</div>
@@ -183,11 +186,11 @@
                         <p id="user-mapel-display" class="text-xs text-leaf dark:text-primary font-bold truncate">-</p>
                     </div>
                 </div>
-                <button onclick="bukaModalProfil()" class="text-gray-500 hover:text-leaf dark:hover:text-primary transition-colors p-1.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-gray-700 shadow-sm border border-emerald-200 dark:border-gray-700 shrink-0" title="Edit Profil">
+                <button onclick="bukaModalProfil()" class="text-gray-500 hover:text-leaf dark:hover:text-primary transition-all p-1.5 rounded-xl hover:bg-white dark:hover:bg-gray-700 shadow-sm border border-emerald-200 dark:border-gray-700 shrink-0" title="Edit Profil">
                     <i class="fa-solid fa-pen text-xs"></i>
                 </button>
             </div>
-            <div class="space-y-1 text-[11px] text-gray-600 dark:text-gray-400 bg-emerald-50/80 dark:bg-gray-900/40 p-2.5 rounded-xl border border-emerald-200/50 dark:border-gray-700/50">
+            <div class="space-y-1 text-[11px] text-gray-600 dark:text-gray-400 bg-white/70 dark:bg-gray-900/40 p-2.5 rounded-xl border border-emerald-200/50 dark:border-gray-700/50">
                 <p id="user-email-display" class="truncate flex items-center gap-1.5"><i class="fa-regular fa-envelope text-leaf dark:text-indigo-500"></i> -</p>
                 <p id="user-telp-display" class="truncate flex items-center gap-1.5"><i class="fa-solid fa-phone text-leaf"></i> -</p>
             </div>
@@ -243,8 +246,8 @@
         </nav>
         
         <!-- Toggle Dark Mode & Logout di Bawah (Desktop) -->
-        <div class="p-3 border-t border-emerald-200/60 dark:border-gray-700 space-y-2 bg-white/50 dark:bg-gray-800">
-            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-2.5 bg-emerald-100/50 dark:bg-gray-900 rounded-2xl border border-emerald-200 dark:border-gray-700 text-xs font-bold hover:border-leaf transition-colors text-gray-800 dark:text-gray-200">
+        <div class="p-3 border-t border-emerald-200/80 dark:border-gray-700 space-y-2 bg-white/60 dark:bg-gray-800">
+            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between p-2.5 bg-white dark:bg-gray-900 rounded-2xl border border-emerald-200 dark:border-gray-700 text-xs font-bold hover:border-leaf transition-colors text-gray-800 dark:text-gray-200">
                 <span class="flex items-center gap-2"><i id="dark-mode-icon" class="fa-solid fa-moon text-leaf dark:text-indigo-500"></i> Mode Tampilan</span>
                 <span id="dark-mode-text" class="text-[11px] text-gray-600 dark:text-gray-400">Terang</span>
             </button>
@@ -471,25 +474,59 @@
                 </div>
             </section>
 
-            <!-- 1. Rekap & Penghitungan Nilai -->
             <section id="halaman-rekap-nilai" class="hidden space-y-6">
-                <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div class="bg-white/90 dark:bg-gray-800 backdrop-blur p-6 rounded-3xl shadow-sm border border-emerald-200/60 dark:border-gray-700 space-y-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-4">
                         <div>
                             <h3 class="text-2xl font-extrabold flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-chart-pie"></i> Rekap & Penghitungan Nilai Siswa</h3>
-                            <p class="text-xs text-gray-500 mt-1">Kelola nilai tugas, ulangan harian, dan ujian untuk menghitung rata-rata akhir secara otomatis.</p>
+                            <p class="text-xs text-gray-500 mt-1">Kelola nilai tugas, ulangan harian, UTS, dan UAS dalam satu tabel terpadu dengan bobot kustom.</p>
                         </div>
-                        <div class="flex gap-2">
-                            <select id="rekap-pilih-kelas" onchange="renderTabelRekapNilai()" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none">
-                                <option value="">Pilih Kelas...</option>
-                            </select>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="bukaModalPengaturanBobot()" class="px-4 py-2.5 bg-emerald-100 dark:bg-emerald-950/50 text-leaf dark:text-primary rounded-xl font-bold text-xs transition-colors shadow-sm">
+                                <i class="fa-solid fa-sliders mr-1"></i> Pengaturan Bobot & KKM
+                            </button>
                             <button onclick="bukaModalInputNilai()" class="bg-leaf dark:bg-primary text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-700 transition-colors">
-                                <i class="fa-solid fa-plus mr-1"></i> Input Nilai Baru
+                                <i class="fa-solid fa-plus mr-1"></i> Input Nilai
+                            </button>
+                            <button onclick="exportExcelNilai()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow transition-colors">
+                                <i class="fa-solid fa-file-excel mr-1"></i> Ekspor Excel
+                            </button>
+                            <button onclick="exportPDFNilai()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow transition-colors">
+                                <i class="fa-solid fa-file-pdf mr-1"></i> Ekspor PDF
                             </button>
                         </div>
                     </div>
+
+                    <!-- Toolbar Filter & Pencarian -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-emerald-50/60 dark:bg-gray-900 p-4 rounded-2xl border border-emerald-200/50 dark:border-gray-700">
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Pilih Kelas</label>
+                            <select id="rekap-pilih-kelas" onchange="renderTabelRekapNilai()" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none">
+                                <option value="">Pilih Kelas...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Mata Pelajaran</label>
+                            <select id="rekap-pilih-mapel" onchange="renderTabelRekapNilai()" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none">
+                                <!-- Terisi otomatis dari profil guru -->
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Cari Nama Siswa</label>
+                            <input type="text" id="rekap-cari-siswa" oninput="renderTabelRekapNilai()" placeholder="Ketik nama siswa..." class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-xs focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase mb-1 text-gray-500">Impor Nilai (Excel)</label>
+                            <button onclick="document.getElementById('input-file-excel').click()" class="w-full bg-white dark:bg-gray-800 border border-emerald-300 dark:border-emerald-700 text-leaf dark:text-primary hover:bg-emerald-50 py-2 px-3 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-file-arrow-up"></i> Unggah File Excel (.xlsx)
+                            </button>
+                            <input type="file" id="input-file-excel" accept=".xlsx, .xls" class="hidden" onchange="imporNilaiDariExcel(event)">
+                        </div>
+                    </div>
+
+                    <!-- Area Tabel Rekap Nilai -->
                     <div id="container-tabel-rekap" class="overflow-x-auto">
-                        <p class="text-xs text-gray-400 text-center py-10">Pilih kelas terlebih dahulu untuk melihat rekap nilai.</p>
+                        <p class="text-xs text-gray-400 text-center py-12">Pilih kelas dan mata pelajaran terlebih dahulu untuk melihat rekap nilai.</p>
                     </div>
                 </div>
             </section>
@@ -682,7 +719,7 @@
             <div class="space-y-3">
                 <input type="text" id="tugas-nama-siswa" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
                 <input type="text" id="tugas-mapel" placeholder="Mata Pelajaran (ex: Matematika)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
-                <input type="text" id="tugas-keterangan" placeholder="Tugas Tentang Apa (ex: LKS Halaman 45)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
+                <input type="text" id="tugas-keterangan" placeholder="Tugas Tentang Apa (ex: LKS Bahasa Indonesia Hal 45)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
             </div>
             <div class="flex gap-3 justify-end mt-4">
                 <button onclick="document.getElementById('modal-belum-tugas').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
@@ -715,17 +752,61 @@
         </div>
     </div>
 
+    <!-- Modal Input Nilai Manual -->
     <div id="modal-input-nilai" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
             <h3 class="text-xl font-bold mb-4 text-leaf">Input Nilai Siswa</h3>
             <div class="space-y-3">
                 <input type="text" id="nilai-nama-siswa" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
-                <input type="text" id="nilai-kategori" placeholder="Kategori (ex: Tugas 1 / Ulangan Harian)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                <select id="nilai-kategori" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
+                    <option value="Tugas">Tugas</option>
+                    <option value="Ulangan Harian">Ulangan Harian</option>
+                    <option value="UTS">UTS</option>
+                    <option value="UAS">UAS</option>
+                </select>
                 <input type="number" id="nilai-angka" placeholder="Nilai (0-100)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none">
             </div>
             <div class="flex gap-3 justify-end mt-4">
                 <button onclick="document.getElementById('modal-input-nilai').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
                 <button onclick="simpanNilaiSiswa()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Nilai</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pengaturan Bobot & KKM -->
+    <div id="modal-pengaturan-bobot" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-md border border-gray-100 dark:border-gray-700 m-4 space-y-4">
+            <h3 class="text-xl font-bold text-leaf dark:text-primary"><i class="fa-solid fa-sliders mr-2"></i> Pengaturan Bobot & KKM</h3>
+            <p class="text-xs text-gray-500">Tentukan persentase bobot komponen penilaian dan Kriteria Ketuntasan Minimal (KKM).</p>
+            <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Bobot Tugas (%)</label>
+                        <input type="number" id="bobot-tugas" value="20" class="w-full bg-gray-50 dark:bg-gray-900 border rounded-xl p-2.5 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Bobot UH (%)</label>
+                        <input type="number" id="bobot-uh" value="30" class="w-full bg-gray-50 dark:bg-gray-900 border rounded-xl p-2.5 text-sm">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Bobot UTS (%)</label>
+                        <input type="number" id="bobot-uts" value="20" class="w-full bg-gray-50 dark:bg-gray-900 border rounded-xl p-2.5 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Bobot UAS (%)</label>
+                        <input type="number" id="bobot-uas" value="30" class="w-full bg-gray-50 dark:bg-gray-900 border rounded-xl p-2.5 text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">Standar KKM (Ketuntasan)</label>
+                    <input type="number" id="setting-kkm" value="75" class="w-full bg-gray-50 dark:bg-gray-900 border rounded-xl p-2.5 text-sm">
+                </div>
+            </div>
+            <div class="flex gap-3 justify-end pt-2">
+                <button onclick="document.getElementById('modal-pengaturan-bobot').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="simpanPengaturanBobot()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Pengaturan</button>
             </div>
         </div>
     </div>
@@ -819,7 +900,7 @@
         };
 
         window.pindahHalaman = function(idTarget) {
-            if ((['jurnal', 'info-kelas', 'rekap-nilai', 'perkembangan'].includes(idTarget)) && !window.activeClassId) {
+            if ((['jurnal', 'info-kelas'].includes(idTarget)) && !window.activeClassId) {
                 tampilkanToast('error', 'Pilih kelas di Dashboard terlebih dahulu!');
                 idTarget = 'dashboard';
             }
@@ -834,7 +915,7 @@
                 'bank-soal': 'Bank Soal Bersama', 
                 'scan-soal': 'Scan & Koreksi Soal',
                 'rekap-nilai': 'Rekap & Hitung Nilai',
-                'kelompok': 'Generator Kelompok Otomatis',
+                'kelompok': 'Kelompok Otomatis',
                 'perkembangan': 'Pemantau Siswa',
                 'aktivitas': 'Generator Aktivitas',
                 'agenda': 'Pengingat & Agenda'
@@ -864,6 +945,10 @@
             } else {
                 mobAsisten.className = "flex flex-col items-center justify-center flex-1 py-1 text-gray-400 hover:text-leaf";
             }
+
+            if(idTarget === 'rekap-nilai') {
+                renderTabelRekapNilai();
+            }
         };
 
         async function inisialisasiApp() {
@@ -882,6 +967,7 @@
                             window.currentUser = docSnap.data();
                             updateProfileUI();
                             populateJurnalMapelDropdown();
+                            populateRekapMapelDropdown();
                             document.getElementById('login-modal').style.display = 'none';
                             memuatDaftarKelas();
                             memuatBankSoal();
@@ -945,6 +1031,7 @@
                 window.currentUser = profileData;
                 updateProfileUI();
                 populateJurnalMapelDropdown();
+                populateRekapMapelDropdown();
                 document.getElementById('login-modal').style.display = 'none';
                 tampilkanToast('success', 'Profil berhasil disimpan! Selamat datang.');
                 memuatDaftarKelas();
@@ -1001,6 +1088,7 @@
                 window.currentUser.telp = telp;
                 updateProfileUI();
                 populateJurnalMapelDropdown();
+                populateRekapMapelDropdown();
                 tutupModalProfil();
                 tampilkanToast('success', 'Profil berhasil diperbarui!');
             } catch(e) {
@@ -1031,6 +1119,19 @@
             optLain.value = 'Lainnya';
             optLain.innerText = 'Lainnya (Tulis Sendiri)';
             select.appendChild(optLain);
+        }
+
+        function populateRekapMapelDropdown() {
+            const select = document.getElementById('rekap-pilih-mapel');
+            if(!select || !window.currentUser || !window.currentUser.mapel) return;
+            const listMapel = window.currentUser.mapel.split(',').map(m => m.trim()).filter(Boolean);
+            select.innerHTML = '';
+            listMapel.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.innerText = m;
+                select.appendChild(opt);
+            });
         }
 
         window.bukaModalKelas = () => document.getElementById('modal-tambah-kelas').classList.remove('hidden');
@@ -1864,95 +1965,271 @@ Format jawaban dengan rapi menggunakan bahasa Indonesia.`;
             }
         };
 
-        // --- 5 FITUR BARU LOGIC ---
-        // 1. Rekap & Hitung Nilai
+        // --- REKAP & PENGHITUNGAN NILAI WORKFLOW LENGKAP ---
+        let bobotNilaiGlobal = { tugas: 20, uh: 30, uts: 20, uas: 30, kkm: 75 };
+
         window.bukaModalInputNilai = function() {
-            if(!window.activeClassId) return tampilkanToast('error', 'Pilih kelas di Dashboard terlebih dahulu!');
+            const classId = document.getElementById('rekap-pilih-kelas').value;
+            if(!classId) return tampilkanToast('error', 'Pilih kelas terlebih dahulu pada filter rekap nilai!');
             document.getElementById('modal-input-nilai').classList.remove('hidden');
         };
 
+        window.bukaModalPengaturanBobot = function() {
+            document.getElementById('bobot-tugas').value = bobotNilaiGlobal.tugas;
+            document.getElementById('bobot-uh').value = bobotNilaiGlobal.uh;
+            document.getElementById('bobot-uts').value = bobotNilaiGlobal.uts;
+            document.getElementById('bobot-uas').value = bobotNilaiGlobal.uas;
+            document.getElementById('setting-kkm').value = bobotNilaiGlobal.kkm;
+            document.getElementById('modal-pengaturan-bobot').classList.remove('hidden');
+        };
+
+        window.simpanPengaturanBobot = function() {
+            const t = parseFloat(document.getElementById('bobot-tugas').value) || 0;
+            const uh = parseFloat(document.getElementById('bobot-uh').value) || 0;
+            const uts = parseFloat(document.getElementById('bobot-uts').value) || 0;
+            const uas = parseFloat(document.getElementById('bobot-uas').value) || 0;
+            const kkm = parseFloat(document.getElementById('setting-kkm').value) || 75;
+
+            if(t + uh + uts + uas !== 100) {
+                return tampilkanToast('error', 'Total jumlah bobot harus tepat 100%!');
+            }
+
+            bobotNilaiGlobal = { tugas: t, uh: uh, uts: uts, uas: uas, kkm: kkm };
+            document.getElementById('modal-pengaturan-bobot').classList.add('hidden');
+            tampilkanToast('success', 'Pengaturan bobot dan KKM berhasil disimpan!');
+            renderTabelRekapNilai();
+        };
+
         window.simpanNilaiSiswa = async function() {
+            const classId = document.getElementById('rekap-pilih-kelas').value;
+            const mapel = document.getElementById('rekap-pilih-mapel').value;
             const nama = document.getElementById('nilai-nama-siswa').value.trim();
-            const kategori = document.getElementById('nilai-kategori').value.trim();
+            const kategori = document.getElementById('nilai-kategori').value;
             const angka = parseFloat(document.getElementById('nilai-angka').value);
 
-            if(!nama || !kategori || isNaN(angka)) return tampilkanToast('error', 'Semua kolom wajib diisi dengan benar!');
+            if(!classId || !mapel || !nama || isNaN(angka)) {
+                return tampilkanToast('error', 'Pastikan kelas, mapel, nama, dan nilai terisi dengan benar!');
+            }
 
             try {
                 await addDoc(collection(db, 'nilaiSiswa'), {
-                    classId: window.activeClassId,
+                    classId: classId,
+                    mapel: mapel,
                     namaSiswa: nama,
-                    kategori: kategori,
+                    kategori: kategori, // 'Tugas', 'Ulangan Harian', 'UTS', 'UAS'
                     nilai: angka,
                     createdAt: serverTimestamp()
                 });
                 document.getElementById('nilai-nama-siswa').value = '';
-                document.getElementById('nilai-kategori').value = '';
                 document.getElementById('nilai-angka').value = '';
                 document.getElementById('modal-input-nilai').classList.add('hidden');
-                tampilkanToast('success', 'Nilai siswa berhasil disimpan!');
+                tampilkanToast('success', `Nilai ${kategori} untuk ${nama} berhasil disimpan!`);
                 renderTabelRekapNilai();
             } catch(e) {
-                tampilkanToast('error', 'Gagal menyimpan nilai.');
+                console.error(e);
+                tampilkanToast('error', 'Gagal menyimpan nilai ke database.');
             }
         };
 
-        window.renderTabelRekapNilai = async function() {
+        window.imporNilaiDariExcel = function(event) {
+            const file = event.target.files[0];
+            if(!file) return;
+
             const classId = document.getElementById('rekap-pilih-kelas').value;
-            const container = document.getElementById('container-tabel-rekap');
-            if(!classId) {
-                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-10">Pilih kelas terlebih dahulu.</p>`;
+            const mapel = document.getElementById('rekap-pilih-mapel').value;
+            if(!classId || !mapel) {
+                tampilkanToast('error', 'Pilih kelas dan mata pelajaran tujuan terlebih dahulu!');
+                event.target.value = '';
                 return;
             }
 
-            const q = query(collection(db, 'nilaiSiswa'));
-            onSnapshot(q, (snapshot) => {
+            tampilkanToast('success', 'Membaca file Excel...');
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const json = XLSX.utils.sheet_to_json(worksheet);
+
+                    if(json.length === 0) {
+                        tampilkanToast('error', 'File Excel kosong atau format tidak sesuai.');
+                        return;
+                    }
+
+                    let countAdded = 0;
+                    for(const row of json) {
+                        const nama = row['Nama Siswa'] || row['nama'] || row['Nama'] || Object.values(row)[0];
+                        if(!nama) continue;
+
+                        const tugas = parseFloat(row['Tugas'] || row['tugas'] || 0);
+                        const uh = parseFloat(row['Ulangan Harian'] || row['UH'] || row['uh'] || 0);
+                        const uts = parseFloat(row['UTS'] || row['uts'] || 0);
+                        const uas = parseFloat(row['UAS'] || row['uas'] || 0);
+
+                        if(!isNaN(tugas) && tugas > 0) {
+                            await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: String(nama).trim(), kategori: 'Tugas', nilai: tugas, createdAt: serverTimestamp() });
+                            countAdded++;
+                        }
+                        if(!isNaN(uh) && uh > 0) {
+                            await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: String(nama).trim(), kategori: 'Ulangan Harian', nilai: uh, createdAt: serverTimestamp() });
+                            countAdded++;
+                        }
+                        if(!isNaN(uts) && uts > 0) {
+                            await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: String(nama).trim(), kategori: 'UTS', nilai: uts, createdAt: serverTimestamp() });
+                            countAdded++;
+                        }
+                        if(!isNaN(uas) && uas > 0) {
+                            await addDoc(collection(db, 'nilaiSiswa'), { classId, mapel, namaSiswa: String(nama).trim(), kategori: 'UAS', nilai: uas, createdAt: serverTimestamp() });
+                            countAdded++;
+                        }
+                    }
+
+                    tampilkanToast('success', `Berhasil mengimpor ${countAdded} data nilai dari Excel!`);
+                    renderTabelRekapNilai();
+                } catch(err) {
+                    console.error(err);
+                    tampilkanToast('error', 'Gagal memproses file Excel.');
+                }
+                event.target.value = '';
+            };
+            reader.readAsArrayBuffer(file);
+        };
+
+        window.renderTabelRekapNilai = function() {
+            const classId = document.getElementById('rekap-pilih-kelas').value;
+            const mapel = document.getElementById('rekap-pilih-mapel').value;
+            const searchQuery = document.getElementById('rekap-cari-siswa').value.toLowerCase().trim();
+            const container = document.getElementById('container-tabel-rekap');
+
+            if(!classId || !mapel) {
+                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-12">Pilih kelas dan mata pelajaran terlebih dahulu.</p>`;
+                return;
+            }
+
+            if(unsubscribeNilai) unsubscribeNilai();
+            unsubscribeNilai = onSnapshot(query(collection(db, 'nilaiSiswa')), (snapshot) => {
                 let dataNilai = [];
                 snapshot.forEach(doc => {
                     const item = doc.data();
-                    if(item.classId === classId) dataNilai.push(item);
+                    if(item.classId === classId && item.mapel === mapel) {
+                        dataNilai.push({ id: doc.id, ...item });
+                    }
                 });
 
                 if(dataNilai.length === 0) {
-                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-10">Belum ada data nilai tercatat untuk kelas ini.</p>`;
+                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-12">Belum ada data nilai untuk ${mapel} di kelas ini. Klik "Input Nilai" atau unggah Excel.</p>`;
                     return;
                 }
 
+                // Agregasi per siswa
                 const rekapMap = {};
-                const kategoriSet = new Set();
                 dataNilai.forEach(n => {
-                    kategoriSet.add(n.kategori);
-                    if(!rekapMap[n.namaSiswa]) rekapMap[n.namaSiswa] = {};
+                    if(!rekapMap[n.namaSiswa]) {
+                        rekapMap[n.namaSiswa] = { Tugas: null, 'Ulangan Harian': null, UTS: null, UAS: null };
+                    }
                     rekapMap[n.namaSiswa][n.kategori] = n.nilai;
                 });
 
-                const kategoriArr = Array.from(kategoriSet);
-                let html = `<table class="w-full text-left border-collapse text-xs">
+                // Hitung Nilai Akhir & Ranking
+                let computedList = [];
+                for(const [siswa, nilai] of Object.entries(rekapMap)) {
+                    if(searchQuery && !siswa.toLowerCase().includes(searchQuery)) continue;
+
+                    let t = nilai['Tugas'] !== null ? nilai['Tugas'] : 0;
+                    let uh = nilai['Ulangan Harian'] !== null ? nilai['Ulangan Harian'] : 0;
+                    let uts = nilai['UTS'] !== null ? nilai['UTS'] : 0;
+                    let uas = nilai['UAS'] !== null ? nilai['UAS'] : 0;
+
+                    // Hitung dengan Bobot Kustom (%)
+                    let finalScore = (t * (bobotNilaiGlobal.tugas / 100)) + 
+                                     (uh * (bobotNilaiGlobal.uh / 100)) + 
+                                     (uts * (bobotNilaiGlobal.uts / 100)) + 
+                                     (uas * (bobotNilaiGlobal.uas / 100));
+
+                    let hasAnyScore = (nilai['Tugas'] !== null || nilai['Ulangan Harian'] !== null || nilai['UTS'] !== null || nilai['UAS'] !== null);
+                    let status = !hasAnyScore ? 'Belum Dinilai' : (finalScore >= bobotNilaiGlobal.kkm ? 'Tuntas' : 'Belum Tuntas');
+
+                    computedList.push({
+                        nama: siswa,
+                        tugas: nilai['Tugas'],
+                        uh: nilai['Ulangan Harian'],
+                        uts: nilai['UTS'],
+                        uas: nilai['UAS'],
+                        finalScore: hasAnyScore ? parseFloat(finalScore.toFixed(1)) : 0,
+                        hasAnyScore,
+                        status
+                    });
+                }
+
+                // Urutkan untuk Ranking
+                computedList.sort((a,b) => b.finalScore - a.finalScore);
+                computedList.forEach((item, idx) => { item.peringkat = item.hasAnyScore ? idx + 1 : '-'; });
+
+                if(computedList.length === 0) {
+                    container.innerHTML = `<p class="text-xs text-gray-400 text-center py-12">Tidak ditemukan siswa dengan nama tersebut.</p>`;
+                    return;
+                }
+
+                let html = `<table id="tabel-rekap-export" class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-emerald-50 dark:bg-gray-900 text-leaf dark:text-primary border-b">
+                            <th class="p-3">No</th>
                             <th class="p-3">Nama Siswa</th>
-                            ${kategoriArr.map(k => `<th class="p-3">${k}</th>`).join('')}
-                            <th class="p-3 font-extrabold">Rata-Rata</th>
+                            <th class="p-3 text-center">Tugas (${bobotNilaiGlobal.tugas}%)</th>
+                            <th class="p-3 text-center">Ulangan Harian (${bobotNilaiGlobal.uh}%)</th>
+                            <th class="p-3 text-center">UTS (${bobotNilaiGlobal.uts}%)</th>
+                            <th class="p-3 text-center">UAS (${bobotNilaiGlobal.uas}%)</th>
+                            <th class="p-3 text-center font-extrabold">Nilai Akhir</th>
+                            <th class="p-3 text-center">Peringkat</th>
+                            <th class="p-3 text-center">Status (KKM ${bobotNilaiGlobal.kkm})</th>
                         </tr>
                     </thead>
                     <tbody>`;
 
-                for(const [siswa, nilaiKategori] of Object.entries(rekapMap)) {
-                    let total = 0;
-                    let count = 0;
+                computedList.forEach((s, idx) => {
+                    const badgeTuntas = s.status === 'Tuntas' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : (s.status === 'Belum Tuntas' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300' : 'bg-gray-100 text-gray-600');
                     html += `<tr class="border-b hover:bg-gray-50 dark:hover:bg-gray-700/50">
-                        <td class="p-3 font-bold">${siswa}</td>`;
-                    kategoriArr.forEach(k => {
-                        const val = nilaiKategori[k] !== undefined ? nilaiKategori[k] : '-';
-                        if(val !== '-') { total += val; count++; }
-                        html += `<td class="p-3">${val}</td>`;
-                    });
-                    const avg = count > 0 ? (total / count).toFixed(1) : '-';
-                    html += `<td class="p-3 font-extrabold text-leaf dark:text-primary">${avg}</td></tr>`;
-                }
+                        <td class="p-3 text-gray-500">${idx + 1}</td>
+                        <td class="p-3 font-bold">${s.nama}</td>
+                        <td class="p-3 text-center">${s.tugas !== null ? s.tugas : '<span class="text-gray-300 italic">Belum</span>'}</td>
+                        <td class="p-3 text-center">${s.uh !== null ? s.uh : '<span class="text-gray-300 italic">Belum</span>'}</td>
+                        <td class="p-3 text-center">${s.uts !== null ? s.uts : '<span class="text-gray-300 italic">Belum</span>'}</td>
+                        <td class="p-3 text-center">${s.uas !== null ? s.uas : '<span class="text-gray-300 italic">Belum</span>'}</td>
+                        <td class="p-3 text-center font-extrabold text-leaf dark:text-primary text-sm">${s.hasAnyScore ? s.finalScore : '-'}</td>
+                        <td class="p-3 text-center font-bold">${s.peringkat}</td>
+                        <td class="p-3 text-center"><span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold ${badgeTuntas}">${s.status}</span></td>
+                    </tr>`;
+                });
+
                 html += `</tbody></table>`;
                 container.innerHTML = html;
             });
+        };
+
+        window.exportExcelNilai = function() {
+            const table = document.getElementById('tabel-rekap-export');
+            if(!table) return tampilkanToast('error', 'Tidak ada data rekap untuk diekspor.');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Rekap Nilai" });
+            const mapel = document.getElementById('rekap-pilih-mapel').value || 'Mapel';
+            XLSX.writeFile(wb, `Rekap_Nilai_${mapel}.xlsx`);
+            tampilkanToast('success', 'File Excel berhasil diunduh!');
+        };
+
+        window.exportPDFNilai = function() {
+            const element = document.getElementById('container-tabel-rekap');
+            if(!element) return tampilkanToast('error', 'Tidak ada data rekap untuk diekspor.');
+            const mapel = document.getElementById('rekap-pilih-mapel').value || 'Mapel';
+            const opt = {
+                margin:       10,
+                filename:     `Rekap_Nilai_${mapel}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
+            html2pdf().from(element).set(opt).save();
+            tampilkanToast('success', 'File PDF berhasil diunduh!');
         };
 
         // 2. Pembagian Kelompok Otomatis
