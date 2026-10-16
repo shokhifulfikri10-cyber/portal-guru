@@ -198,7 +198,7 @@
             </div>
         </div>
 
-        <!-- NAVIGASI TOOLS (Hidden di mobile agar pakai bottom bar, tampil di md ke atas) -->
+        <!-- NAVIGASI TOOLS -->
         <nav class="hidden md:flex p-4 space-y-2 flex-1 overflow-y-auto flex-col">
             <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-500/20 dark:shadow-indigo-500/20 transition-all">
                 <i class="fa-solid fa-house w-5 text-center"></i>
@@ -336,13 +336,19 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700">
                     <div>
                         <h3 class="text-2xl font-extrabold flex items-center gap-2"><i class="fa-solid fa-circle-info text-leaf dark:text-primary"></i> Informasi Kelas: <span id="judul-info-kelas" class="text-leaf dark:text-primary">Belum Dipilih</span></h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Pantau siswa berprestasi dan daftar siswa yang belum mengumpulkan tugas beserta keterangan mata pelajarannya.</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kelola catatan penting kelas, siswa berprestasi, tugas tertunda, serta buat kategori catatan tambahan sesuai kebutuhan.</p>
                     </div>
-                    <button onclick="pindahHalaman('dashboard')" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-xl font-bold text-xs transition-colors">
-                        <i class="fa-solid fa-arrow-left mr-1"></i> Ganti Kelas
-                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="bukaModalKategoriBaru()" class="px-4 py-2.5 bg-leaf/10 hover:bg-leaf/20 text-leaf dark:text-primary rounded-xl font-bold text-xs transition-colors">
+                            <i class="fa-solid fa-folder-plus mr-1"></i> Tambah Kategori Catatan
+                        </button>
+                        <button onclick="pindahHalaman('dashboard')" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 rounded-xl font-bold text-xs transition-colors">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Ganti Kelas
+                        </button>
+                    </div>
                 </div>
 
+                <!-- Grid Utama Info Kelas -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Siswa Berprestasi -->
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 space-y-4">
@@ -369,6 +375,11 @@
                             <p class="text-xs text-gray-400 text-center py-8">Semua siswa telah mengumpulkan tugas.</p>
                         </div>
                     </div>
+                </div>
+
+                <!-- Kontainer Kategori Catatan Tambahan Dinamis -->
+                <div id="container-kategori-tambahan" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Kategori Tambahan Muncul di Sini -->
                 </div>
             </section>
 
@@ -473,15 +484,44 @@
         </div>
     </div>
 
-    <!-- Modal Tambah Belum Tugas -->
+    <!-- Modal Tambah Belum Tugas (Dengan Detail Tugas) -->
     <div id="modal-belum-tugas" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
             <h3 class="text-xl font-bold mb-4 text-rose-500">Catat Siswa Belum Mengumpulkan Tugas</h3>
-            <input type="text" id="tugas-nama-siswa" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-3 focus:outline-none focus:border-rose-500">
-            <input type="text" id="tugas-mapel" placeholder="Mata Pelajaran (ex: Matematika)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-4 focus:outline-none focus:border-rose-500">
-            <div class="flex gap-3 justify-end">
+            <div class="space-y-3">
+                <input type="text" id="tugas-nama-siswa" placeholder="Nama Siswa" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
+                <input type="text" id="tugas-mapel" placeholder="Mata Pelajaran (ex: Matematika)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
+                <input type="text" id="tugas-keterangan" placeholder="Tugas Tentang Apa (ex: LKS Halaman 45)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
+            </div>
+            <div class="flex gap-3 justify-end mt-4">
                 <button onclick="document.getElementById('modal-belum-tugas').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
                 <button onclick="simpanBelumTugas()" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Kategori Catatan Info Kelas Baru -->
+    <div id="modal-kategori-baru" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
+            <h3 class="text-xl font-bold mb-4 text-leaf dark:text-primary">Tambah Kategori Catatan Baru</h3>
+            <input type="text" id="input-nama-kategori" placeholder="Nama Kategori (ex: Catatan Piket / Pelanggaran)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-4 focus:outline-none focus:border-leaf">
+            <div class="flex gap-3 justify-end">
+                <button onclick="document.getElementById('modal-kategori-baru').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="simpanKategoriBaru()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Buat Kategori</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Item ke Kategori Kustom -->
+    <div id="modal-item-kustom" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[70] hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-gray-100 dark:border-gray-700 m-4">
+            <h3 id="modal-item-title" class="text-xl font-bold mb-4 text-leaf">Tambah Catatan Kustom</h3>
+            <input type="hidden" id="item-kustom-kategori-id">
+            <input type="text" id="item-kustom-judul" placeholder="Judul / Nama (ex: Kelompok 1)" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-3 focus:outline-none focus:border-leaf">
+            <textarea id="item-kustom-isi" rows="3" placeholder="Isi catatan atau keterangan..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-sm mb-4 focus:outline-none focus:border-leaf resize-none"></textarea>
+            <div class="flex gap-3 justify-end">
+                <button onclick="document.getElementById('modal-item-kustom').classList.add('hidden')" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="simpanItemKustom()" class="px-4 py-2 bg-leaf hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan</button>
             </div>
         </div>
     </div>
@@ -561,14 +601,12 @@
             const titles = { 'dashboard': 'Dashboard Kelas', 'jurnal': 'Jurnal Mengajar', 'info-kelas': 'Informasi Kelas', 'bank-soal': 'Bank Soal Bersama', 'scan-soal': 'Scan & Koreksi Soal' };
             document.getElementById('judul-halaman').innerText = titles[idTarget] || 'Portal Guru';
 
-            // Desktop Nav Update
             document.querySelectorAll('aside .nav-btn').forEach(btn => {
                 btn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:bg-emerald-200/50 dark:hover:bg-gray-700 hover:text-leaf dark:hover:text-primary transition-all";
             });
             const activeBtn = document.getElementById('nav-' + idTarget);
             if(activeBtn) activeBtn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-leaf dark:bg-primary text-white font-bold shadow-md shadow-emerald-500/20 dark:shadow-indigo-500/20 transition-all";
 
-            // Mobile Bottom Nav Update
             ['dashboard', 'jurnal', 'info-kelas', 'bank-soal', 'scan-soal'].forEach(tab => {
                 const mobBtn = document.getElementById('mob-nav-' + tab);
                 if(mobBtn) {
@@ -991,9 +1029,10 @@
             renderLinimasa(semuaDataJurnalGlobal);
         };
 
-        // --- INFO KELAS (PRESTASI & BELUM KUMPUL TUGAS) ---
+        // --- INFO KELAS (PRESTASI, BELUM KUMPUL TUGAS DENGAN DETAIL, & KATEGORI KUSTOM) ---
         window.bukaModalPrestasi = () => document.getElementById('modal-prestasi').classList.remove('hidden');
         window.bukaModalBelumTugas = () => document.getElementById('modal-belum-tugas').classList.remove('hidden');
+        window.bukaModalKategoriBaru = () => document.getElementById('modal-kategori-baru').classList.remove('hidden');
 
         window.simpanPrestasi = async function() {
             if(!window.activeClassId) return;
@@ -1021,21 +1060,72 @@
             if(!window.activeClassId) return;
             const nama = document.getElementById('tugas-nama-siswa').value.trim();
             const mapel = document.getElementById('tugas-mapel').value.trim();
-            if(!nama || !mapel) return tampilkanToast('error', 'Semua kolom wajib diisi!');
+            const keterangan = document.getElementById('tugas-keterangan').value.trim();
+            if(!nama || !mapel || !keterangan) return tampilkanToast('error', 'Semua kolom wajib diisi!');
 
             try {
                 await addDoc(collection(db, 'belumTugas'), {
                     classId: window.activeClassId,
                     namaSiswa: nama,
                     mapel: mapel,
+                    keterangan: keterangan,
                     createdAt: serverTimestamp()
                 });
                 document.getElementById('tugas-nama-siswa').value = '';
                 document.getElementById('tugas-mapel').value = '';
+                document.getElementById('tugas-keterangan').value = '';
                 document.getElementById('modal-belum-tugas').classList.add('hidden');
                 tampilkanToast('success', 'Catatan tugas siswa disimpan!');
             } catch(e) {
                 tampilkanToast('error', 'Gagal menyimpan data.');
+            }
+        };
+
+        window.simpanKategoriBaru = async function() {
+            if(!window.activeClassId) return;
+            const namaKategori = document.getElementById('input-nama-kategori').value.trim();
+            if(!namaKategori) return tampilkanToast('error', 'Nama kategori wajib diisi!');
+
+            try {
+                await addDoc(collection(db, 'infoCategories'), {
+                    classId: window.activeClassId,
+                    namaKategori: namaKategori,
+                    createdAt: serverTimestamp()
+                });
+                document.getElementById('input-nama-kategori').value = '';
+                document.getElementById('modal-kategori-baru').classList.add('hidden');
+                tampilkanToast('success', `Kategori "${namaKategori}" berhasil dibuat!`);
+            } catch(e) {
+                tampilkanToast('error', 'Gagal membuat kategori.');
+            }
+        };
+
+        window.bukaModalItemKustom = function(katId, katNama) {
+            document.getElementById('item-kustom-kategori-id').value = katId;
+            document.getElementById('modal-item-title').innerText = `Tambah Catatan: ${katNama}`;
+            document.getElementById('item-kustom-judul').value = '';
+            document.getElementById('item-kustom-isi').value = '';
+            document.getElementById('modal-item-kustom').classList.remove('hidden');
+        };
+
+        window.simpanItemKustom = async function() {
+            const kategoriId = document.getElementById('item-kustom-kategori-id').value;
+            const judul = document.getElementById('item-kustom-judul').value.trim();
+            const isi = document.getElementById('item-kustom-isi').value.trim();
+            if(!judul || !isi) return tampilkanToast('error', 'Judul dan isi catatan wajib diisi!');
+
+            try {
+                await addDoc(collection(db, 'infoItems'), {
+                    classId: window.activeClassId,
+                    kategoriId: kategoriId,
+                    judul: judul,
+                    isi: isi,
+                    createdAt: serverTimestamp()
+                });
+                document.getElementById('modal-item-kustom').classList.add('hidden');
+                tampilkanToast('success', 'Catatan kustom berhasil disimpan!');
+            } catch(e) {
+                tampilkanToast('error', 'Gagal menyimpan catatan.');
             }
         };
 
@@ -1050,15 +1140,29 @@
             }
         };
 
+        window.hapusKategori = async function(katId, katNama) {
+            if(confirm(`Yakin ingin menghapus kategori "${katNama}" beserta seluruh isinya?`)) {
+                try {
+                    await deleteDoc(doc(db, 'infoCategories', katId));
+                    tampilkanToast('success', 'Kategori berhasil dihapus.');
+                } catch(e) {
+                    tampilkanToast('error', 'Gagal menghapus kategori.');
+                }
+            }
+        };
+
         function memuatInfoKelas(classId) {
             if(unsubscribeInfoKelas) unsubscribeInfoKelas();
             
-            // Listener Prestasi & Belum Tugas
             const q1 = query(collection(db, 'prestasi'));
             const q2 = query(collection(db, 'belumTugas'));
+            const q3 = query(collection(db, 'infoCategories'));
+            const q4 = query(collection(db, 'infoItems'));
 
             let dataPres = [];
             let dataTugas = [];
+            let dataKat = [];
+            let dataItem = [];
 
             const unsub1 = onSnapshot(q1, (snap) => {
                 dataPres = [];
@@ -1072,7 +1176,19 @@
                 renderBelumTugas(dataTugas);
             });
 
-            unsubscribeInfoKelas = () => { unsub1(); unsub2(); };
+            const unsub3 = onSnapshot(q3, (snap) => {
+                dataKat = [];
+                snap.forEach(d => { if(d.data().classId === classId) dataKat.push({id: d.id, ...d.data()}); });
+                renderKategoriTambahan(dataKat, dataItem);
+            });
+
+            const unsub4 = onSnapshot(q4, (snap) => {
+                dataItem = [];
+                snap.forEach(d => { if(d.data().classId === classId) dataItem.push({id: d.id, ...d.data()}); });
+                renderKategoriTambahan(dataKat, dataItem);
+            });
+
+            unsubscribeInfoKelas = () => { unsub1(); unsub2(); unsub3(); unsub4(); };
         }
 
         function renderPrestasi(data) {
@@ -1110,6 +1226,7 @@
                     <div>
                         <p class="font-extrabold text-rose-800 dark:text-rose-300 text-sm">${item.namaSiswa}</p>
                         <p class="text-gray-600 dark:text-gray-400 mt-0.5"><span class="font-bold text-rose-600">Mapel:</span> ${item.mapel}</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-[11px] mt-0.5 bg-rose-100/60 dark:bg-rose-900/40 px-2 py-0.5 rounded-md inline-block"><i class="fa-solid fa-book-bookmark mr-1"></i> ${item.keterangan}</p>
                     </div>
                     <button onclick="hapusInfoItem('belumTugas', '${item.id}')" class="text-rose-500 hover:text-rose-700 p-1.5"><i class="fa-solid fa-trash"></i></button>
                 `;
@@ -1117,7 +1234,50 @@
             });
         }
 
-        // --- BANK SOAL & PARSER DOKUMEN (PRESERVING FORMAT & CLEAN LINE BREAKS) ---
+        function renderKategoriTambahan(kategoriList, itemList) {
+            const container = document.getElementById('container-kategori-tambahan');
+            if(!container) return;
+            if(kategoriList.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = '';
+            kategoriList.forEach(kat => {
+                const itemsDiKategori = itemList.filter(i => i.kategoriId === kat.id);
+                const card = document.createElement('div');
+                card.className = "bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 space-y-4";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center border-b pb-3 border-gray-100 dark:border-gray-700">
+                        <h4 class="font-bold text-lg flex items-center gap-2 text-leaf dark:text-primary"><i class="fa-solid fa-folder-open"></i> ${kat.namaKategori}</h4>
+                        <div class="flex gap-2">
+                            <button onclick="bukaModalItemKustom('${kat.id}', \`${kat.namaKategori}\`)" class="text-xs bg-emerald-50 dark:bg-emerald-950/50 text-leaf dark:text-primary font-bold px-3 py-1.5 rounded-xl hover:bg-emerald-100 transition-colors">
+                                <i class="fa-solid fa-plus mr-1"></i> Tambah
+                            </button>
+                            <button onclick="hapusKategori('${kat.id}', \`${kat.namaKategori}\`)" class="text-xs bg-rose-50 dark:bg-rose-950/50 text-rose-600 font-bold px-2.5 py-1.5 rounded-xl hover:bg-rose-100 transition-colors" title="Hapus Kategori">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        ${itemsDiKategori.length === 0 ? `<p class="text-xs text-gray-400 text-center py-6">Belum ada catatan dalam kategori ini.</p>` : 
+                            itemsDiKategori.map(item => `
+                                <div class="flex justify-between items-start bg-emerald-50/40 dark:bg-emerald-950/20 p-3.5 rounded-2xl border border-emerald-100 dark:border-emerald-900/50 text-xs">
+                                    <div>
+                                        <p class="font-extrabold text-gray-800 dark:text-gray-200 text-sm">${item.judul}</p>
+                                        <p class="text-gray-600 dark:text-gray-400 mt-0.5 whitespace-pre-wrap">${item.isi}</p>
+                                    </div>
+                                    <button onclick="hapusInfoItem('infoItems', '${item.id}')" class="text-rose-500 hover:text-rose-700 p-1.5"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- BANK SOAL & PARSER DOKUMEN ---
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
@@ -1183,7 +1343,6 @@
             }
         });
 
-        // Parser File PDF & Word (.docx) dengan menjaga tata letak baris tetap rapi dan terstruktur seperti aslinya
         window.imporSoalDariFile = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
