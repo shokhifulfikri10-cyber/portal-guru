@@ -22,6 +22,11 @@
     </script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PDF.js for parsing PDF bank soal files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
     
     <style>
         ::-webkit-scrollbar { width: 8px; }
@@ -68,6 +73,13 @@
             <h3 id="modal-soal-title" class="text-xl font-bold mb-4">Tambah Soal Baru</h3>
             <input type="hidden" id="edit-soal-id">
             <div class="space-y-3">
+                <div class="flex justify-between items-center bg-indigo-50 dark:bg-indigo-950/40 p-3 rounded-2xl border border-indigo-100 dark:border-indigo-900">
+                    <span class="text-xs font-bold text-indigo-700 dark:text-indigo-300"><i class="fa-solid fa-file-arrow-up mr-1"></i> Impor dari File PDF / Word</span>
+                    <input type="file" id="input-file-soal" accept=".pdf,.docx,.doc,.txt" class="hidden" onchange="imporSoalDariFile(event)">
+                    <button type="button" onclick="document.getElementById('input-file-soal').click()" class="bg-primary text-white text-xs px-3 py-1.5 rounded-xl font-bold shadow hover:bg-indigo-600 transition-colors">
+                        Pilih File Dokumen
+                    </button>
+                </div>
                 <input type="text" id="input-judul-soal" placeholder="Judul / Topik Soal (ex: Ulangan Harian Bab 1)" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none">
                 <select id="input-mapel-soal" class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-3 focus:border-primary focus:outline-none">
                     <option value="Matematika">Matematika</option>
@@ -176,7 +188,7 @@
                         </button>
                         <div>
                             <h3 class="text-2xl font-extrabold">Jurnal <span id="judul-kelas-aktif" class="text-primary">Kelas</span></h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Catatan kegiatan mengajar & absensi harian</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Catatan kegiatan mengajar & absensi terpadu harian</p>
                         </div>
                     </div>
                     <!-- Filter Tanggal Jurnal -->
@@ -216,6 +228,7 @@
                             </div>
                             <div class="bg-rose-50 dark:bg-rose-950/30 p-4 rounded-2xl border border-rose-100 dark:border-rose-900/50">
                                 <label class="block text-xs font-bold text-rose-700 dark:text-rose-400 uppercase mb-2"><i class="fa-solid fa-user-slash mr-1"></i> Siswa Tidak Masuk Hari Ini</label>
+                                <p class="text-[11px] text-gray-500 dark:text-gray-400 mb-2">Keterangan absen ini akan tergabung secara terpadu dan terlihat oleh guru mapel manapun pada hari yang sama.</p>
                                 <div id="container-siswa-absen" class="space-y-2 mb-3">
                                     <!-- Baris Absensi Dinamis -->
                                 </div>
@@ -434,6 +447,18 @@
             }
         };
 
+        window.hapusKelas = async function(event, id, namaKelas) {
+            event.stopPropagation(); // Mencegah card tertrigger buka jurnal
+            if(confirm(`Yakin ingin menghapus kelas ${namaKelas}? Semua riwayat jurnal dan data terkait kelas ini mungkin terpengaruh.`)) {
+                try {
+                    await deleteDoc(doc(db, 'classes', id));
+                    tampilkanToast('success', `Kelas ${namaKelas} berhasil dihapus.`);
+                } catch(err) {
+                    tampilkanToast('error', 'Gagal menghapus kelas.');
+                }
+            }
+        };
+
         function memuatDaftarKelas() {
             if(unsubscribeKelas) unsubscribeKelas();
             unsubscribeKelas = onSnapshot(query(collection(db, 'classes')), (snapshot) => {
@@ -449,9 +474,14 @@
 
                 data.forEach((kls, i) => {
                     const card = document.createElement('div');
-                    card.className = `group cursor-pointer bg-gradient-to-br ${themes[i % themes.length]} rounded-3xl p-6 shadow-lg text-white hover:scale-[1.02] transition-all`;
+                    card.className = `group cursor-pointer bg-gradient-to-br ${themes[i % themes.length]} rounded-3xl p-6 shadow-lg text-white hover:scale-[1.02] transition-all relative`;
                     card.innerHTML = `
-                        <h4 class="text-3xl font-extrabold mb-1">${kls.namaKelas}</h4>
+                        <div class="absolute top-4 right-4 z-10">
+                            <button onclick="hapusKelas(event, '${kls.id}', '${kls.namaKelas}')" class="bg-black/30 hover:bg-rose-600 text-white w-9 h-9 rounded-xl flex items-center justify-center transition-colors shadow" title="Hapus Kelas">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        </div>
+                        <h4 class="text-3xl font-extrabold mb-1 pr-10">${kls.namaKelas}</h4>
                         <p class="text-white/80 text-sm mb-4">Wali: ${kls.waliKelas}</p>
                         <div class="flex justify-between items-center text-xs font-bold pt-3 border-t border-white/20">
                             <span><i class="fa-solid fa-users mr-1"></i> ${kls.jumlahSiswa} Siswa</span>
@@ -469,7 +499,7 @@
             });
         }
 
-        // --- MANAJEMEN MAPEL & ABSENSI & JURNAL ---
+        // --- STREAMING_CHUNK:Managing Journal and unified daily attendance logic ---
         window.cekMapelLain = function(selectEl) {
             const inputLain = document.getElementById('jurnal-mapel-lain');
             if (selectEl.value === 'Lainnya') {
@@ -534,7 +564,7 @@
                 });
                 document.getElementById('jurnal-materi').value = '';
                 document.getElementById('container-siswa-absen').innerHTML = '';
-                tampilkanToast('success', 'Jurnal & Absensi berhasil disimpan!');
+                tampilkanToast('success', 'Jurnal & Absensi terpadu berhasil disimpan!');
             } catch(err) {
                 tampilkanToast('error', 'Gagal menyimpan jurnal.');
             }
@@ -562,30 +592,73 @@
             container.innerHTML = '';
             dataJurnal.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
+            // Gabungkan/konsolidasikan data absen berdasarkan tanggalISO agar catatan absensi dari guru mapel manapun hari itu terlihat terpusat
+            const groupedByDate = {};
             dataJurnal.forEach(j => {
-                let absenHtml = '';
-                if(j.siswaTidakMasuk && j.siswaTidakMasuk.length > 0) {
-                    absenHtml = `<div class="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 text-xs">
-                        <span class="font-bold text-rose-500">Siswa Tidak Masuk:</span>
-                        <div class="flex flex-wrap gap-1 mt-1">
-                            ${j.siswaTidakMasuk.map(s => `<span class="bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 px-2 py-0.5 rounded-md">${s.nama} (${s.status})</span>`).join('')}
+                const key = j.tanggalISO || j.tanggal;
+                if(!groupedByDate[key]) {
+                    groupedByDate[key] = { tanggalLabel: j.tanggal, items: [] };
+                }
+                groupedByDate[key].items.push(j);
+            });
+
+            // Urutkan tanggal terbaru di atas
+            const sortedKeys = Object.keys(groupedByDate).sort().reverse();
+
+            sortedKeys.forEach(dateKey => {
+                const group = groupedByDate[dateKey];
+                
+                // Agregasi seluruh siswa tidak masuk pada hari tersebut tanpa duplikasi nama
+                const mapAbsenHariIni = new Map();
+                group.items.forEach(item => {
+                    if(item.siswaTidakMasuk) {
+                        item.siswaTidakMasuk.forEach(s => {
+                            const cleanName = s.nama.trim().toLowerCase();
+                            if(!mapAbsenHariIni.has(cleanName)) {
+                                mapAbsenHariIni.set(cleanName, { nama: s.nama, status: s.status, diinputOleh: item.namaGuru });
+                            }
+                        });
+                    }
+                });
+
+                let unifiedAbsenHtml = '';
+                if(mapAbsenHariIni.size > 0) {
+                    const listAbsenArr = Array.from(mapAbsenHariIni.values());
+                    unifiedAbsenHtml = `<div class="mt-4 pt-3 border-t border-rose-100 dark:border-rose-900/40 bg-rose-50/50 dark:bg-rose-950/20 p-3 rounded-2xl text-xs">
+                        <div class="flex items-center gap-2 mb-1.5 font-bold text-rose-600 dark:text-rose-400">
+                            <i class="fa-solid fa-users-slash"></i>
+                            <span>Rekap Absensi Harian (Terpadu dari Semua Mapel):</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            ${listAbsenArr.map(s => `<span class="bg-rose-100 dark:bg-rose-900/60 text-rose-800 dark:text-rose-200 px-2.5 py-1 rounded-xl font-medium">${s.nama} (${s.status})</span>`).join('')}
                         </div>
                     </div>`;
                 }
 
-                const card = document.createElement('div');
-                card.className = "bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-2";
-                card.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h5 class="font-extrabold text-base text-primary">${j.mapel}</h5>
-                            <p class="text-xs text-gray-500">${j.namaGuru} • ${j.tanggal}</p>
+                // Render setiap entri jurnal pelajaran pada tanggal tersebut
+                group.items.forEach(j => {
+                    const card = document.createElement('div');
+                    card.className = "bg-gray-50 dark:bg-gray-900 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-2";
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] bg-indigo-50 dark:bg-indigo-950 text-primary font-bold px-2.5 py-0.5 rounded-full mb-1 inline-block">${j.tanggal}</span>
+                                <h5 class="font-extrabold text-base text-primary mt-1">${j.mapel}</h5>
+                                <p class="text-xs text-gray-500">Guru Pengajar: ${j.namaGuru}</p>
+                            </div>
                         </div>
-                    </div>
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mt-2 whitespace-pre-wrap">${j.materi}</p>
-                    ${absenHtml}
-                `;
-                container.appendChild(card);
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mt-2 whitespace-pre-wrap">${j.materi}</p>
+                    `;
+                    container.appendChild(card);
+                });
+
+                // Jika ada rekap absen terpadu di tanggal ini, tampilkan ringkasan box
+                if(mapAbsenHariIni.size > 0) {
+                    const absenBox = document.createElement('div');
+                    absenBox.className = "mb-4 bg-white dark:bg-gray-800 p-4 rounded-2xl border border-rose-200 dark:border-rose-900 shadow-sm";
+                    absenBox.innerHTML = unifiedAbsenHtml;
+                    container.appendChild(absenBox);
+                }
             });
         }
 
@@ -605,7 +678,7 @@
             renderLinimasa(semuaDataJurnalGlobal);
         };
 
-        // --- BANK SOAL (Hanya pembuat yang bisa edit/hapus) ---
+        // --- STREAMING_CHUNK:Handling Question Bank and PDF/Word file parsers... ---
         window.bukaModalSoal = function(id = '', judul = '', mapel = '', isi = '') {
             document.getElementById('edit-soal-id').value = id;
             document.getElementById('input-judul-soal').value = judul;
@@ -616,6 +689,59 @@
         };
 
         window.tutupModalSoal = () => document.getElementById('modal-bank-soal').classList.add('hidden');
+
+        // Fungsi membaca file PDF atau Word (.docx / .txt) untuk mengisi bank soal secara otomatis
+        window.imporSoalDariFile = async function(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+
+            const fileName = file.name.toLowerCase();
+            tampilkanToast('success', `Membaca dokumen ${file.name}...`);
+
+            try {
+                if(fileName.endsWith('.pdf')) {
+                    const reader = new FileReader();
+                    reader.onload = async function() {
+                        try {
+                            const typedarray = new Uint8Array(this.result);
+                            const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                            let extractedText = "";
+                            for(let i = 1; i <= pdf.numPages; i++) {
+                                const page = await pdf.getPage(i);
+                                const textContent = await page.getTextContent();
+                                textContent.items.forEach(item => {
+                                    extractedText += item.str + " ";
+                                });
+                                extractedText += "\n";
+                            }
+                            document.getElementById('input-isi-soal').value = extractedText.trim();
+                            // Set judul otomatis dari nama file jika kosong
+                            if(!document.getElementById('input-judul-soal').value) {
+                                document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
+                            }
+                            tampilkanToast('success', 'Berhasil mengekstrak teks dari PDF!');
+                        } catch(err) {
+                            console.error(err);
+                            tampilkanToast('error', 'Gagal membaca isi file PDF.');
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    // Untuk .docx atau .txt
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        document.getElementById('input-isi-soal').value = evt.target.result;
+                        if(!document.getElementById('input-judul-soal').value) {
+                            document.getElementById('input-judul-soal').value = file.name.replace(/\.[^/.]+$/, "");
+                        }
+                        tampilkanToast('success', 'Berhasil memuat isi dokumen teks!');
+                    };
+                    reader.readAsText(file);
+                }
+            } catch(err) {
+                tampilkanToast('error', 'Gagal memproses file dokumen.');
+            }
+        };
 
         window.simpanSoalKeDB = async function() {
             const id = document.getElementById('edit-soal-id').value;
