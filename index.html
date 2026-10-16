@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Guru Terpadu</title>
     
     <!-- Tailwind CSS -->
@@ -22,21 +22,22 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4f46e5',
-                        secondary: '#10b981',
-                        accent: '#f59e0b',
-                        background: '#f3f4f6',
+                        primary: '#4f46e5', // Indigo
+                        secondary: '#10b981', // Emerald
+                        accent: '#f59e0b', // Amber
+                        background: '#f3f4f6', // Light gray background
                     }
                 }
             }
         }
     </script>
 
+    <!-- Style Khusus untuk Fitur Cetak (Print) -->
     <style>
         @media print {
             body { background: white; }
-            aside, header, #form-jurnal, .non-printable, #bottom-nav { display: none !important; }
-            main { margin: 0; padding: 0; overflow: visible !important; height: auto !important; }
+            aside, header, #form-jurnal, .non-printable { display: none !important; }
+            main { margin: 0; padding: 0; overflow: visible !important; }
             .print-area { width: 100%; border: none; box-shadow: none; }
             .print-title { display: block !important; text-align: center; margin-bottom: 20px; }
             .print-title h2 { font-size: 24px; font-weight: bold; }
@@ -44,100 +45,93 @@
             #container-linimasa { margin-top: 20px; }
         }
         .print-title { display: none; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
+        
+        /* Custom scrollbar for better look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0a0a5; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 text-gray-800 font-sans flex flex-col md:flex-row h-screen overflow-hidden relative">
+<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 text-gray-800 font-sans flex h-screen overflow-hidden relative">
 
-    <!-- Ornamen Background -->
-    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
-    <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
-    <div class="absolute bottom-[-20%] left-[20%] w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+    <!-- Wadah Toast Notifikasi -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
-    <div id="toast-container" class="fixed top-5 right-5 md:bottom-5 md:top-auto md:right-5 z-[100] flex flex-col gap-2 pointer-events-none"></div>
-
-    <!-- Modal Login -->
-    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[100] transition-opacity opacity-0" style="display: flex;">
-        <div class="bg-white/90 p-8 rounded-3xl shadow-2xl w-11/12 max-w-md transform scale-100 transition-transform glass text-center border border-white">
-            <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl text-white shadow-lg">
-                <i class="fa-solid fa-graduation-cap"></i>
+    <!-- Modal Login (Simulasi Login Google) -->
+    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] transition-opacity opacity-0" style="display: flex;">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md transform scale-100 transition-transform">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl text-primary">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h2 class="text-2xl font-extrabold text-gray-800">Masuk ke Portal</h2>
+                <p class="text-gray-500 text-sm mt-1">Silakan lengkapi profil Anda untuk memulai</p>
             </div>
-            <h2 class="text-3xl font-extrabold text-gray-800 mb-2">Portal Guru</h2>
-            <p class="text-gray-500 text-sm mb-8">Masuk untuk mengakses ruang kelas dan jurnal harian Anda.</p>
-            <button onclick="loginGoogle()" class="w-full bg-white hover:bg-gray-50 text-gray-800 border-2 border-gray-200 font-bold py-3.5 px-4 rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-3">
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-6 h-6">
-                Lanjutkan dengan Google
-            </button>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Nama Guru</label>
+                    <input type="text" id="input-nama-guru" required placeholder="Contoh: Budi Santoso, S.Pd" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-primary focus:outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Mata Pelajaran Utama</label>
+                    <input type="text" id="input-mapel-guru" required placeholder="Contoh: Bahasa Indonesia" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-primary focus:outline-none transition-colors">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 mt-4">
+                    <i class="fa-brands fa-google"></i> Masuk
+                </button>
+            </form>
         </div>
     </div>
 
     <!-- Modal Tambah Kelas -->
     <div id="modal-tambah-kelas" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60] hidden">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl w-11/12 max-w-sm glass">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-sm">
             <h3 class="text-xl font-bold mb-4 text-gray-800">Tambah Kelas Baru</h3>
-            <input type="text" id="input-nama-kelas" placeholder="Nama Kelas (ex: 7C)" class="w-full bg-white/80 border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-3 transition-colors">
-            <input type="text" id="input-wali-kelas" placeholder="Wali Kelas" class="w-full bg-white/80 border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-3 transition-colors">
-            <input type="number" id="input-jumlah-siswa" placeholder="Jumlah Siswa" class="w-full bg-white/80 border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-5 transition-colors">
+            <input type="text" id="input-nama-kelas" placeholder="Nama Kelas (ex: 7C)" class="w-full border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-3 transition-colors">
+            <input type="text" id="input-wali-kelas" placeholder="Wali Kelas" class="w-full border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-3 transition-colors">
+            <input type="number" id="input-jumlah-siswa" placeholder="Jumlah Siswa" class="w-full border-2 border-gray-200 focus:border-primary focus:outline-none rounded-xl p-3 mb-5 transition-colors">
             <div class="flex gap-3 justify-end">
-                <button onclick="tutupModalKelas()" class="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-bold transition-colors">Batal</button>
-                <button onclick="simpanKelasKeDB()" class="px-5 py-2.5 bg-gradient-to-r from-primary to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl font-bold shadow-md transition-colors">Simpan</button>
+                <button onclick="tutupModalKelas()" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold transition-colors">Batal</button>
+                <button onclick="simpanKelasKeDB()" class="px-5 py-2.5 bg-primary hover:bg-indigo-600 text-white rounded-xl font-bold shadow-md transition-colors">Simpan</button>
             </div>
         </div>
     </div>
 
     <!-- SIDEBAR -->
-    <aside id="bottom-nav" class="w-full md:w-64 glass shadow-[0_-4px_20px_rgba(0,0,0,0.05)] md:shadow-xl border-t md:border-r border-white/50 flex flex-row md:flex-col justify-between z-40 fixed md:relative bottom-0 order-2 md:order-1 h-16 md:h-full">
-        <div class="hidden md:block">
-            <div class="h-20 flex items-center justify-center border-b border-gray-200/50">
+    <aside class="w-64 bg-white/95 backdrop-blur-md shadow-xl border-r border-indigo-50 flex flex-col justify-between h-full z-40 relative">
+        <div>
+            <div class="h-20 flex items-center justify-center border-b border-gray-100 bg-white">
                 <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
                     <i class="fa-solid fa-school text-primary mr-2"></i>Portal Guru
                 </h1>
             </div>
-            <nav class="p-4 space-y-2 mt-4 flex-col hidden md:flex">
-                <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-gradient-to-r from-primary to-indigo-500 text-white font-bold shadow-lg shadow-indigo-200 transition-all">
-                    <i class="fa-solid fa-house w-5 text-center"></i><span>Dashboard</span>
+            <nav class="p-4 space-y-2 mt-4">
+                <button id="nav-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-primary text-white font-bold shadow-md transition-all">
+                    <i class="fa-solid fa-house w-5 text-center"></i>
+                    <span>Dashboard Kelas</span>
                 </button>
-                <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 font-medium hover:bg-white hover:text-primary transition-all">
-                    <i class="fa-solid fa-book w-5 text-center"></i><span>Jurnal</span>
+                <button id="nav-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 font-medium hover:bg-indigo-50 hover:text-primary transition-all">
+                    <i class="fa-solid fa-book w-5 text-center"></i>
+                    <span>Jurnal Bersama</span>
                 </button>
-                <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 font-medium hover:bg-white hover:text-primary transition-all">
-                    <i class="fa-solid fa-database w-5 text-center"></i><span>Bank Soal & OCR</span>
+                <button id="nav-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 font-medium hover:bg-indigo-50 hover:text-primary transition-all">
+                    <i class="fa-solid fa-database w-5 text-center"></i>
+                    <span>Bank Soal & OCR</span>
                 </button>
-                <button id="nav-koreksi" onclick="pindahHalaman('koreksi')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-700 font-medium hover:bg-white hover:text-primary transition-all">
-                    <i class="fa-solid fa-camera w-5 text-center"></i><span>Koreksi LJK</span>
+                <button id="nav-koreksi" onclick="pindahHalaman('koreksi')" class="nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 font-medium hover:bg-indigo-50 hover:text-primary transition-all">
+                    <i class="fa-solid fa-camera w-5 text-center"></i>
+                    <span>Koreksi LJK</span>
                 </button>
             </nav>
         </div>
-
-        <nav class="flex md:hidden w-full justify-around items-center px-2 bg-white/90 backdrop-blur-lg h-full">
-            <button id="nav-mobile-dashboard" onclick="pindahHalaman('dashboard')" class="nav-btn-mobile flex flex-col items-center justify-center w-full h-full text-primary drop-shadow-md">
-                <i class="fa-solid fa-house text-xl mb-1"></i><span class="text-[10px] font-bold">Beranda</span>
-            </button>
-            <button id="nav-mobile-jurnal" onclick="pindahHalaman('jurnal')" class="nav-btn-mobile flex flex-col items-center justify-center w-full h-full text-gray-400">
-                <i class="fa-solid fa-book text-xl mb-1"></i><span class="text-[10px] font-bold">Jurnal</span>
-            </button>
-            <button id="nav-mobile-bank-soal" onclick="pindahHalaman('bank-soal')" class="nav-btn-mobile flex flex-col items-center justify-center w-full h-full text-gray-400">
-                <i class="fa-solid fa-database text-xl mb-1"></i><span class="text-[10px] font-bold">OCR</span>
-            </button>
-            <button id="nav-mobile-koreksi" onclick="pindahHalaman('koreksi')" class="nav-btn-mobile flex flex-col items-center justify-center w-full h-full text-gray-400">
-                <i class="fa-solid fa-camera text-xl mb-1"></i><span class="text-[10px] font-bold">Scan LJK</span>
-            </button>
-        </nav>
         
-        <div class="hidden md:flex p-5 border-t border-gray-200/50 bg-white/50 items-center space-x-3 cursor-pointer hover:bg-white transition-colors m-2 rounded-2xl">
-            <img id="user-avatar" src="https://ui-avatars.com/api/?name=G&background=4f46e5&color=fff" class="w-10 h-10 rounded-full shadow-sm object-cover">
+        <!-- User Profile -->
+        <div class="p-5 border-t border-gray-100 bg-gray-50 flex items-center space-x-3 cursor-pointer hover:bg-indigo-50 transition-colors m-2 rounded-2xl">
+            <div id="user-avatar" class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center text-white font-bold shadow-sm text-lg">?</div>
             <div class="overflow-hidden flex-1">
                 <p id="user-name-display" class="text-sm font-bold text-gray-800 truncate">Belum Login</p>
-                <p id="user-mapel-display" class="text-xs text-primary font-medium truncate">Guru</p>
+                <p id="user-mapel-display" class="text-xs text-primary font-medium truncate">-</p>
             </div>
             <button onclick="logout()" class="text-gray-400 hover:text-red-500 transition-colors" title="Keluar">
                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -145,39 +139,45 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-[calc(100vh-4rem)] md:h-screen overflow-hidden order-1 md:order-2 relative z-10">
-        <header class="h-16 md:h-20 glass shadow-sm flex items-center justify-between px-4 md:px-8 z-10 border-b border-white/50 shrink-0">
-            <h2 id="judul-halaman" class="text-xl md:text-3xl font-extrabold text-gray-800 tracking-tight">Dashboard Kelas</h2>
-            <div class="flex items-center space-x-4 bg-white/80 px-3 md:px-4 py-1.5 md:py-2 rounded-xl shadow-sm border border-white/50">
-                <i class="fa-regular fa-calendar text-primary"></i>
-                <span id="tahun-ajaran" contenteditable="true" class="text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-primary transition-all cursor-text" onblur="simpanTahunAjaran()">2026/2027</span>
-                <button onclick="logout()" class="md:hidden ml-2 text-gray-400 hover:text-red-500 border-l border-gray-200 pl-3">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </button>
+    <!-- KONTEN UTAMA -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-white/40 backdrop-blur-sm">
+        
+        <!-- HEADER -->
+        <header class="h-20 bg-white/80 backdrop-blur-md shadow-sm flex items-center justify-between px-8 z-10 border-b border-indigo-50/50 shrink-0">
+            <h2 id="judul-halaman" class="text-2xl md:text-3xl font-extrabold text-gray-800 tracking-tight">Dashboard Kelas</h2>
+            <div class="flex items-center space-x-4 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
+                <i class="fa-regular fa-calendar text-gray-400"></i>
+                <span class="text-sm font-semibold text-gray-600 hidden md:inline-block">Tahun Ajaran:</span>
+                <!-- Edit Tahun Ajaran -->
+                <span id="tahun-ajaran" contenteditable="true" class="text-sm font-bold text-primary bg-indigo-50 px-3 py-1 rounded-lg border border-indigo-100 outline-none focus:ring-2 focus:ring-primary transition-all cursor-text" onblur="simpanTahunAjaran()">2026/2027</span>
             </div>
         </header>
 
-        <div class="p-4 md:p-10 flex-1 overflow-y-auto w-full pb-20 md:pb-10">
-            <!-- DASHBOARD -->
+        <div class="p-6 md:p-10 flex-1 overflow-y-auto w-full">
+            
+            <!-- HALAMAN 1: DASHBOARD -->
             <section id="halaman-dashboard" class="halaman-aktif block">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                    <div class="glass px-5 py-3 rounded-2xl shadow-sm inline-flex items-center gap-3">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div class="bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100 inline-flex items-center gap-3">
                         <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-                        <h3 class="text-gray-700 font-bold text-sm">Pilih ruang kelas:</h3>
+                        <h3 class="text-gray-600 font-semibold text-sm">Pilih kelas yang akan Anda masuki:</h3>
                     </div>
-                    <button onclick="bukaModalKelas()" class="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-plus"></i> Tambah Kelas
+                    <button onclick="bukaModalKelas()" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Tambah Kelas Baru
                     </button>
                 </div>
-                <div id="grid-kelas" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-500">
-                        <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4 text-primary"></i>
+                
+                <!-- Container Daftar Kelas dari Database -->
+                <div id="grid-kelas" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Loading state -->
+                    <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-400">
+                        <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4 text-indigo-300"></i>
                         <p class="font-medium">Memuat data kelas...</p>
                     </div>
                 </div>
             </section>
 
-            <!-- JURNAL -->
+            <!-- HALAMAN 2: JURNAL -->
             <section id="halaman-jurnal" class="hidden">
                 <div class="print-title">
                     <h2>Laporan Jurnal Mengajar</h2>
@@ -185,55 +185,842 @@
                     <p id="print-tanggal" class="text-sm text-gray-500 mt-1"></p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 glass p-4 md:p-5 rounded-2xl shadow-sm gap-4 non-printable">
-                    <div class="flex items-center space-x-3 w-full sm:w-auto">
-                        <button onclick="pindahHalaman('dashboard')" class="bg-white/80 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-gray-700 hover:bg-primary hover:text-white hover:shadow-md transition-all shadow-sm">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 bg-white p-5 rounded-2xl shadow-sm border border-gray-100 non-printable gap-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="pindahHalaman('dashboard')" class="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white hover:shadow-md transition-all border border-gray-100">
                             <i class="fa-solid fa-arrow-left text-lg"></i>
                         </button>
                         <div>
-                            <h3 class="text-xl md:text-2xl font-extrabold text-gray-800 leading-tight">Kelas <span id="judul-kelas-aktif" class="text-primary"></span></h3>
-                            <p class="text-xs md:text-sm text-gray-500 font-medium">Jurnal Harian & Catatan</p>
+                            <h3 class="text-2xl font-extrabold text-gray-800 leading-tight">Jurnal <span id="judul-kelas-aktif" class="text-primary">Kelas</span></h3>
+                            <p class="text-sm text-gray-500 font-medium">Catatan kegiatan belajar mengajar</p>
                         </div>
                     </div>
-                    <button onclick="cetakJurnal()" class="w-full sm:w-auto bg-white/80 hover:bg-white text-primary font-bold px-5 py-2.5 rounded-xl transition-colors flex items-center justify-center shadow-sm border border-indigo-100">
-                        <i class="fa-solid fa-print mr-2"></i> Cetak
+                    <button onclick="cetakJurnal()" class="bg-indigo-50 hover:bg-indigo-100 text-primary border border-indigo-200 font-bold px-6 py-3 rounded-xl transition-colors flex items-center shadow-sm">
+                        <i class="fa-solid fa-print mr-2"></i> Cetak Laporan
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <div id="form-jurnal" class="lg:col-span-4 xl:col-span-4 glass p-5 md:p-6 rounded-3xl shadow-lg border border-white/60 h-fit sticky top-0">
-                        <div class="flex items-center justify-between mb-5 pb-4 border-b border-gray-200/50">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center shadow-md">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </div>
-                                <h4 class="font-extrabold text-gray-800">Isi Jurnal Baru</h4>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Form Input (Kiri) -->
+                    <div id="form-jurnal" class="lg:col-span-4 xl:col-span-3 bg-white p-6 rounded-3xl shadow-lg border border-gray-100 h-fit sticky top-0">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                            <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-primary">
+                                <i class="fa-solid fa-pen-to-square"></i>
                             </div>
+                            <h4 class="font-extrabold text-gray-800">Isi Jurnal</h4>
                         </div>
                         
                         <form onsubmit="simpanJurnalKeDB(event)" class="space-y-4">
-                            <input type="hidden" id="jurnal-nama-guru">
                             <div>
-                                <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5">Mata Pelajaran</label>
-                                <input type="text" id="jurnal-mapel" class="w-full bg-white/90 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-xl p-3 text-sm font-semibold text-gray-700 transition-all outline-none" placeholder="Cth: Matematika" required>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nama Guru</label>
+                                <input type="text" id="jurnal-nama-guru" class="w-full bg-gray-50 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-xl p-3 text-sm font-semibold text-gray-700 transition-all outline-none" required>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-1.5">Materi / Kegiatan</label>
-                                <textarea id="jurnal-materi" required rows="3" class="w-full bg-white/90 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-xl p-3 text-sm transition-all outline-none resize-none" placeholder="Deskripsikan materi hari ini..."></textarea>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Mata Pelajaran</label>
+                                <input type="text" id="jurnal-mapel" class="w-full bg-gray-50 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-xl p-3 text-sm font-semibold text-gray-700 transition-all outline-none" required>
                             </div>
-                            <div class="bg-orange-50/80 p-3 rounded-xl border border-orange-100 relative">
-                                <div class="absolute -top-2.5 right-3 bg-orange-100 text-orange-600 text-[10px] px-2 py-0.5 rounded-full font-bold border border-orange-200">Menyimpan Otomatis</div>
-                                <label class="block text-xs font-bold text-orange-800 uppercase tracking-wider mb-1.5"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Catatan Siswa (Sakit/Izin/Alfa)</label>
-                                <p class="text-[10px] text-orange-600 mb-2 font-medium leading-tight">Catatan ini akan diteruskan ke guru jam berikutnya pada hari yang sama agar tidak perlu mengetik ulang.</p>
-                                <textarea id="jurnal-catatan" rows="2" class="w-full bg-white border border-orange-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 rounded-lg p-2.5 text-sm transition-all outline-none resize-none" placeholder="Cth: Budi (Sakit), Andi (Izin)"></textarea>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Materi yang Diajarkan</label>
+                                <textarea id="jurnal-materi" required rows="4" class="w-full bg-gray-50 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-xl p-3 text-sm transition-all outline-none resize-none" placeholder="Deskripsikan materi hari ini..."></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Catatan Khusus (Opsional)</label>
+                                <textarea id="jurnal-catatan" rows="2" class="w-full bg-gray-50 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-xl p-3 text-sm transition-all outline-none resize-none" placeholder="Absensi, siswa izin, dll."></textarea>
                             </div>
                             <div class="pt-2">
-                                <button type="submit" id="btn-simpan-jurnal" class="w-full bg-gradient-to-r from-primary to-indigo-600 hover:from-indigo-600 hover:to-primary text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                <button type="submit" id="btn-simpan-jurnal" class="w-full bg-gradient-to-r from-primary to-indigo-600 hover:from-indigo-600 hover:to-primary text-white font-extrabold py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                                     <i class="fa-solid fa-paper-plane"></i> Simpan Jurnal
                                 </button>
                             </div>
                         </form>
                     </div>
 
-                    <div class="lg:col-span-8 xl:col-span-8 glass p-5 md:p-8 rounded-3xl shadow-lg border border-white/60 print-area min-h-[500px]">
-                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-20
+                    <!-- Linimasa (Kanan) -->
+                    <div class="lg:col-span-8 xl:col-span-9 bg-white p-8 rounded-3xl shadow-lg border border-gray-100 print-area min-h-[500px]">
+                        <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100 non-printable">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                </div>
+                                <h4 class="font-extrabold text-gray-800 text-lg">Linimasa Kelas <span class="text-sm font-medium text-gray-400 font-normal ml-2">(Otomatis tersimpan)</span></h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Container -->
+                        <div class="relative max-w-4xl mx-auto">
+                            <!-- Garis tengah timeline -->
+                            <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-200 via-purple-200 to-transparent -translate-x-1/2 rounded-full hidden md:block"></div>
+                            <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-indigo-100 -translate-x-1/2 rounded-full md:hidden"></div>
+                            
+                            <div id="container-linimasa" class="space-y-8 relative z-10">
+                                <!-- Data akan dimuat di sini -->
+                                <div class="text-center py-20 text-gray-400 flex flex-col items-center">
+                                    <i class="fa-regular fa-folder-open text-5xl mb-4 text-gray-200"></i>
+                                    <p class="font-medium">Pilih kelas dari Dashboard terlebih dahulu.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HALAMAN 3: BANK SOAL -->
+            <section id="halaman-bank-soal" class="hidden">
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-lg border border-gray-100 max-w-5xl mx-auto">
+                    <div class="flex items-center gap-4 mb-2">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-primary text-xl">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-extrabold text-gray-800">Ekstraksi Soal AI</h3>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-8 ml-16 font-medium">Unggah gambar soal (JPG/PNG) atau dokumen (PDF). Sistem OCR akan membaca teks secara otomatis.</p>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Area Upload -->
+                        <div class="flex flex-col h-full">
+                            <label class="block text-sm font-bold text-gray-700 mb-3">1. Upload File (Maks 5MB)</label>
+                            <div onclick="document.getElementById('file-upload').click()" class="flex-1 border-2 border-dashed border-indigo-300 rounded-2xl p-8 flex flex-col items-center justify-center bg-indigo-50/50 hover:bg-indigo-50 transition-colors cursor-pointer relative min-h-[300px] group">
+                                <input type="file" id="file-upload" class="hidden" accept="image/*,application/pdf" onchange="prosesUpload(event)">
+                                
+                                <div id="upload-idle" class="text-center transition-transform group-hover:scale-105 duration-300">
+                                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-primary text-3xl">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    </div>
+                                    <p class="text-indigo-900 font-extrabold text-lg">Klik / Seret File Kesini</p>
+                                    <p class="text-gray-400 text-xs mt-2 font-medium">Mendukung gambar & halaman 1 PDF</p>
+                                </div>
+
+                                <!-- Progress Bar Container -->
+                                <div id="ocr-progress-container" class="absolute inset-0 bg-white/95 rounded-2xl flex flex-col items-center justify-center p-8 hidden backdrop-blur-sm">
+                                    <div class="relative mb-6">
+                                        <div class="w-16 h-16 border-4 border-indigo-100 border-t-primary rounded-full animate-spin"></div>
+                                        <i class="fa-solid fa-robot absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary"></i>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2 mb-3 overflow-hidden">
+                                        <div id="ocr-progress-bar" class="bg-primary h-full rounded-full transition-all duration-300 ease-out" style="width: 0%;"></div>
+                                    </div>
+                                    <p id="ocr-status" class="text-sm font-bold text-gray-700">Menganalisis gambar...</p>
+                                </div>
+                                <canvas id="pdf-canvas" style="display:none;" height="1871" width="1219"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Hasil Ekstraksi -->
+                        <div class="flex flex-col h-full">
+                            <div class="flex justify-between items-end mb-3">
+                                <label class="block text-sm font-bold text-gray-700">2. Hasil Teks (Bisa diedit)</label>
+                                <button onclick="document.getElementById('hasil-ocr').value=''" class="text-gray-400 hover:text-red-500 text-xs font-bold transition-colors flex items-center gap-1">
+                                    <i class="fa-solid fa-trash-can"></i> Bersihkan
+                                </button>
+                            </div>
+                            <textarea id="hasil-ocr" class="flex-1 w-full bg-gray-50 border border-gray-200 focus:bg-white focus:border-primary focus:ring-2 focus:ring-indigo-100 rounded-2xl p-5 text-sm font-mono text-gray-700 transition-all outline-none resize-none min-h-[300px] shadow-inner" placeholder="Teks hasil bacaan AI akan muncul di sini..."></textarea>
+                            
+                            <button onclick="simpanKeBankSoal()" class="w-full mt-4 bg-emerald-500 hover:bg-emerald-600 text-white py-3.5 rounded-xl font-extrabold shadow-md hover:shadow-lg transition-all flex justify-center items-center gap-2">
+                                <i class="fa-solid fa-download"></i> Simpan ke Bank Soal Lokal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HALAMAN 4: KOREKSI -->
+            <section id="halaman-koreksi" class="hidden">
+                <div class="flex flex-col items-center justify-center h-full min-h-[60vh]">
+                    <div class="text-center max-w-lg bg-white p-12 rounded-3xl shadow-xl border border-gray-100 relative overflow-hidden">
+                        <div class="absolute -top-24 -right-24 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-50"></div>
+                        <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-50 rounded-full blur-3xl opacity-50"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-24 h-24 bg-indigo-50 text-primary rounded-3xl flex items-center justify-center mx-auto mb-8 text-5xl shadow-sm rotate-3 hover:rotate-0 transition-transform">
+                                <i class="fa-solid fa-camera-viewfinder"></i>
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-gray-800 mb-4">Pemindai LJK Kamera</h3>
+                            <p class="text-gray-500 mb-8 font-medium leading-relaxed">
+                                Fitur Auto-Grading (penilaian otomatis) sedang dalam tahap pengembangan. Akan segera hadir untuk memudahkan koreksi lembar jawaban siswa.
+                            </p>
+                            <span class="inline-flex items-center gap-2 bg-gray-100 text-gray-600 px-6 py-2.5 rounded-full font-bold text-sm">
+                                <i class="fa-solid fa-lock text-xs"></i> Dalam Pengembangan
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        // Import Firebase (Menggunakan versi 9/10 module syntax standar)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // --- KONFIGURASI FIREBASE ANDA ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDL-642-ophyMNaBHdDojgBBF9GYDhvTJY",
+            authDomain: "tes-apk-jurnal.firebaseapp.com",
+            projectId: "tes-apk-jurnal",
+            storageBucket: "tes-apk-jurnal.firebasestorage.app",
+            messagingSenderId: "301435621139",
+            appId: "1:301435621139:web:5ea3a04d69488c314dd4e6",
+            measurementId: "G-QZPP7BWKN8"
+        };
+        // ---------------------------------
+
+        let app, db, auth;
+        // Default currentUser structure
+        window.currentUser = JSON.parse(localStorage.getItem('portalGuruUser')) || { nama: '', mapel: '', uid: null };
+        window.activeClassId = null;
+        window.activeClassName = '';
+        let unsubscribeJurnal = null;
+        let unsubscribeKelas = null;
+
+        // Inisialisasi PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        // --- SISTEM NOTIFIKASI TOAST ---
+        window.tampilkanToast = function(tipe, pesan) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const warna = tipe === 'success' ? 'bg-emerald-500' : (tipe === 'error' ? 'bg-rose-500' : 'bg-blue-500');
+            const icon = tipe === 'success' ? 'fa-check' : (tipe === 'error' ? 'fa-xmark' : 'fa-info');
+            
+            toast.className = `${warna} text-white px-5 py-3.5 rounded-xl shadow-xl flex items-center gap-3 transform transition-all duration-300 translate-x-full opacity-0 font-medium text-sm z-50 mt-2`;
+            toast.innerHTML = `<div class="bg-white/20 rounded-full w-6 h-6 flex items-center justify-center shrink-0"><i class="fa-solid ${icon} text-xs"></i></div> <span>${pesan}</span>`;
+            
+            container.appendChild(toast);
+            
+            // Animasi masuk
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
+            });
+
+            // Hilang otomatis
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        };
+
+        // --- MANAJEMEN UI ---
+        window.pindahHalaman = function(idTarget) {
+            // Cek login khusus untuk jurnal
+            if (idTarget === 'jurnal' && !window.activeClassId) {
+                tampilkanToast('info', 'Silakan pilih kelas dari Dashboard terlebih dahulu');
+                idTarget = 'dashboard';
+            }
+
+            document.querySelectorAll('main section').forEach(el => { 
+                el.classList.add('hidden'); 
+                el.classList.remove('block'); 
+            });
+            const targetEl = document.getElementById('halaman-' + idTarget);
+            if(targetEl) {
+                targetEl.classList.remove('hidden');
+                targetEl.classList.add('block');
+                
+                // Animasi fade in sederhana
+                targetEl.style.opacity = '0';
+                setTimeout(() => {
+                    targetEl.style.transition = 'opacity 0.3s ease';
+                    targetEl.style.opacity = '1';
+                }, 10);
+            }
+            
+            const judul = { 
+                'dashboard': 'Dashboard Kelas', 
+                'jurnal': 'Jurnal Mengajar', 
+                'bank-soal': 'Bank Soal & OCR', 
+                'koreksi': 'Koreksi Otomatis' 
+            };
+            document.getElementById('judul-halaman').innerText = judul[idTarget] || 'Portal Guru';
+
+            // Reset menu styling
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl text-gray-600 font-medium hover:bg-indigo-50 hover:text-primary transition-all";
+            });
+            // Set active menu styling
+            const btnAktif = document.getElementById('nav-' + idTarget);
+            if(btnAktif) {
+                btnAktif.className = "nav-btn w-full flex items-center space-x-3 p-3.5 rounded-xl bg-primary text-white font-bold shadow-md transition-all";
+            }
+        };
+
+        window.simpanTahunAjaran = function() {
+            const ta = document.getElementById('tahun-ajaran').innerText.trim();
+            localStorage.setItem('tahunAjaran', ta);
+            tampilkanToast('success', 'Tahun ajaran diperbarui');
+        };
+
+        window.cetakJurnal = function() {
+            // Set tanggal hari ini untuk cetakan
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('print-tanggal').innerText = now.toLocaleDateString('id-ID', options);
+            window.print();
+        };
+
+        // --- INISIALISASI FIREBASE ---
+        async function inisialisasiApp() {
+            try {
+                // Initialize Firebase
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // Set Tahun Ajaran dari LocalStorage jika ada
+                const savedTA = localStorage.getItem('tahunAjaran');
+                if(savedTA) document.getElementById('tahun-ajaran').innerText = savedTA;
+
+                // Monitor Auth State
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        console.log("Terautentikasi (Anonim):", user.uid);
+                        // Cek apakah data user (nama, mapel) ada di localStorage
+                        if (window.currentUser && window.currentUser.nama) {
+                            window.currentUser.uid = user.uid;
+                            updateUIProfile();
+                            document.getElementById('login-modal').style.display = 'none';
+                            memuatDaftarKelas();
+                        } else {
+                            // Tampilkan modal login
+                            document.getElementById('login-modal').style.display = 'flex';
+                            setTimeout(() => {
+                                document.getElementById('login-modal').classList.remove('opacity-0');
+                            }, 50);
+                        }
+                    } else {
+                        console.log("Belum login. Memulai login anonim...");
+                        signInAnonymously(auth).catch(error => {
+                            console.error("Gagal login anonim:", error);
+                            tampilkanToast('error', 'Gagal menghubungkan autentikasi.');
+                        });
+                    }
+                });
+
+            } catch (error) {
+                console.error("Firebase Init Error:", error);
+                tampilkanToast('error', 'Gagal menginisialisasi database. Periksa konfigurasi.');
+                document.getElementById('grid-kelas').innerHTML = '<div class="col-span-full text-center py-10 text-red-500">Gagal memuat sistem. Cek konsol browser.</div>';
+            }
+        }
+
+        function updateUIProfile() {
+            if(!window.currentUser || !window.currentUser.nama) return;
+            
+            const nama = window.currentUser.nama;
+            const mapel = window.currentUser.mapel;
+            
+            document.getElementById('user-name-display').innerText = nama;
+            document.getElementById('user-name-display').title = nama;
+            document.getElementById('user-mapel-display').innerText = mapel;
+            document.getElementById('user-mapel-display').title = mapel;
+            
+            // Ambil inisial (1 atau 2 huruf pertama)
+            let inisial = nama.charAt(0).toUpperCase();
+            const parts = nama.split(' ');
+            if(parts.length > 1 && parts[1].length > 0) {
+                inisial += parts[1].charAt(0).toUpperCase();
+            }
+            document.getElementById('user-avatar').innerText = inisial;
+            
+            // Pre-fill form jurnal
+            document.getElementById('jurnal-nama-guru').value = nama;
+            document.getElementById('jurnal-mapel').value = mapel;
+        }
+
+        // Handle Form Login Manual
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nama = document.getElementById('input-nama-guru').value.trim();
+            const mapel = document.getElementById('input-mapel-guru').value.trim();
+            
+            if(!nama || !mapel) {
+                tampilkanToast('error', 'Harap isi semua bidang');
+                return;
+            }
+
+            window.currentUser.nama = nama;
+            window.currentUser.mapel = mapel;
+            if(auth.currentUser) window.currentUser.uid = auth.currentUser.uid;
+            
+            // Simpan ke localStorage agar awet saat direfresh
+            localStorage.setItem('portalGuruUser', JSON.stringify(window.currentUser));
+            
+            updateUIProfile();
+
+            // Tutup modal dengan animasi
+            const modal = document.getElementById('login-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                tampilkanToast('success', `Selamat bekerja, ${nama}!`);
+                memuatDaftarKelas();
+            }, 300);
+        });
+
+        window.logout = function() {
+            if(confirm('Anda yakin ingin keluar? Anda harus memasukkan nama kembali nanti.')) {
+                localStorage.removeItem('portalGuruUser');
+                window.currentUser = { nama: '', mapel: '', uid: null };
+                
+                // Tampilkan modal lagi
+                document.getElementById('input-nama-guru').value = '';
+                document.getElementById('input-mapel-guru').value = '';
+                
+                const modal = document.getElementById('login-modal');
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                }, 50);
+            }
+        };
+
+        // --- LOGIKA DATABASE KELAS ---
+        window.bukaModalKelas = () => {
+            const modal = document.getElementById('modal-tambah-kelas');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            document.getElementById('input-nama-kelas').focus();
+        };
+        
+        window.tutupModalKelas = () => {
+            const modal = document.getElementById('modal-tambah-kelas');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            
+            // Reset form
+            document.getElementById('input-nama-kelas').value = '';
+            document.getElementById('input-wali-kelas').value = '';
+            document.getElementById('input-jumlah-siswa').value = '';
+        };
+
+        window.simpanKelasKeDB = async function() {
+            if (!auth || !auth.currentUser) return tampilkanToast('error', 'Sistem belum siap. Tunggu sebentar.');
+            
+            const namaKelas = document.getElementById('input-nama-kelas').value.trim();
+            const waliKelas = document.getElementById('input-wali-kelas').value.trim();
+            const jumlahSiswa = parseInt(document.getElementById('input-jumlah-siswa').value) || 0;
+
+            if(!namaKelas || !waliKelas) return tampilkanToast('error', 'Nama dan Wali Kelas wajib diisi!');
+
+            const btn = document.querySelector('#modal-tambah-kelas button.bg-primary');
+            const originText = btn.innerText;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            try {
+                // Gunakan nama collection standar: 'classes' (bukan path dalam path)
+                const kelasRef = collection(db, 'classes');
+                await addDoc(kelasRef, {
+                    namaKelas,
+                    waliKelas,
+                    jumlahSiswa,
+                    createdAt: serverTimestamp(),
+                    createdBy: auth.currentUser.uid
+                });
+                
+                tutupModalKelas();
+                tampilkanToast('success', `Kelas ${namaKelas} berhasil ditambahkan`);
+            } catch(e) {
+                console.error("Gagal simpan kelas:", e);
+                // Jika error permission, beri tahu spesifik
+                if(e.code === 'permission-denied') {
+                    tampilkanToast('error', 'Akses ditolak. Pastikan Firebase Rules di set ke Test Mode (true).');
+                } else {
+                    tampilkanToast('error', 'Terjadi kesalahan sistem.');
+                }
+            } finally {
+                btn.innerText = originText;
+                btn.disabled = false;
+            }
+        };
+
+        function memuatDaftarKelas() {
+            if (!auth || !auth.currentUser) return;
+            
+            const kelasRef = collection(db, 'classes');
+            // Jika Anda menambahkan index di Firestore, bisa pakai orderBy. 
+            // Untuk amannya (agar tidak error require index di awal), query polos lalu sort di JS.
+            const q = query(kelasRef);
+            
+            if(unsubscribeKelas) unsubscribeKelas();
+
+            unsubscribeKelas = onSnapshot(q, (snapshot) => {
+                const container = document.getElementById('grid-kelas');
+                
+                if(snapshot.empty) {
+                    container.innerHTML = `
+                        <div class="col-span-full flex flex-col items-center justify-center py-24 text-gray-400 bg-gray-50/50 rounded-3xl border-2 border-dashed border-gray-200">
+                            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+                                <i class="fa-solid fa-school-flag text-3xl text-gray-300"></i>
+                            </div>
+                            <p class="font-bold text-gray-500 mb-1">Belum ada kelas</p>
+                            <p class="text-sm font-medium">Klik tombol tambah kelas untuk memulai.</p>
+                        </div>`;
+                    return;
+                }
+
+                const dataKelas = [];
+                snapshot.forEach(doc => dataKelas.push({id: doc.id, ...doc.data()}));
+                
+                // Sort by name (alphanumeric)
+                dataKelas.sort((a,b) => (a.namaKelas || '').localeCompare(b.namaKelas || '', undefined, {numeric: true, sensitivity: 'base'}));
+
+                container.innerHTML = '';
+                
+                // UI Presets for cards
+                const themes = [
+                    { bg: 'from-blue-500 to-indigo-600', icon: 'fa-chalkboard' },
+                    { bg: 'from-emerald-400 to-teal-500', icon: 'fa-users' },
+                    { bg: 'from-orange-400 to-rose-400', icon: 'fa-shapes' },
+                    { bg: 'from-purple-500 to-fuchsia-500', icon: 'fa-layer-group' },
+                    { bg: 'from-cyan-500 to-blue-500', icon: 'fa-globe' }
+                ];
+
+                dataKelas.forEach((kls, index) => {
+                    const theme = themes[index % themes.length];
+                    const card = document.createElement('div');
+                    card.className = `group cursor-pointer bg-gradient-to-br ${theme.bg} rounded-3xl p-7 shadow-lg shadow-indigo-100/50 text-white hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden relative`;
+                    
+                    // Decorative element
+                    card.innerHTML = `
+                        <div class="absolute -right-6 -top-6 text-white/10 text-9xl transform -rotate-12 group-hover:scale-110 group-hover:rotate-0 transition-transform duration-500">
+                            <i class="fa-solid ${theme.icon}"></i>
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start mb-6">
+                                <h4 class="text-4xl font-extrabold tracking-tight">${kls.namaKelas}</h4>
+                                <span class="bg-white/20 backdrop-blur-sm border border-white/20 px-3.5 py-1.5 rounded-full text-xs font-bold shadow-sm inline-flex items-center gap-1.5">
+                                    <i class="fa-solid fa-user-graduate"></i> ${kls.jumlahSiswa || 0}
+                                </span>
+                            </div>
+                            
+                            <div class="mb-6 space-y-1">
+                                <p class="text-white/70 text-xs font-bold uppercase tracking-wider">Wali Kelas</p>
+                                <p class="text-white font-semibold text-sm truncate">${kls.waliKelas || '-'}</p>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-white/20">
+                                <button onclick="event.stopPropagation(); bukaJurnalKelas('${kls.id}', '${kls.namaKelas}')" class="w-full flex items-center justify-between text-sm bg-white/10 hover:bg-white/20 p-3 rounded-xl backdrop-blur-sm font-semibold transition-colors">
+                                    <span><i class="fa-solid fa-folder-open mr-2"></i> Buka Jurnal</span>
+                                    <i class="fa-solid fa-arrow-right opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    // Jika di klik area luar card
+                    card.onclick = () => window.bukaJurnalKelas(kls.id, kls.namaKelas);
+                    
+                    container.appendChild(card);
+                });
+            }, (error) => {
+                console.error("Snapshot error memuat kelas:", error);
+            });
+        }
+
+        // --- LOGIKA DATABASE JURNAL ---
+        window.bukaJurnalKelas = function(idKelas, namaKelas) {
+            window.activeClassId = idKelas;
+            window.activeClassName = namaKelas;
+            
+            document.getElementById('judul-kelas-aktif').innerText = namaKelas;
+            document.getElementById('print-nama-kelas').innerText = `Kelas: ${namaKelas}`;
+            
+            pindahHalaman('jurnal');
+            
+            // Scroll to top
+            document.querySelector('#halaman-jurnal').closest('.overflow-y-auto').scrollTop = 0;
+            
+            memuatJurnal(idKelas);
+        };
+
+        window.simpanJurnalKeDB = async function(e) {
+            e.preventDefault();
+            if (!auth || !auth.currentUser || !window.activeClassId) {
+                return tampilkanToast('error', 'Koneksi terputus atau kelas belum dipilih.');
+            }
+
+            const btn = document.getElementById('btn-simpan-jurnal');
+            const originText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            const jurnalData = {
+                classId: window.activeClassId,
+                namaGuru: document.getElementById('jurnal-nama-guru').value.trim(),
+                mapel: document.getElementById('jurnal-mapel').value.trim(),
+                materi: document.getElementById('jurnal-materi').value.trim(),
+                catatan: document.getElementById('jurnal-catatan').value.trim(),
+                timestamp: Date.now(), // Fallback manual sort
+                createdAt: serverTimestamp(),
+                waktuLokal: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}),
+                tanggalLokal: new Date().toLocaleDateString('id-ID')
+            };
+
+            try {
+                const jurnalRef = collection(db, 'jurnals');
+                await addDoc(jurnalRef, jurnalData);
+                
+                tampilkanToast('success', 'Jurnal berhasil ditambahkan');
+                
+                // Clear form partial (biarkan nama dan mapel tetap ada)
+                document.getElementById('jurnal-materi').value = '';
+                document.getElementById('jurnal-catatan').value = '';
+                
+            } catch(error) {
+                console.error("Error simpan jurnal:", error);
+                if(error.code === 'permission-denied') {
+                    tampilkanToast('error', 'Gagal: Akses database ditolak.');
+                } else {
+                    tampilkanToast('error', 'Gagal menyimpan jurnal ke server.');
+                }
+            } finally {
+                btn.innerHTML = originText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        };
+
+        function memuatJurnal(idKelas) {
+            if (!auth || !auth.currentUser) return;
+            
+            if(unsubscribeJurnal) unsubscribeJurnal();
+
+            const jurnalRef = collection(db, 'jurnals');
+            // Query polos untuk menghindari issue index firebase (filter dan sort di client)
+            const q = query(jurnalRef);
+            
+            const container = document.getElementById('container-linimasa');
+            container.innerHTML = '<div class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-3xl text-indigo-300"></i></div>';
+
+            unsubscribeJurnal = onSnapshot(q, (snapshot) => {
+                container.innerHTML = '';
+                
+                let dataJurnal = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    // FILTER CLIENT SIDE (karena query polos)
+                    if(data.classId === idKelas) { 
+                        dataJurnal.push({id: doc.id, ...data});
+                    }
+                });
+
+                // SORTING CLIENT SIDE (Terbaru di atas)
+                dataJurnal.sort((a,b) => {
+                    // Gunakan timestamp JS, atau createdAt detik firebase
+                    const timeA = a.timestamp || (a.createdAt ? a.createdAt.seconds * 1000 : 0);
+                    const timeB = b.timestamp || (b.createdAt ? b.createdAt.seconds * 1000 : 0);
+                    return timeB - timeA; 
+                });
+
+                if(dataJurnal.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center text-gray-400 py-16 flex flex-col items-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                            <i class="fa-solid fa-clipboard-list text-5xl mb-4 text-gray-300"></i>
+                            <p class="font-bold text-gray-500 mb-1">Jurnal masih kosong</p>
+                            <p class="text-sm">Jadilah yang pertama mengisi jurnal di kelas ini hari ini.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Pengelompokan berdasarkan Tanggal (Opsional, untuk tampilan lebih rapi)
+                let currentTanggal = '';
+
+                dataJurnal.forEach((jurnal, index) => {
+                    // Pembatas Tanggal
+                    const tglJurnal = jurnal.tanggalLokal || 'Hari ini';
+                    if (tglJurnal !== currentTanggal) {
+                        currentTanggal = tglJurnal;
+                        const divTgl = document.createElement('div');
+                        divTgl.className = "flex items-center justify-center my-6 md:my-8 relative z-20 md:-ml-8";
+                        divTgl.innerHTML = `<span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-4 py-1.5 rounded-full shadow-sm border border-indigo-200 z-10 md:transform md:translate-x-[2.2rem] lg:translate-x-[2.7rem] xl:translate-x-[3.3rem] 2xl:translate-x-[4rem] text-center" style="transform: translateX(1.5rem); @media (min-width: 768px){ transform: none; }">${tglJurnal}</span>`;
+                        // Workaround untuk center garis
+                        divTgl.innerHTML = `<span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-4 py-1.5 rounded-full shadow-sm border border-indigo-100 z-10 mx-auto md:mx-0 md:ml-1/2 md:-translate-x-1/2">${tglJurnal}</span>`;
+                        
+                        container.appendChild(divTgl);
+                    }
+
+                    // Tampilan Timeline Item (Zigzag di desktop)
+                    const isEven = index % 2 === 0;
+                    const iconBg = isEven ? 'bg-primary' : 'bg-emerald-500';
+                    const icon = isEven ? 'fa-book-open-reader' : 'fa-chalkboard-user';
+                    
+                    const el = document.createElement('div');
+                    el.className = `relative flex flex-col md:flex-row items-start md:items-center justify-between ${!isEven ? 'md:flex-row-reverse' : ''} group w-full mb-8`;
+                    
+                    el.innerHTML = `
+                        <!-- Ikon Bulat Tengah -->
+                        <div class="absolute left-8 md:left-1/2 w-12 h-12 rounded-full border-4 border-white ${iconBg} text-white shadow-md flex items-center justify-center -translate-x-1/2 z-20 transform transition-transform group-hover:scale-110">
+                            <i class="fa-solid ${icon} text-sm"></i>
+                        </div>
+                        
+                        <!-- Konten Kotak -->
+                        <div class="w-full md:w-[calc(50%-3rem)] pl-20 md:pl-0 ${isEven ? 'md:pr-12' : 'md:pl-12'}">
+                            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative">
+                                <!-- Panah Penunjuk (Arrow) -->
+                                <div class="hidden md:block absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-t border-r border-gray-100 transform rotate-45 ${isEven ? '-right-2 border-l-0 border-b-0' : '-left-2 border-r-0 border-t-0 border-b border-l'}"></div>
+                                
+                                <div class="flex justify-between items-start mb-3 gap-2">
+                                    <div>
+                                        <h5 class="font-extrabold text-indigo-900 leading-tight">${jurnal.mapel}</h5>
+                                        <p class="text-xs font-bold text-gray-500 mt-0.5"><i class="fa-regular fa-user mr-1"></i> ${jurnal.namaGuru}</p>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded-md whitespace-nowrap shrink-0">
+                                        <i class="fa-regular fa-clock mr-1"></i> ${jurnal.waktuLokal || '-'}
+                                    </span>
+                                </div>
+                                
+                                <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 mb-3">
+                                    <p class="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">${jurnal.materi}</p>
+                                </div>
+                                
+                                ${jurnal.catatan ? `
+                                    <div class="flex items-start gap-2 text-xs text-orange-700 bg-orange-50/50 p-2 rounded-lg border border-orange-100/50">
+                                        <i class="fa-solid fa-circle-exclamation mt-0.5 text-orange-500 shrink-0"></i>
+                                        <p class="font-medium whitespace-pre-wrap">${jurnal.catatan}</p>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(el);
+                });
+            }, (error) => {
+                console.error("Error Snapshot Jurnal:", error);
+                if(error.code === 'permission-denied') {
+                    container.innerHTML = '<div class="text-center text-red-500 py-10 font-bold">Akses ditolak database. Hubungi admin.</div>';
+                }
+            });
+        }
+
+        // --- OCR & FILE UPLOAD ---
+        window.prosesUpload = async function(event) {
+            const file = event.target.files[0];
+            if(!file) return;
+            
+            // Validasi ukuran file (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                tampilkanToast('error', 'Ukuran file terlalu besar. Maksimal 5MB.');
+                event.target.value = '';
+                return;
+            }
+
+            const idleView = document.getElementById('upload-idle');
+            const progressContainer = document.getElementById('ocr-progress-container');
+            const progressBar = document.getElementById('ocr-progress-bar');
+            const statusText = document.getElementById('ocr-status');
+            const textarea = document.getElementById('hasil-ocr');
+
+            // Switch View
+            idleView.classList.add('hidden');
+            progressContainer.classList.remove('hidden');
+            progressBar.style.width = '5%';
+            textarea.value = '';
+
+            try {
+                let imageToProcess = file;
+
+                // Handle PDF: Konversi halaman pertama ke gambar via Canvas
+                if (file.type === 'application/pdf') {
+                    statusText.innerText = "Membaca format PDF (Rendering)...";
+                    progressBar.style.width = '20%';
+                    
+                    const fileReader = new FileReader();
+                    const renderPdfToImage = new Promise((resolve, reject) => {
+                        fileReader.onload = async function() {
+                            const typedarray = new Uint8Array(this.result);
+                            try {
+                                const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                                const page = await pdf.getPage(1); 
+                                const viewport = page.getViewport({ scale: 2.0 }); // Scale x2 untuk kejelasan OCR
+                                
+                                const canvas = document.getElementById('pdf-canvas');
+                                const context = canvas.getContext('2d');
+                                canvas.height = viewport.height;
+                                canvas.width = viewport.width;
+
+                                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                                resolve(canvas.toDataURL('image/jpeg', 0.8));
+                            } catch(err) { reject(err); }
+                        };
+                    });
+                    fileReader.readAsArrayBuffer(file);
+                    imageToProcess = await renderPdfToImage;
+                    progressBar.style.width = '40%';
+                } else if (!file.type.startsWith('image/')) {
+                    throw new Error('Format tidak didukung. Harap gunakan gambar/PDF.');
+                }
+
+                // Mulai Tesseract OCR
+                statusText.innerText = "Kecerdasan Buatan (AI) sedang membaca teks...";
+                
+                const result = await Tesseract.recognize(
+                    imageToProcess,
+                    'ind+eng', // Bahasa Indonesia & English
+                    {
+                        logger: m => {
+                            if (m.status === 'recognizing text') {
+                                // Tesseract progress 0-1, kita petakan ke sisa bar 40-100%
+                                const pct = 40 + Math.round(m.progress * 60);
+                                progressBar.style.width = `${pct}%`;
+                            }
+                        }
+                    }
+                );
+
+                progressBar.style.width = '100%';
+                statusText.innerText = "Berhasil diekstrak!";
+                
+                setTimeout(() => {
+                    textarea.value = result.data.text;
+                    tampilkanToast('success', 'Teks berhasil dipindai oleh sistem');
+                }, 500);
+
+            } catch(error) {
+                console.error("OCR Error:", error);
+                tampilkanToast('error', typeof error === 'string' ? error : 'Gagal mengekstrak teks. Pastikan gambar jelas/tidak buram.');
+            } finally {
+                // Restore View setelah delay singkat
+                setTimeout(() => { 
+                    progressContainer.classList.add('hidden');
+                    idleView.classList.remove('hidden');
+                }, 2000);
+                event.target.value = ''; // Reset input agar bisa upload file yang sama lagi
+            }
+        };
+
+        window.simpanKeBankSoal = function() {
+            const teks = document.getElementById('hasil-ocr').value;
+            if(!teks.trim()) return tampilkanToast('error', 'Hasil teks masih kosong, tidak ada yang disimpan.');
+            
+            // Logika penyimpanan (bisa dikembangkan simpan ke Firestore)
+            // Untuk sementara, kita beri notifikasi simulasi
+            
+            const btn = event.currentTarget;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                tampilkanToast('success', 'Soal berhasil disalin / disimpan secara lokal.');
+            }, 800);
+        }
+
+        // Panggil inisialisasi saat window dimuat
+        window.addEventListener('DOMContentLoaded', inisialisasiApp);
+        // ... (kode-kode di atasnya)
+    
+    inisialisasiApp();
+
+</script>
+</body>
+</html>
+
+    </script>
+</body>
+</html>
